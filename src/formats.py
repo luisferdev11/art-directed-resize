@@ -1,0 +1,61 @@
+"""Filas de formato. Anadir un formato es anadir una fila: no se toca codigo.
+
+Los insets son ASIMETRICOS y por plataforma. En 9:16 para Stories y Reels la
+interfaz tapa aproximadamente el 14% superior y el 20% inferior; poner el titular
+en el 15% inferior delata a alguien que nunca envio creatividad social.
+
+El ORDEN DE LA LISTA es el orden del video, y `in_video` dice quien entra. Antes
+habia una segunda lista con las claves del video, y se desincronizo del alcance:
+un dato con dos fuentes acaba con dos valores. Aqui la fuente es una.
+"""
+from __future__ import annotations
+from dataclasses import dataclass
+from typing import List, Tuple
+
+
+@dataclass(frozen=True)
+class Format:
+    key: str
+    label: str
+    w: int
+    h: int
+    insets: Tuple[float, float, float, float]   # top, right, bottom, left (fraccion del lado menor)
+    in_video: bool = True
+    note: str = ""
+
+    @property
+    def aspect(self) -> float:
+        return self.w / self.h
+
+    def safe_box(self) -> Tuple[float, float, float, float]:
+        m = min(self.w, self.h)
+        t, r, b, l = (f * m for f in self.insets)
+        return (l, t, self.w - l - r, self.h - t - b)
+
+
+# En el video, y en este orden. El 4:5 va PRIMERO a proposito: es donde el resize
+# por constraints da un resultado correcto. Se abre reconociendolo, y por eso la
+# comparacion se sostiene cuando llega el leaderboard.
+FORMATS: List[Format] = [
+    Format("portrait_4x5", "Instagram 4:5",      1080, 1350, (.055, .055, .055, .055),
+           note="constraints resuelve bien; sobrevive el recorte a 1:1 del perfil"),
+    Format("story_9x16", "Story / Reel 9:16",    1080, 1920, (.140, .060, .200, .060),
+           note="la UI de la plataforma tapa arriba y abajo"),
+    Format("leader_728", "Leaderboard 728x90",    728,   90, (.100, .040, .100, .040),
+           note="8:1; ningun recorte a sangre contiene la region focal"),
+    Format("mpu_300",    "MPU 300x250",           300,  250, (.060, .060, .060, .060),
+           note="no cabe todo; algo debe caer"),
+    Format("feed_1x1",   "Instagram feed 1:1",   1080, 1080, (.060, .060, .060, .060),
+           note="linea base de referencia"),
+
+    # Fuera del video: filas de configuracion, prueba de "lienzo arbitrario".
+    Format("half_300x600", "Half page 300x600",   300,  600, (.060, .060, .060, .060),
+           in_video=False, note="vertical angosto"),
+    Format("screen_hd",  "Pantalla de centro",   1920, 1080, (.050, .050, .050, .050),
+           in_video=False, note="el blanco se recalcula, no se estira"),
+    Format("print_dl",   "Print DL vertical",     991, 2098, (.070, .070, .070, .070),
+           in_video=False, note="lienzo arbitrario; fuera del video"),
+]
+
+BY_KEY = {f.key: f for f in FORMATS}
+VIDEO_ORDER = [f.key for f in FORMATS if f.in_video]

@@ -1,0 +1,94 @@
+<!doctype html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La prueba de las fotos &middot; Meridian Quarter</title>
+<style>
+ :root{--ink:#0E2A26;--pap:#F4F1EA;--acc:#E4572E;--line:#d8d3c8}
+ *{box-sizing:border-box}
+ body{margin:0;background:var(--pap);color:var(--ink);
+   font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+ .wrap{max-width:1240px;margin:0 auto;padding:40px 24px 80px}
+ h1{font-size:30px;margin:0 0 6px;letter-spacing:-.01em}
+ h2{font-size:19px;margin:40px 0 10px}
+ .sub{margin:0 0 22px;opacity:.75;max-width:76ch}
+ .box{background:#fff;border:1px solid var(--line);border-radius:9px;
+   padding:16px 18px;margin:0 0 22px;max-width:78ch}
+ .box strong{color:var(--acc)}
+ table.grid{width:100%;border-collapse:collapse;background:#fff;
+   border:1px solid var(--line);border-radius:10px;overflow:hidden}
+ table.grid th{font-size:12.5px;padding:11px 12px;text-align:center;
+   border-bottom:1px solid var(--line);font-weight:600}
+ table.grid th span{display:block;font-weight:400;opacity:.6;font-size:11.5px}
+ tr.lab th{text-align:left;background:#fbfaf7;border-top:1px solid var(--line)}
+ tr.lab th span{display:inline;opacity:.65;font-weight:400}
+ tr.ims td{padding:14px 12px;text-align:center;vertical-align:top;background:#f2efe8}
+ tr.ims img{max-width:100%;display:block;margin:0 auto;
+   box-shadow:0 0 0 1px rgba(0,0,0,.09)}
+ table.num{border-collapse:collapse;font-size:13.5px;margin-top:8px;
+   background:#fff;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+ table.num td,table.num th{padding:7px 14px;border-bottom:1px solid #f0efeb;
+   text-align:left}
+ table.num th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+   opacity:.6;background:#fbfaf7}
+ td.n{font-variant-numeric:tabular-nums;text-align:right}
+ td.mv{color:var(--acc);font-weight:700}
+ .verdict{margin:20px 0 0;padding:14px 18px;border-radius:9px;
+   background:#e7efe9;color:#14614d;font-size:14px;max-width:78ch}
+ a{color:inherit}
+ 
+ .nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;padding:0 0 18px;
+   border-bottom:1px solid var(--line)}
+ .nav a,.nav span{font-size:12.5px;padding:6px 12px;border-radius:99px;
+   border:1px solid var(--line);background:#fff;text-decoration:none;line-height:1.2}
+ .nav span{background:var(--ink);color:var(--pap);border-color:var(--ink);font-weight:600}
+ .nav a:hover{border-color:var(--ink)}
+
+</style>
+<div class="wrap">
+<nav class="nav"><a href="../index.html">&larr; indice</a><a href="../meridian-quarter/face-off.html">Cara a cara</a><a href="../meridian-quarter/index.html">Campana · desde el arte</a><a href="../meridian-quarter/constraints/index.html">Campana · constraints</a><a href="../meridian-flat/index.html">Desde un JPEG plano</a><span>La prueba de las fotos</span><a href="../rollout/index.html">Un archivo por centre</a></nav>
+<h1>La prueba de las fotos</h1>
+<p class="sub">Mismo master, mismos formatos, mismos constraints. Lo unico que cambia
+ es el pixel. Si el layout se decide mirando la fotografia, tiene que moverse; si sale
+ de una regla geometrica sobre una caja, no puede.</p>
+
+<div class="box">Las tres fotografias son propias. La <strong>A</strong> es la del
+ master. La <strong>B</strong> es otro sujeto en formato apaisado. La <strong>C</strong>
+ lleva el sujeto muy cerca, con una cara de 1045px, para forzar al recorte.
+ <br><br>Con solo la foto B el criterio no se habria cumplido: un unico formato pasaba
+ del umbral. Hizo falta la tercera, y se dice, porque el numero que importa es el que
+ se midio, no el que convenia.</div>
+
+<h2>Instagram feed 1:1 &middot; 1080&times;1080</h2>
+<table class="grid"><tr><th>Foto A<span>la del master</span></th><th>Foto B<span>otro sujeto, apaisada</span></th><th>Foto C<span>sujeto muy cercano, cara de 1045px</span></th></tr>
+<tr class="lab"><th colspan="3"><strong>Template + constraints</strong> <span>el texto no se mueve</span></th></tr><tr class="ims"><td><img src="thumbs/constraints_A.jpg" alt="constraints A" loading="lazy"></td><td><img src="thumbs/constraints_B.jpg" alt="constraints B" loading="lazy"></td><td><img src="thumbs/constraints_C.jpg" alt="constraints C" loading="lazy"></td></tr>
+<tr class="lab"><th colspan="3"><strong>Decision desde el arte</strong> <span>el texto sigue a la fotografia</span></th></tr><tr class="ims"><td><img src="thumbs/art_A.jpg" alt="art A" loading="lazy"></td><td><img src="thumbs/art_B.jpg" alt="art B" loading="lazy"></td><td><img src="thumbs/art_C.jpg" alt="art C" loading="lazy"></td></tr>
+</table>
+
+<h2>Desplazamiento medido, los 5 formatos del video</h2>
+<p class="sub">Distancia que recorre la esquina del bloque de texto respecto de la foto
+ A, en pixeles de lienzo, tomada del SVG entregado. Se muestra el mayor de los dos
+ cambios de foto. Umbral declarado de movimiento visible: 100px.</p>
+<table class="num"><tr><th>Formato</th><th>Lienzo</th><th>Desde el arte</th>
+<th>Constraints</th></tr><tr><td>Instagram 4:5</td><td class="n">1080&times;1350</td><td class="n ">19 px</td><td class="n">0 px</td></tr><tr><td>Story / Reel 9:16</td><td class="n">1080&times;1920</td><td class="n ">19 px</td><td class="n">0 px</td></tr><tr><td>Leaderboard 728x90</td><td class="n">728&times;90</td><td class="n ">0 px</td><td class="n">0 px</td></tr><tr><td>MPU 300x250</td><td class="n">300&times;250</td><td class="n ">8 px</td><td class="n">0 px</td></tr><tr><td>Instagram feed 1:1</td><td class="n">1080&times;1080</td><td class="n mv">302 px</td><td class="n">0 px</td></tr></table>
+
+<div class="verdict"><strong>1 de 5</strong> formatos mueven el
+ bloque de texto mas de 100px por la via del arte.
+ <strong>0 de 5</strong> por la via de constraints, con
+ un desplazamiento maximo medido de <strong>0 px</strong>.</div>
+
+<div class="box" style="margin-top:22px"><strong>El desplazamiento resulto mal
+ instrumento, y se deja a la vista en lugar de cambiarlo por el que salio bien.</strong>
+ Se fijo el umbral en 100px antes de medir, y por la via del arte solo
+ 1 de 5 formatos lo superan. La razon es de diseno: el motor
+ tira de la composicion del master a proposito, asi que cuando la fotografia no
+ obliga a mover el texto, no lo mueve. Moverlo porque si seria peor.
+ <br><br>Lo que si separa a los dos mecanismos es <strong>cuantas decisiones se
+ rehacen</strong>.</div>
+
+<h2>Decisiones de layout que se rehacen al cambiar la fotografia</h2>
+<table class="num"><tr><th>Decision</th><th>Desde el arte</th><th>Constraints</th></tr>
+<tr><td>recorte</td><td class="n mv">5 de 5</td><td class="n">5 de 5</td></tr><tr><td>colores</td><td class="n mv">3 de 5</td><td class="n">0 de 5</td></tr><tr><td>cuerpos</td><td class="n mv">3 de 5</td><td class="n">0 de 5</td></tr><tr><td>scrims</td><td class="n mv">4 de 5</td><td class="n">0 de 5</td></tr></table>
+<div class="verdict" style="margin-top:14px">Por la via de constraints, lo unico que
+ cambia al cambiar la fotografia es <strong>que pixeles se recortan</strong>. Cuerpos,
+ colores, scrims, elementos retirados y variante del logo son identicos en los
+ 5 formatos. Un constraint no mira la fotografia: no tiene con que.</div>
+</div>

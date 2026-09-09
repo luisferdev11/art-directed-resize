@@ -1,0 +1,27 @@
+# secretos: NUNCA se versionan
+.env
+.env.*
+*.key
+secrets/
+
+# artefactos de trabajo. El sitio publicado vive en docs/, generado desde aqui.
+out/
+__pycache__/
+*.pyc
+
+# Documentos privados: estrategia de postulacion, analisis del competidor y
+# borradores de la aplicacion. NO se publican: exponen la posicion de negociacion
+# y a un competidor con el que el cliente todavia puede tener relacion comercial.
+estrategia.md
+competencia.md
+plan-demo.md
+respuestas.md
+carta.md
+pendientes.md
+guion.md
+demo-alcance.md
+fases-prototipo.md
+description.md
+
+# El brief es un documento del CLIENTE. No es nuestro para publicarlo.
+*.pdf

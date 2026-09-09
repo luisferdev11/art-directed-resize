@@ -1,0 +1,1158 @@
+{
+  "master": "assets/master.svg",
+  "backend": "constraints",
+  "canvas": [
+    1080.0,
+    1350.0
+  ],
+  "inference": [
+    "foto: raster de mayor area, 2160x2700px sobre 1080x1350 unidades",
+    "lockup: grupo con geometria vectorial, area menor, 222x34 en (794,96); marca 34x34 y wordmark a 15px",
+    "roles por rango de cuerpo: headline=92px, subhead=30px, support=20px, legal=13px",
+    "el bloque menor (13px) mide < 30% del titular (92px) -> legal"
+  ],
+  "outputs": [
+    {
+      "key": "portrait_4x5",
+      "label": "Instagram 4:5",
+      "w": 1080,
+      "h": 1350,
+      "file": "portrait_4x5.svg",
+      "hypothesis": "template:portrait",
+      "crop_px": [
+        0.0,
+        0.0,
+        2160.0,
+        2700.0
+      ],
+      "effective_ppi": 144.0,
+      "field_cost": 0.1951,
+      "reasons": [
+        "template 'portrait' (1080x1350) elegido por proximidad de tamano: distancia 0.00 frente a square 0.22, landscape 0.80. El objetivo coincide con el template: este es su mejor caso.",
+        "foto: recorte al CENTRO de 2160x2700px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "lockup por constraint RIGHT+TOP: 222px de ancho en (794,96)",
+        "coste del emplazamiento sobre el MISMO campo de costo: 0.195 en escala 0-1. No se busco: es donde cayo la caja",
+        "heredado del master -> legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 59px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+      ],
+      "dropped": [],
+      "ladder": [],
+      "panel": null,
+      "logo": {
+        "width": 222.5,
+        "scale": 1.0,
+        "mark_only": false
+      },
+      "blocks": [
+        {
+          "role": "headline",
+          "size": 92.0,
+          "weight": 900,
+          "lines": [
+            "SPRING STYLE",
+            "IS HERE"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 4.97,
+          "achieved": 4.97,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "subhead",
+          "size": 30.0,
+          "weight": 400,
+          "lines": [
+            "Up to 50% off across 120 stores"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 4.52,
+          "achieved": 4.52,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "support",
+          "size": 20.0,
+          "weight": 900,
+          "lines": [
+            "12 - 28 SEPTEMBER"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 3.89,
+          "achieved": 3.89,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "legal",
+          "size": 13.0,
+          "weight": 400,
+          "lines": [
+            "Terms and conditions apply. See centre for details."
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 11.75,
+          "achieved": 11.75,
+          "scrimmed": false,
+          "required": 4.5
+        }
+      ],
+      "scrims": [
+        {
+          "for": "legal",
+          "alpha": 0.35
+        }
+      ],
+      "template": "portrait",
+      "constraints": [
+        [
+          "fotografia",
+          "SCALE",
+          "SCALE"
+        ],
+        [
+          "headline",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "subhead",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "support",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "legal",
+          "LEFT",
+          "BOTTOM"
+        ],
+        [
+          "scrim de legal",
+          "LEFT_RIGHT",
+          "BOTTOM"
+        ],
+        [
+          "lockup",
+          "RIGHT",
+          "TOP"
+        ]
+      ],
+      "violations": [],
+      "inherited": [
+        "legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 59px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+      ]
+    },
+    {
+      "key": "story_9x16",
+      "label": "Story / Reel 9:16",
+      "w": 1080,
+      "h": 1920,
+      "file": "story_9x16.svg",
+      "hypothesis": "template:portrait",
+      "crop_px": [
+        320.6,
+        0.0,
+        1518.8,
+        2700.0
+      ],
+      "effective_ppi": 101.2,
+      "field_cost": 0.1895,
+      "reasons": [
+        "template 'portrait' (1080x1350) elegido por proximidad de tamano: distancia 0.35 frente a square 0.58, landscape 1.15.",
+        "foto: recorte al CENTRO de 1519x2700px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "lockup por constraint RIGHT+TOP: 222px de ancho en (794,96)",
+        "coste del emplazamiento sobre el MISMO campo de costo: 0.189 en escala 0-1. No se busco: es donde cayo la caja",
+        "violacion -> headline: invade el area segura por arriba. Queda a 96px del borde y el formato declara 151px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo",
+        "heredado del master -> legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 216px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+      ],
+      "dropped": [],
+      "ladder": [],
+      "panel": null,
+      "logo": {
+        "width": 222.5,
+        "scale": 1.0,
+        "mark_only": false
+      },
+      "blocks": [
+        {
+          "role": "headline",
+          "size": 92.0,
+          "weight": 900,
+          "lines": [
+            "SPRING STYLE",
+            "IS HERE"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 8.07,
+          "achieved": 8.07,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "subhead",
+          "size": 30.0,
+          "weight": 400,
+          "lines": [
+            "Up to 50% off across 120 stores"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 4.39,
+          "achieved": 4.39,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "support",
+          "size": 20.0,
+          "weight": 900,
+          "lines": [
+            "12 - 28 SEPTEMBER"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 6.42,
+          "achieved": 6.42,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "legal",
+          "size": 13.0,
+          "weight": 400,
+          "lines": [
+            "Terms and conditions apply. See centre for details."
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 14.8,
+          "achieved": 14.8,
+          "scrimmed": false,
+          "required": 4.5
+        }
+      ],
+      "scrims": [
+        {
+          "for": "legal",
+          "alpha": 0.35
+        }
+      ],
+      "template": "portrait",
+      "constraints": [
+        [
+          "fotografia",
+          "SCALE",
+          "SCALE"
+        ],
+        [
+          "headline",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "subhead",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "support",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "legal",
+          "LEFT",
+          "BOTTOM"
+        ],
+        [
+          "scrim de legal",
+          "LEFT_RIGHT",
+          "BOTTOM"
+        ],
+        [
+          "lockup",
+          "RIGHT",
+          "TOP"
+        ]
+      ],
+      "violations": [
+        "headline: invade el area segura por arriba. Queda a 96px del borde y el formato declara 151px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo"
+      ],
+      "inherited": [
+        "legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 216px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+      ]
+    },
+    {
+      "key": "leader_728",
+      "label": "Leaderboard 728x90",
+      "w": 728,
+      "h": 90,
+      "file": "leader_728.svg",
+      "hypothesis": "template:square",
+      "crop_px": [
+        0.0,
+        1216.5,
+        2160.0,
+        267.0
+      ],
+      "effective_ppi": 213.6,
+      "field_cost": 0.209,
+      "reasons": [
+        "template 'square' (1080x1080) elegido por proximidad de tamano: distancia 2.88 frente a portrait 3.10, landscape 3.45.",
+        "foto: recorte al CENTRO de 2160x267px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "lockup por constraint RIGHT+TOP: 222px de ancho en (442,88)",
+        "coste del emplazamiento sobre el MISMO campo de costo: 0.209 en escala 0-1. No se busco: es donde cayo la caja",
+        "violacion -> headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo",
+        "violacion -> subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo",
+        "violacion -> support: se sale del lienzo. La caja quedo en (64,396) 209x19 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo",
+        "violacion -> lockup: se sale del lienzo a 222px de ancho sobre 728px. RIGHT+TOP no reescala"
+      ],
+      "dropped": [],
+      "ladder": [],
+      "panel": null,
+      "logo": {
+        "width": 222.5,
+        "scale": 1.0,
+        "mark_only": false
+      },
+      "blocks": [
+        {
+          "role": "headline",
+          "size": 88.0,
+          "weight": 900,
+          "lines": [
+            "SPRING STYLE",
+            "IS HERE"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 0.0,
+          "achieved": 0.0,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "subhead",
+          "size": 30.0,
+          "weight": 400,
+          "lines": [
+            "Up to 50% off across 120 stores"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 0.0,
+          "achieved": 0.0,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "support",
+          "size": 20.0,
+          "weight": 900,
+          "lines": [
+            "12 - 28 SEPTEMBER"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 0.0,
+          "achieved": 0.0,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "legal",
+          "size": 13.0,
+          "weight": 400,
+          "lines": [
+            "Terms and conditions apply. See centre for details."
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 11.73,
+          "achieved": 11.73,
+          "scrimmed": false,
+          "required": 4.5
+        }
+      ],
+      "scrims": [
+        {
+          "for": "pila",
+          "alpha": 0.42
+        },
+        {
+          "for": "legal",
+          "alpha": 0.35
+        }
+      ],
+      "template": "square",
+      "constraints": [
+        [
+          "fotografia",
+          "SCALE",
+          "SCALE"
+        ],
+        [
+          "headline",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "subhead",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "support",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "legal",
+          "LEFT",
+          "BOTTOM"
+        ],
+        [
+          "scrim de pila",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "scrim de legal",
+          "LEFT_RIGHT",
+          "BOTTOM"
+        ],
+        [
+          "lockup",
+          "RIGHT",
+          "TOP"
+        ]
+      ],
+      "violations": [
+        "headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo",
+        "subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo",
+        "support: se sale del lienzo. La caja quedo en (64,396) 209x19 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo",
+        "lockup: se sale del lienzo a 222px de ancho sobre 728px. RIGHT+TOP no reescala"
+      ],
+      "inherited": []
+    },
+    {
+      "key": "mpu_300",
+      "label": "MPU 300x250",
+      "w": 300,
+      "h": 250,
+      "file": "mpu_300.svg",
+      "hypothesis": "template:square",
+      "crop_px": [
+        0.0,
+        450.0,
+        2160.0,
+        1800.0
+      ],
+      "effective_ppi": 518.4,
+      "field_cost": 0.1888,
+      "reasons": [
+        "template 'square' (1080x1080) elegido por proximidad de tamano: distancia 2.74 frente a portrait 2.97, landscape 3.32.",
+        "foto: recorte al CENTRO de 2160x1800px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "lockup por constraint RIGHT+TOP: 222px de ancho en (14,88)",
+        "coste del emplazamiento sobre el MISMO campo de costo: 0.189 en escala 0-1. No se busco: es donde cayo la caja",
+        "violacion -> headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
+        "violacion -> subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
+        "violacion -> support: se sale del lienzo. La caja quedo en (64,396) 209x19 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
+        "violacion -> legal: se sale del lienzo. La caja quedo en (64,188) 284x12 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
+        "violacion -> headline y legal se solapan"
+      ],
+      "dropped": [],
+      "ladder": [],
+      "panel": null,
+      "logo": {
+        "width": 222.5,
+        "scale": 1.0,
+        "mark_only": false
+      },
+      "blocks": [
+        {
+          "role": "headline",
+          "size": 88.0,
+          "weight": 900,
+          "lines": [
+            "SPRING STYLE",
+            "IS HERE"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 0.0,
+          "achieved": 0.0,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "subhead",
+          "size": 30.0,
+          "weight": 400,
+          "lines": [
+            "Up to 50% off across 120 stores"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 0.0,
+          "achieved": 0.0,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "support",
+          "size": 20.0,
+          "weight": 900,
+          "lines": [
+            "12 - 28 SEPTEMBER"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 0.0,
+          "achieved": 0.0,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "legal",
+          "size": 13.0,
+          "weight": 400,
+          "lines": [
+            "Terms and conditions apply. See centre for details."
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 0.0,
+          "achieved": 0.0,
+          "scrimmed": false,
+          "required": 4.5
+        }
+      ],
+      "scrims": [
+        {
+          "for": "pila",
+          "alpha": 0.42
+        },
+        {
+          "for": "legal",
+          "alpha": 0.35
+        }
+      ],
+      "template": "square",
+      "constraints": [
+        [
+          "fotografia",
+          "SCALE",
+          "SCALE"
+        ],
+        [
+          "headline",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "subhead",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "support",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "legal",
+          "LEFT",
+          "BOTTOM"
+        ],
+        [
+          "scrim de pila",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "scrim de legal",
+          "LEFT_RIGHT",
+          "BOTTOM"
+        ],
+        [
+          "lockup",
+          "RIGHT",
+          "TOP"
+        ]
+      ],
+      "violations": [
+        "headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
+        "subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
+        "support: se sale del lienzo. La caja quedo en (64,396) 209x19 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
+        "legal: se sale del lienzo. La caja quedo en (64,188) 284x12 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
+        "headline y legal se solapan"
+      ],
+      "inherited": []
+    },
+    {
+      "key": "feed_1x1",
+      "label": "Instagram feed 1:1",
+      "w": 1080,
+      "h": 1080,
+      "file": "feed_1x1.svg",
+      "hypothesis": "template:square",
+      "crop_px": [
+        0.0,
+        270.0,
+        2160.0,
+        2160.0
+      ],
+      "effective_ppi": 144.0,
+      "field_cost": 0.1641,
+      "reasons": [
+        "template 'square' (1080x1080) elegido por proximidad de tamano: distancia 0.00 frente a portrait 0.22, landscape 0.58. El objetivo coincide con el template: este es su mejor caso.",
+        "foto: recorte al CENTRO de 2160x2160px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "lockup por constraint RIGHT+TOP: 222px de ancho en (794,88)",
+        "coste del emplazamiento sobre el MISMO campo de costo: 0.164 en escala 0-1. No se busco: es donde cayo la caja",
+        "heredado del master -> legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 65px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+      ],
+      "dropped": [],
+      "ladder": [],
+      "panel": null,
+      "logo": {
+        "width": 222.5,
+        "scale": 1.0,
+        "mark_only": false
+      },
+      "blocks": [
+        {
+          "role": "headline",
+          "size": 88.0,
+          "weight": 900,
+          "lines": [
+            "SPRING STYLE",
+            "IS HERE"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 3.86,
+          "achieved": 3.86,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "subhead",
+          "size": 30.0,
+          "weight": 400,
+          "lines": [
+            "Up to 50% off across 120 stores"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 4.35,
+          "achieved": 4.35,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "support",
+          "size": 20.0,
+          "weight": 900,
+          "lines": [
+            "12 - 28 SEPTEMBER"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 5.59,
+          "achieved": 5.59,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "legal",
+          "size": 13.0,
+          "weight": 400,
+          "lines": [
+            "Terms and conditions apply. See centre for details."
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 7.94,
+          "achieved": 7.94,
+          "scrimmed": false,
+          "required": 4.5
+        }
+      ],
+      "scrims": [
+        {
+          "for": "pila",
+          "alpha": 0.42
+        },
+        {
+          "for": "legal",
+          "alpha": 0.35
+        }
+      ],
+      "template": "square",
+      "constraints": [
+        [
+          "fotografia",
+          "SCALE",
+          "SCALE"
+        ],
+        [
+          "headline",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "subhead",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "support",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "legal",
+          "LEFT",
+          "BOTTOM"
+        ],
+        [
+          "scrim de pila",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "scrim de legal",
+          "LEFT_RIGHT",
+          "BOTTOM"
+        ],
+        [
+          "lockup",
+          "RIGHT",
+          "TOP"
+        ]
+      ],
+      "violations": [],
+      "inherited": [
+        "legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 65px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+      ]
+    },
+    {
+      "key": "half_300x600",
+      "label": "Half page 300x600",
+      "w": 300,
+      "h": 600,
+      "file": "half_300x600.svg",
+      "hypothesis": "template:square",
+      "crop_px": [
+        405.0,
+        0.0,
+        1350.0,
+        2700.0
+      ],
+      "effective_ppi": 324.0,
+      "field_cost": 0.1871,
+      "reasons": [
+        "template 'square' (1080x1080) elegido por proximidad de tamano: distancia 1.87 frente a portrait 2.09, landscape 2.44.",
+        "foto: recorte al CENTRO de 1350x2700px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "lockup por constraint RIGHT+TOP: 222px de ancho en (14,88)",
+        "coste del emplazamiento sobre el MISMO campo de costo: 0.187 en escala 0-1. No se busco: es donde cayo la caja",
+        "violacion -> headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo",
+        "violacion -> subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo",
+        "violacion -> legal: se sale del lienzo. La caja quedo en (64,538) 284x12 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo"
+      ],
+      "dropped": [],
+      "ladder": [],
+      "panel": null,
+      "logo": {
+        "width": 222.5,
+        "scale": 1.0,
+        "mark_only": false
+      },
+      "blocks": [
+        {
+          "role": "headline",
+          "size": 88.0,
+          "weight": 900,
+          "lines": [
+            "SPRING STYLE",
+            "IS HERE"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 0.0,
+          "achieved": 0.0,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "subhead",
+          "size": 30.0,
+          "weight": 400,
+          "lines": [
+            "Up to 50% off across 120 stores"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 0.0,
+          "achieved": 0.0,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "support",
+          "size": 20.0,
+          "weight": 900,
+          "lines": [
+            "12 - 28 SEPTEMBER"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 7.59,
+          "achieved": 7.59,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "legal",
+          "size": 13.0,
+          "weight": 400,
+          "lines": [
+            "Terms and conditions apply. See centre for details."
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 0.0,
+          "achieved": 0.0,
+          "scrimmed": false,
+          "required": 4.5
+        }
+      ],
+      "scrims": [
+        {
+          "for": "pila",
+          "alpha": 0.42
+        },
+        {
+          "for": "legal",
+          "alpha": 0.35
+        }
+      ],
+      "template": "square",
+      "constraints": [
+        [
+          "fotografia",
+          "SCALE",
+          "SCALE"
+        ],
+        [
+          "headline",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "subhead",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "support",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "legal",
+          "LEFT",
+          "BOTTOM"
+        ],
+        [
+          "scrim de pila",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "scrim de legal",
+          "LEFT_RIGHT",
+          "BOTTOM"
+        ],
+        [
+          "lockup",
+          "RIGHT",
+          "TOP"
+        ]
+      ],
+      "violations": [
+        "headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo",
+        "subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo",
+        "legal: se sale del lienzo. La caja quedo en (64,538) 284x12 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo"
+      ],
+      "inherited": []
+    },
+    {
+      "key": "screen_hd",
+      "label": "Pantalla de centro",
+      "w": 1920,
+      "h": 1080,
+      "file": "screen_hd.svg",
+      "hypothesis": "template:landscape",
+      "crop_px": [
+        0.0,
+        742.5,
+        2160.0,
+        1215.0
+      ],
+      "effective_ppi": 81.0,
+      "field_cost": 0.1144,
+      "reasons": [
+        "template 'landscape' (1920x1080) elegido por proximidad de tamano: distancia 0.00 frente a square 0.58, portrait 0.80. El objetivo coincide con el template: este es su mejor caso.",
+        "foto: recorte al CENTRO de 2160x1215px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "lockup por constraint RIGHT+TOP: 222px de ancho en (1618,96)",
+        "coste del emplazamiento sobre el MISMO campo de costo: 0.114 en escala 0-1. No se busco: es donde cayo la caja"
+      ],
+      "dropped": [],
+      "ladder": [],
+      "panel": null,
+      "logo": {
+        "width": 222.5,
+        "scale": 1.0,
+        "mark_only": false
+      },
+      "blocks": [
+        {
+          "role": "headline",
+          "size": 104.0,
+          "weight": 900,
+          "lines": [
+            "SPRING STYLE",
+            "IS HERE"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 4.32,
+          "achieved": 4.32,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "subhead",
+          "size": 32.0,
+          "weight": 400,
+          "lines": [
+            "Up to 50% off across 120 stores"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 8.11,
+          "achieved": 8.11,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "support",
+          "size": 24.0,
+          "weight": 900,
+          "lines": [
+            "12 - 28 SEPTEMBER"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 7.78,
+          "achieved": 7.78,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "legal",
+          "size": 14.0,
+          "weight": 400,
+          "lines": [
+            "Terms and conditions apply. See centre for details."
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 9.91,
+          "achieved": 9.91,
+          "scrimmed": false,
+          "required": 4.5
+        }
+      ],
+      "scrims": [
+        {
+          "for": "pila",
+          "alpha": 0.42
+        },
+        {
+          "for": "legal",
+          "alpha": 0.35
+        }
+      ],
+      "template": "landscape",
+      "constraints": [
+        [
+          "fotografia",
+          "SCALE",
+          "SCALE"
+        ],
+        [
+          "headline",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "subhead",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "support",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "legal",
+          "LEFT",
+          "BOTTOM"
+        ],
+        [
+          "scrim de pila",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "scrim de legal",
+          "LEFT_RIGHT",
+          "BOTTOM"
+        ],
+        [
+          "lockup",
+          "RIGHT",
+          "TOP"
+        ]
+      ],
+      "violations": [],
+      "inherited": []
+    },
+    {
+      "key": "print_dl",
+      "label": "Print DL vertical",
+      "w": 991,
+      "h": 2098,
+      "file": "print_dl.svg",
+      "hypothesis": "template:portrait",
+      "crop_px": [
+        442.3,
+        0.0,
+        1275.4,
+        2700.0
+      ],
+      "effective_ppi": 92.7,
+      "field_cost": 0.1975,
+      "reasons": [
+        "template 'portrait' (1080x1350) elegido por proximidad de tamano: distancia 0.53 frente a square 0.75, landscape 1.33.",
+        "foto: recorte al CENTRO de 1275x2700px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "lockup por constraint RIGHT+TOP: 222px de ancho en (704,96)",
+        "coste del emplazamiento sobre el MISMO campo de costo: 0.198 en escala 0-1. No se busco: es donde cayo la caja",
+        "violacion -> headline: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo",
+        "violacion -> subhead: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo",
+        "violacion -> support: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo",
+        "heredado del master -> legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 69px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+      ],
+      "dropped": [],
+      "ladder": [],
+      "panel": null,
+      "logo": {
+        "width": 222.5,
+        "scale": 1.0,
+        "mark_only": false
+      },
+      "blocks": [
+        {
+          "role": "headline",
+          "size": 92.0,
+          "weight": 900,
+          "lines": [
+            "SPRING STYLE",
+            "IS HERE"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 8.14,
+          "achieved": 8.14,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "subhead",
+          "size": 30.0,
+          "weight": 400,
+          "lines": [
+            "Up to 50% off across 120 stores"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 5.01,
+          "achieved": 5.01,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "support",
+          "size": 20.0,
+          "weight": 900,
+          "lines": [
+            "12 - 28 SEPTEMBER"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 8.87,
+          "achieved": 8.87,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "legal",
+          "size": 13.0,
+          "weight": 400,
+          "lines": [
+            "Terms and conditions apply. See centre for details."
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 13.71,
+          "achieved": 13.71,
+          "scrimmed": false,
+          "required": 4.5
+        }
+      ],
+      "scrims": [
+        {
+          "for": "legal",
+          "alpha": 0.35
+        }
+      ],
+      "template": "portrait",
+      "constraints": [
+        [
+          "fotografia",
+          "SCALE",
+          "SCALE"
+        ],
+        [
+          "headline",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "subhead",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "support",
+          "LEFT",
+          "TOP"
+        ],
+        [
+          "legal",
+          "LEFT",
+          "BOTTOM"
+        ],
+        [
+          "scrim de legal",
+          "LEFT_RIGHT",
+          "BOTTOM"
+        ],
+        [
+          "lockup",
+          "RIGHT",
+          "TOP"
+        ]
+      ],
+      "violations": [
+        "headline: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo",
+        "subhead: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo",
+        "support: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo"
+      ],
+      "inherited": [
+        "legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 69px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+      ]
+    }
+  ]
+}

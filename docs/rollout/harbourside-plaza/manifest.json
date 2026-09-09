@@ -1,0 +1,485 @@
+{
+  "master": "assets/master.svg",
+  "backend": "art",
+  "canvas": [
+    1080.0,
+    1350.0
+  ],
+  "inference": [
+    "foto: raster de mayor area, 2160x2700px sobre 1080x1350 unidades",
+    "lockup: grupo con geometria vectorial, area menor, 222x34 en (794,96); marca 34x34 y wordmark a 15px",
+    "roles por rango de cuerpo: headline=92px, subhead=30px, support=20px, legal=13px",
+    "el bloque menor (13px) mide < 30% del titular (92px) -> legal"
+  ],
+  "outputs": [
+    {
+      "key": "portrait_4x5",
+      "label": "Instagram 4:5",
+      "w": 1080,
+      "h": 1350,
+      "file": "portrait_4x5.svg",
+      "hypothesis": "bleed",
+      "crop_px": [
+        0.0,
+        409.6,
+        1474.6,
+        1843.2
+      ],
+      "effective_ppi": 98.3,
+      "field_cost": 0.0089,
+      "reasons": [
+        "recorte 1475x1843px de la fuente (36% del ancho); region focal contenida",
+        "region de la cara vedada al texto: 357x357px en (210,1012) del lienzo, con 25% de margen",
+        "texto emplazado en (99,59) por busqueda densa sobre el campo de costo: coste 0.009 en escala 0-1",
+        "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
+      ],
+      "dropped": [],
+      "ladder": [],
+      "panel": null,
+      "logo": {
+        "width": 172.8,
+        "scale": 0.777,
+        "mark_only": false
+      },
+      "blocks": [
+        {
+          "role": "headline",
+          "size": 128.0,
+          "weight": 900,
+          "lines": [
+            "SPRING",
+            "STYLE",
+            "IS HERE"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 11.92,
+          "achieved": 11.92,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "subhead",
+          "size": 40.0,
+          "weight": 400,
+          "lines": [
+            "Up to 50% off across 120 stores"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 11.48,
+          "achieved": 11.48,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "support",
+          "size": 24.0,
+          "weight": 900,
+          "lines": [
+            "12 - 28 SEPTEMBER"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 11.13,
+          "achieved": 11.13,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "legal",
+          "size": 18.0,
+          "weight": 400,
+          "lines": [
+            "Terms and conditions apply. See centre for details."
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 4.95,
+          "achieved": 4.95,
+          "scrimmed": false,
+          "required": 4.5
+        }
+      ],
+      "scrims": []
+    },
+    {
+      "key": "story_9x16",
+      "label": "Story / Reel 9:16",
+      "w": 1080,
+      "h": 1920,
+      "file": "story_9x16.svg",
+      "hypothesis": "bleed",
+      "crop_px": [
+        0.0,
+        61.4,
+        1589.8,
+        2826.2
+      ],
+      "effective_ppi": 106.0,
+      "field_cost": 0.0069,
+      "reasons": [
+        "recorte 1590x2826px de la fuente (39% del ancho); region focal contenida",
+        "region de la cara vedada al texto: 331x331px en (195,1175) del lienzo, con 25% de margen",
+        "texto emplazado en (104,151) por busqueda densa sobre el campo de costo: coste 0.007 en escala 0-1",
+        "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
+      ],
+      "dropped": [],
+      "ladder": [],
+      "panel": null,
+      "logo": {
+        "width": 172.8,
+        "scale": 0.777,
+        "mark_only": false
+      },
+      "blocks": [
+        {
+          "role": "headline",
+          "size": 128.0,
+          "weight": 900,
+          "lines": [
+            "SPRING",
+            "STYLE",
+            "IS HERE"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 12.29,
+          "achieved": 12.29,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "subhead",
+          "size": 40.0,
+          "weight": 400,
+          "lines": [
+            "Up to 50% off across 120 stores"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 12.08,
+          "achieved": 12.08,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "support",
+          "size": 24.0,
+          "weight": 900,
+          "lines": [
+            "12 - 28 SEPTEMBER"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 11.81,
+          "achieved": 11.81,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "legal",
+          "size": 18.0,
+          "weight": 400,
+          "lines": [
+            "Terms and conditions apply. See centre for details."
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 5.69,
+          "achieved": 5.69,
+          "scrimmed": false,
+          "required": 4.5
+        }
+      ],
+      "scrims": []
+    },
+    {
+      "key": "leader_728",
+      "label": "Leaderboard 728x90",
+      "w": 728,
+      "h": 90,
+      "file": "leader_728.svg",
+      "hypothesis": "panel",
+      "crop_px": [
+        0.0,
+        856.0,
+        4080.0,
+        1360.0
+      ],
+      "effective_ppi": 1088.0,
+      "field_cost": 0.0059,
+      "reasons": [
+        "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 722px de alto, o 5842px de ancho, y la fuente tiene 4080px. La foto degrada a panel de 270x90 (3.0:1) y se promueve el campo de marca",
+        "region de la cara vedada al texto: 32x32px en (477,62) del lienzo, con 25% de margen",
+        "subhead: el piso de legibilidad redujo el contraste de tamano a 2.29:1 frente a 3.07:1 del master, asi que la jerarquia se re-expresa en peso (400 a 300)",
+        "support: el piso de legibilidad redujo el contraste de tamano a 2.91:1 frente a 4.60:1 del master, asi que la jerarquia se re-expresa en peso (900 a 300)",
+        "escalera de degradacion aplicada: tighten_leading -> weight_for_size -> drop_legal",
+        "texto emplazado en (68,9) por busqueda densa sobre el campo de costo: coste 0.006 en escala 0-1",
+        "headline: tipografia invertida a claro, contraste 15.24:1",
+        "subhead: tipografia invertida a claro, contraste 15.24:1",
+        "support: tipografia invertida a claro, contraste 15.24:1",
+        "legal retirado por la escalera de degradacion",
+        "lockup escalado a 0.50x en lugar de 0.25x: a la escala anterior el wordmark caia a 3.8px, bajo su piso de 7.5px",
+        "logo en variante clara: sobre este fondo la tinta daba 1.00:1",
+        "lockup a escala uniforme 0.50x, 111px de ancho, clear-space 8px, esquina de menor coste"
+      ],
+      "dropped": [
+        "legal"
+      ],
+      "ladder": [
+        "tighten_leading",
+        "weight_for_size",
+        "drop_legal"
+      ],
+      "panel": [
+        458.0,
+        0.0,
+        270.0,
+        90.0
+      ],
+      "logo": {
+        "width": 111.2,
+        "scale": 0.5,
+        "mark_only": false
+      },
+      "blocks": [
+        {
+          "role": "headline",
+          "size": 32.0,
+          "weight": 900,
+          "lines": [
+            "SPRING STYLE IS HERE"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 15.24,
+          "achieved": 15.24,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "subhead",
+          "size": 14.0,
+          "weight": 300,
+          "lines": [
+            "Up to 50% off across 120 stores"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 15.24,
+          "achieved": 15.24,
+          "scrimmed": false,
+          "required": 4.5
+        },
+        {
+          "role": "support",
+          "size": 11.0,
+          "weight": 300,
+          "lines": [
+            "12 - 28 SEPTEMBER"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 15.24,
+          "achieved": 15.24,
+          "scrimmed": false,
+          "required": 4.5
+        }
+      ],
+      "scrims": []
+    },
+    {
+      "key": "mpu_300",
+      "label": "MPU 300x250",
+      "w": 300,
+      "h": 250,
+      "file": "mpu_300.svg",
+      "hypothesis": "bleed",
+      "crop_px": [
+        0.0,
+        0.0,
+        3686.4,
+        3072.0
+      ],
+      "effective_ppi": 884.7,
+      "field_cost": 0.2957,
+      "reasons": [
+        "recorte 3686x3072px de la fuente (90% del ancho); region focal contenida",
+        "region de la cara vedada al texto: 40x40px en (23,146) del lienzo, con 25% de margen",
+        "subhead: contraste de tamano comprimido a 2.15:1 frente a 3.07:1 del master",
+        "support: contraste de tamano comprimido a 2.55:1 frente a 4.60:1 del master",
+        "texto emplazado en (15,42) por busqueda densa sobre el campo de costo: coste 0.296 en escala 0-1",
+        "headline: contraste medido 1.19:1 contra 3.0 exigido, scrim con alpha 0.39",
+        "subhead: contraste medido 4.20:1 contra 4.5 exigido, scrim con alpha 0.08",
+        "support: tipografia invertida a claro, contraste 5.49:1",
+        "legal: contraste medido 3.87:1 contra 4.5 exigido, scrim con alpha 0.14",
+        "lockup degradado a marca sola: el wordmark habria quedado a 3.8px y no hay ancho para subir la escala. La marca va a 25px",
+        "lockup a escala uniforme 0.74x, 25px de ancho, clear-space 12px, esquina de menor coste"
+      ],
+      "dropped": [],
+      "ladder": [],
+      "panel": null,
+      "logo": {
+        "width": 25.0,
+        "scale": 0.735,
+        "mark_only": true
+      },
+      "blocks": [
+        {
+          "role": "headline",
+          "size": 28.0,
+          "weight": 900,
+          "lines": [
+            "SPRING",
+            "STYLE",
+            "IS HERE"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 1.19,
+          "achieved": 3.24,
+          "scrimmed": true,
+          "required": 3.0
+        },
+        {
+          "role": "subhead",
+          "size": 13.0,
+          "weight": 400,
+          "lines": [
+            "Up to 50% off",
+            "across 120 stores"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 4.2,
+          "achieved": 4.9,
+          "scrimmed": true,
+          "required": 4.5
+        },
+        {
+          "role": "support",
+          "size": 11.0,
+          "weight": 900,
+          "lines": [
+            "12 - 28",
+            "SEPTEMBER"
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 5.49,
+          "achieved": 5.49,
+          "scrimmed": false,
+          "required": 4.5
+        },
+        {
+          "role": "legal",
+          "size": 9.0,
+          "weight": 400,
+          "lines": [
+            "Terms and conditions apply. See centre for details."
+          ],
+          "fill": "#0E2A26",
+          "contrast": 3.87,
+          "achieved": 4.87,
+          "scrimmed": true,
+          "required": 4.5
+        }
+      ],
+      "scrims": [
+        {
+          "for": "headline",
+          "alpha": 0.39
+        },
+        {
+          "for": "subhead",
+          "alpha": 0.081
+        },
+        {
+          "for": "legal",
+          "alpha": 0.138
+        }
+      ]
+    },
+    {
+      "key": "feed_1x1",
+      "label": "Instagram feed 1:1",
+      "w": 1080,
+      "h": 1080,
+      "file": "feed_1x1.svg",
+      "hypothesis": "bleed",
+      "crop_px": [
+        0.0,
+        614.4,
+        1597.4,
+        1597.4
+      ],
+      "effective_ppi": 106.5,
+      "field_cost": 0.0371,
+      "reasons": [
+        "recorte 1597x1597px de la fuente (39% del ancho); region focal contenida",
+        "region de la cara vedada al texto: 330x330px en (194,795) del lienzo, con 25% de margen",
+        "texto emplazado en (235,65) por busqueda densa sobre el campo de costo: coste 0.037 en escala 0-1",
+        "legal: contraste medido 3.43:1 contra 4.5 exigido, scrim con alpha 0.18",
+        "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
+      ],
+      "dropped": [],
+      "ladder": [],
+      "panel": null,
+      "logo": {
+        "width": 172.8,
+        "scale": 0.777,
+        "mark_only": false
+      },
+      "blocks": [
+        {
+          "role": "headline",
+          "size": 104.0,
+          "weight": 900,
+          "lines": [
+            "SPRING",
+            "STYLE",
+            "IS HERE"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 11.31,
+          "achieved": 11.31,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "subhead",
+          "size": 32.0,
+          "weight": 400,
+          "lines": [
+            "Up to 50% off",
+            "across 120 stores"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 10.25,
+          "achieved": 10.25,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "support",
+          "size": 20.0,
+          "weight": 900,
+          "lines": [
+            "12 - 28 SEPTEMBER"
+          ],
+          "fill": "#0E2A26",
+          "contrast": 9.75,
+          "achieved": 9.75,
+          "scrimmed": false,
+          "required": 3.0
+        },
+        {
+          "role": "legal",
+          "size": 14.0,
+          "weight": 400,
+          "lines": [
+            "Terms and conditions apply. See centre for details."
+          ],
+          "fill": "#FFFFFF",
+          "contrast": 3.43,
+          "achieved": 4.86,
+          "scrimmed": true,
+          "required": 4.5
+        }
+      ],
+      "scrims": [
+        {
+          "for": "legal",
+          "alpha": 0.176
+        }
+      ]
+    }
+  ]
+}

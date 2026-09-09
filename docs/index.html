@@ -1,0 +1,47 @@
+<!doctype html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spring Style Is Here &middot; Meridian Quarter</title>
+<style>
+ :root{--ink:#0E2A26;--pap:#F4F1EA;--acc:#E4572E;--line:#d8d3c8}
+ *{box-sizing:border-box}
+ body{margin:0;background:var(--pap);color:var(--ink);
+   font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+ .wrap{max-width:900px;margin:0 auto;padding:56px 24px 80px}
+ h1{font-size:30px;margin:0 0 6px;letter-spacing:-.01em}
+ .sub{margin:0 0 30px;opacity:.75;max-width:66ch}
+ .grid{display:grid;gap:14px}
+ .card{display:block;background:#fff;border:1px solid var(--line);border-radius:10px;
+   padding:18px 20px;text-decoration:none;color:inherit}
+ .card:hover{border-color:var(--ink)}
+ .card h2{margin:0 0 4px;font-size:17px}
+ .card p{margin:0;font-size:13.5px;opacity:.75}
+ .card p.n{margin-top:8px;font-size:12px;opacity:.55;font-variant-numeric:tabular-nums}
+ .note{margin:34px 0 0;font-size:13px;opacity:.75;max-width:70ch}
+ .note strong{color:var(--acc)}
+ 
+ .nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;padding:0 0 18px;
+   border-bottom:1px solid var(--line)}
+ .nav a,.nav span{font-size:12.5px;padding:6px 12px;border-radius:99px;
+   border:1px solid var(--line);background:#fff;text-decoration:none;line-height:1.2}
+ .nav span{background:var(--ink);color:var(--pap);border-color:var(--ink);font-weight:600}
+ .nav a:hover{border-color:var(--ink)}
+
+</style>
+<div class="wrap">
+<h1>Spring Style Is Here</h1>
+<p class="sub">Meridian Quarter. Un master, una pasada, y las razones de cada
+ decision a la vista. Cuatro vistas de lo mismo.</p>
+<div class="grid"><a class="card" href="meridian-quarter/face-off.html">
+  <h2>Cara a cara</h2><p>constraints contra decision desde el arte, 8 pares</p><p class="n">8 pares &middot; desde el arte: 0 violaciones &middot; constraints: 16 en 5 de 8 formatos</p></a><a class="card" href="meridian-quarter/index.html">
+  <h2>Campana · desde el arte</h2><p>nuestro motor sobre el master SVG, 8 formatos</p><p class="n">8 formatos &middot; escena leida midiendo el SVG</p></a><a class="card" href="meridian-quarter/constraints/index.html">
+  <h2>Campana · constraints</h2><p>el mecanismo rival, en solitario</p><p class="n">8 formatos &middot; 16 violaciones medidas</p></a><a class="card" href="meridian-flat/index.html">
+  <h2>Desde un JPEG plano</h2><p>sin capas ni nodos: la escena la lee un modelo</p><p class="n">5 formatos &middot; escena leida por un modelo</p></a><a class="card" href="swap/index.html">
+  <h2>La prueba de las fotos</h2><p>mismo master, tres fotos: quien mueve el layout y quien no</p><p class="n">3 fotos &middot; arte: 3 de 5 formatos se mueven &middot; constraints: 0</p></a><a class="card" href="rollout/index.html">
+  <h2>Un archivo por centre</h2><p>tres centres, tres carpetas autocontenidas</p><p class="n">3 centres &middot; 15 piezas &middot; check.py verde en los tres</p></a></div>
+<p class="note"><strong>Donde se usa un modelo, y donde no.</strong> Las tres primeras
+ vistas no llaman a ningun modelo: el master es un SVG y la escena se lee midiendolo.
+ La cuarta entra por un JPEG sin capas ni nodos de texto, y ahi un modelo multimodal
+ transcribe el copy y asigna el rol por funcion. Donde esta cada cosa y cuanto mide lo
+ siguen resolviendo los pixeles y las metricas de la fuente. El motor de layout es el
+ mismo en las cuatro.</p>
+</div>

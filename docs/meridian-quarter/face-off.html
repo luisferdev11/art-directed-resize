@@ -1,0 +1,366 @@
+<!doctype html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cara a cara &middot; constraints contra decision desde el arte</title>
+<style>
+ :root{--ink:#0E2A26;--pap:#F4F1EA;--acc:#E4572E;--line:#d8d3c8;--bad:#8f2c10;--good:#14614d}
+ *{box-sizing:border-box}
+ body{margin:0;background:var(--pap);color:var(--ink);
+   font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+ .wrap{max-width:1240px;margin:0 auto;padding:40px 24px 80px}
+ h1{font-size:30px;margin:0 0 6px;letter-spacing:-.01em}
+ h2{font-size:19px;margin:44px 0 10px}
+ .sub{margin:0 0 22px;opacity:.75}
+ .box{background:#fff;border:1px solid var(--line);border-radius:9px;padding:16px 18px;
+   margin:0 0 16px;max-width:78ch}
+ .box.warn{border-color:#e8c98a;background:#fffaf0}
+ .box h3{margin:0 0 8px;font-size:14px;letter-spacing:.04em;text-transform:uppercase;opacity:.65}
+ .box ul{margin:6px 0 0;padding-left:20px} .box li{margin:3px 0}
+ .src{font-size:11px;opacity:.55;font-style:normal}
+ blockquote{margin:8px 0;padding-left:12px;border-left:3px solid var(--acc);
+   font-size:14px;opacity:.9}
+ .pair{background:#fff;border:1px solid var(--line);border-radius:10px;
+   margin:0 0 26px;overflow:hidden}
+ .pair>header{display:flex;align-items:baseline;gap:12px;padding:13px 16px;
+   border-bottom:1px solid var(--line);background:#fbfaf7}
+ .pair h3{margin:0;font-size:16px;flex:1}
+ .dim{font-size:12.5px;opacity:.6;font-variant-numeric:tabular-nums}
+ .cols{display:grid;grid-template-columns:1fr 1fr}
+ .col{padding:0;border-right:1px solid var(--line)}
+ .col:last-child{border-right:0}
+ .col>h4{margin:0;padding:10px 16px;font-size:12.5px;letter-spacing:.05em;
+   text-transform:uppercase;border-bottom:1px solid #eee;display:flex;gap:8px}
+ .col>h4 span{margin-left:auto;font-weight:400;text-transform:none;letter-spacing:0}
+ .shot{display:flex;align-items:center;justify-content:center;min-height:150px;
+   max-height:420px;background:#e9e5dc;line-height:0;overflow:hidden}
+ .shot img{max-width:100%;max-height:420px;width:auto;display:block}
+ .body{padding:12px 16px;font-size:13px}
+ .v{color:var(--bad)} .ok{color:var(--good)}
+ ul.viol{margin:4px 0 0;padding-left:18px;font-size:12.5px;line-height:1.45}
+ ul.viol li{margin:3px 0}
+ table{width:100%;border-collapse:collapse;font-size:12.5px;
+   font-variant-numeric:tabular-nums;margin-top:8px}
+ td{padding:3px 6px 3px 0;border-bottom:1px solid #f0efeb}
+ td:first-child{opacity:.7}
+ details{margin-top:9px;font-size:12.5px} summary{cursor:pointer;opacity:.7}
+ details ul{margin:7px 0 0;padding-left:19px;line-height:1.45}
+ .ctab{font-size:12.5px;margin-top:6px}
+ .ctab td{border-bottom:1px solid #f0efeb}
+ .score{font-size:12.5px;padding:8px 16px;background:#fbfaf7;border-top:1px solid #eee;
+   display:flex;gap:20px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+ a{color:inherit}
+
+ .nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;padding:0 0 18px;
+   border-bottom:1px solid var(--line)}
+ .nav a,.nav span{font-size:12.5px;padding:6px 12px;border-radius:99px;
+   border:1px solid var(--line);background:#fff;text-decoration:none;line-height:1.2}
+ .nav span{background:var(--ink);color:var(--pap);border-color:var(--ink);font-weight:600}
+ .nav a:hover{border-color:var(--ink)}
+</style>
+<div class="wrap">
+<nav class="nav"><a href="../index.html">&larr; indice</a><span>Cara a cara</span><a href="index.html">Campana · desde el arte</a><a href="constraints/index.html">Campana · constraints</a><a href="../meridian-flat/index.html">Desde un JPEG plano</a><a href="../swap/index.html">La prueba de las fotos</a><a href="../rollout/index.html">Un archivo por centre</a></nav>
+<h1>Constraints contra decision desde el arte</h1>
+<p class="sub">Mismo master, mismos tamanos, mismo emisor, mismo validador.
+ Lo unico que cambia es el backend de layout.</p>
+
+<div class="box warn">
+ <h3>Que es esto, y que no</h3>
+ <p style="margin:0">La columna izquierda <strong>no es Unicorn corriendo</strong>. Es una
+ implementacion propia de un resize por template mas constraints, escrita para ser
+ comparable bajo condiciones identicas. Lo que se compara es el <strong>mecanismo</strong>,
+ y las dos unicas afirmaciones que esta pagina hace sobre el salen de su propia interfaz:</p>
+ <blockquote>&quot;Make sure you&#x27;ve set your master assets up using constraints in Figma.&quot; <em class='src'>[ui]</em></blockquote><blockquote>&quot;Here&#x27;s the plan - 1340 outputs, matched to the closest template by size.&quot; <em class='src'>[ui]</em></blockquote><blockquote>&quot;I&#x27;ll use templates from the Templates page: landscape, portrait, square.&quot; <em class='src'>[ui]</em></blockquote>
+ <p style="margin:8px 0 0">Ninguna cifra de rendimiento suya aparece aqui. El analisis
+ completo, con fuente por linea, esta en <code>competencia.md</code>.</p>
+</div>
+
+<div class="box">
+ <h3>Lo que su producto hace mejor que este prototipo</h3>
+ <ul><li>Round-trip real con Figma via plugin, con estado de conexion visible <em class='src'>[ui]</em></li><li>Ingesta de deliverables list en .xlsx y .csv, con mapeo reutilizado entre trabajos <em class='src'>[ui]</em></li><li>El plan se aprueba antes de ejecutar, con mapeo y conteo de salidas a la vista <em class='src'>[ui]</em></li><li>Lote de 1340 assets con nomenclatura y agrupacion por vendor <em class='src'>[ui]</em></li><li>Export a PNG, JPG, PDF, MP4 y GIF, mas animados via Figma Motion <em class='src'>[sitio]</em></li><li>Salida editable en capas dentro de Figma <em class='src'>[sitio / ui]</em></li></ul>
+ <p style="margin:8px 0 0;opacity:.75">Este prototipo no es un producto: es un motor de
+ layout. No orquesta, no agrupa, no nombra, no exporta a video y no vuelve a Figma por
+ plugin. La tesis no es que ellos sobren, es que <strong>la decision de layout la toma
+ hoy un constraint, y un constraint no mira la fotografia</strong>.</p>
+</div>
+
+<div class="box">
+ <h3>Como se autorearon los templates, para que se auditen</h3>
+ <ul>
+  <li><strong>Tres</strong> templates, la familia que su interfaz nombra: landscape,
+      portrait y square. La plantilla portrait <strong>es el master</strong>, sin degradar.</li>
+  <li>Constraints razonables, los que el propio brief nombra: titular <code>LEFT+TOP</code>,
+      lockup <code>RIGHT+TOP</code>, legal <code>LEFT+BOTTOM</code>, foto <code>SCALE</code>.</li>
+  <li>Seleccion de template <strong>por proximidad de tamano</strong>, que es su regla
+      declarada. La distancia es logaritmica en las dos dimensiones, que es la lectura
+      mas favorable para ese mecanismo.</li>
+  <li>Donde ningun color de la paleta alcanzaba el contraste exigido sobre el recorte de
+      un template, se le autoreo un <strong>scrim</strong> detras de la pila y se le
+      cambio la tipografia a claro. Es lo que haria un disenador competente, y se le da.</li>
+  <li>Los constraints aplicados a cada formato estan desplegables al pie de cada fila.</li>
+ </ul>
+</div>
+
+<h2>Los 8 formatos, empezando por donde el mecanismo por constraints resuelve bien</h2>
+<p class="sub"><strong>3 de 8</strong> salen sin una sola violacion
+ atribuible al mecanismo, y son exactamente los tres cuyo tamano coincide con un template
+ mas el que casi coincide. En esos, la diferencia esta en el coste del emplazamiento y en
+ el recorte, no en si la pieza es utilizable. La distancia aparece donde el delta de aspecto contra el template
+ es grande, y ese es el argumento honesto: funciona mientras el objetivo se parezca a un
+ template, y una campana no se parece a tres templates.</p>
+
+<section class="pair">
+  <header><h3>Instagram 4:5</h3>
+    <span class="dim">1080&times;1350</span></header>
+  <div class="cols"><div class="col">
+  <h4>Template + constraints &middot; <em>portrait</em> <span class="ok">sin violaciones</span></h4>
+  <a class="shot" href="constraints/portrait_4x5.svg">
+    <img src="constraints/thumbs/portrait_4x5.jpg"
+         alt="Instagram 4:5" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>el resize por constraints resuelve este formato</li><li style="opacity:.6">heredado del master, no del mecanismo: legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 59px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize</li></ul>
+    <table><tr><td>headline</td><td>92px</td><td>2 ln</td><td>4.97 / 3.0</td></tr><tr><td>subhead</td><td>30px</td><td>1 ln</td><td>4.52 / 3.0</td></tr><tr><td>support</td><td>20px</td><td>1 ln</td><td>3.89 / 3.0</td></tr><tr><td>legal</td><td>13px</td><td>1 ln</td><td>11.75 / 4.5</td></tr></table>
+    <details><summary>Decisiones (5)</summary><ul><li>template &#x27;portrait&#x27; (1080x1350) elegido por proximidad de tamano: distancia 0.00 frente a square 0.22, landscape 0.80. El objetivo coincide con el template: este es su mejor caso.</li><li>foto: recorte al CENTRO de 2160x2700px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria</li><li>lockup por constraint RIGHT+TOP: 222px de ancho en (794,96)</li><li>coste del emplazamiento sobre el MISMO campo de costo: 0.195 en escala 0-1. No se busco: es donde cayo la caja</li><li>heredado del master -&gt; legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 59px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize</li></ul></details>
+  </div>
+</div><div class="col">
+  <h4>Decision desde el arte <span class="ok">OK</span></h4>
+  <a class="shot" href="portrait_4x5.svg">
+    <img src="thumbs/portrait_4x5.jpg"
+         alt="Instagram 4:5" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>1 scrim(s), el mayor de 19% detras de legal: dentro de lo normal para ese rol</li></ul>
+    <table><tr><td>headline</td><td>128px</td><td>2 ln</td><td>4.51 / 3.0</td></tr><tr><td>subhead</td><td>40px</td><td>1 ln</td><td>4.04 / 3.0</td></tr><tr><td>support</td><td>24px</td><td>1 ln</td><td>3.71 / 3.0</td></tr><tr><td>legal</td><td>18px</td><td>1 ln</td><td>4.89 / 4.5 +scrim</td></tr></table>
+    <details><summary>Decisiones (6)</summary><ul><li>recorte 2160x2700px de la fuente (100% del ancho); region focal contenida</li><li>region de la cara vedada al texto: 153x153px en (636,892) del lienzo, con 25% de margen</li><li>texto emplazado en (59,59) por busqueda densa sobre el campo de costo: coste 0.151 en escala 0-1</li><li>legal: contraste medido 3.32:1 contra 4.5 exigido, scrim con alpha 0.19</li><li>logo en variante clara: sobre este fondo la tinta daba 1.23:1</li><li>lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste</li></ul></details>
+  </div>
+</div></div>
+  <div class="score">
+    <span>coste del emplazamiento sobre el mismo campo:
+      constraints <strong>0.195</strong> &middot; arte <strong>0.151</strong></span>
+    <span>ppi: 144 &middot; 144</span>
+  </div>
+  <details style="padding:10px 16px 14px"><summary>Constraints aplicados
+    (portrait)</summary><table class="ctab"><tr><td>fotografia</td><td>SCALE</td><td>SCALE</td></tr><tr><td>headline</td><td>LEFT</td><td>TOP</td></tr><tr><td>subhead</td><td>LEFT</td><td>TOP</td></tr><tr><td>support</td><td>LEFT</td><td>TOP</td></tr><tr><td>legal</td><td>LEFT</td><td>BOTTOM</td></tr><tr><td>scrim de legal</td><td>LEFT_RIGHT</td><td>BOTTOM</td></tr><tr><td>lockup</td><td>RIGHT</td><td>TOP</td></tr></table></details>
+</section>
+<section class="pair">
+  <header><h3>Story / Reel 9:16</h3>
+    <span class="dim">1080&times;1920</span></header>
+  <div class="cols"><div class="col">
+  <h4>Template + constraints &middot; <em>portrait</em> <span class="v">1 violacion(es)</span></h4>
+  <a class="shot" href="constraints/story_9x16.svg">
+    <img src="constraints/thumbs/story_9x16.jpg"
+         alt="Story / Reel 9:16" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>headline: invade el area segura por arriba. Queda a 96px del borde y el formato declara 151px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo</li><li style="opacity:.6">heredado del master, no del mecanismo: legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 216px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize</li></ul>
+    <table><tr><td>headline</td><td>92px</td><td>2 ln</td><td>8.07 / 3.0</td></tr><tr><td>subhead</td><td>30px</td><td>1 ln</td><td>4.39 / 3.0</td></tr><tr><td>support</td><td>20px</td><td>1 ln</td><td>6.42 / 3.0</td></tr><tr><td>legal</td><td>13px</td><td>1 ln</td><td>14.80 / 4.5</td></tr></table>
+    <details><summary>Decisiones (6)</summary><ul><li>template &#x27;portrait&#x27; (1080x1350) elegido por proximidad de tamano: distancia 0.35 frente a square 0.58, landscape 1.15.</li><li>foto: recorte al CENTRO de 1519x2700px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria</li><li>lockup por constraint RIGHT+TOP: 222px de ancho en (794,96)</li><li>coste del emplazamiento sobre el MISMO campo de costo: 0.189 en escala 0-1. No se busco: es donde cayo la caja</li><li>violacion -&gt; headline: invade el area segura por arriba. Queda a 96px del borde y el formato declara 151px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo</li><li>heredado del master -&gt; legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 216px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize</li></ul></details>
+  </div>
+</div><div class="col">
+  <h4>Decision desde el arte <span class="ok">OK</span></h4>
+  <a class="shot" href="story_9x16.svg">
+    <img src="thumbs/story_9x16.jpg"
+         alt="Story / Reel 9:16" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>sin banderas</li></ul>
+    <table><tr><td>headline</td><td>128px</td><td>3 ln</td><td>3.46 / 3.0</td></tr><tr><td>subhead</td><td>40px</td><td>1 ln</td><td>3.90 / 3.0</td></tr><tr><td>support</td><td>24px</td><td>1 ln</td><td>4.00 / 3.0</td></tr><tr><td>legal</td><td>18px</td><td>1 ln</td><td>4.98 / 4.5</td></tr></table>
+    <details><summary>Decisiones (4)</summary><ul><li>recorte 1519x2700px de la fuente (70% del ancho); region focal contenida</li><li>region de la cara vedada al texto: 218x218px en (601,1269) del lienzo, con 25% de margen</li><li>texto emplazado en (452,151) por busqueda densa sobre el campo de costo: coste 0.170 en escala 0-1</li><li>lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste</li></ul></details>
+  </div>
+</div></div>
+  <div class="score">
+    <span>coste del emplazamiento sobre el mismo campo:
+      constraints <strong>0.190</strong> &middot; arte <strong>0.170</strong></span>
+    <span>ppi: 101 &middot; 101</span>
+  </div>
+  <details style="padding:10px 16px 14px"><summary>Constraints aplicados
+    (portrait)</summary><table class="ctab"><tr><td>fotografia</td><td>SCALE</td><td>SCALE</td></tr><tr><td>headline</td><td>LEFT</td><td>TOP</td></tr><tr><td>subhead</td><td>LEFT</td><td>TOP</td></tr><tr><td>support</td><td>LEFT</td><td>TOP</td></tr><tr><td>legal</td><td>LEFT</td><td>BOTTOM</td></tr><tr><td>scrim de legal</td><td>LEFT_RIGHT</td><td>BOTTOM</td></tr><tr><td>lockup</td><td>RIGHT</td><td>TOP</td></tr></table></details>
+</section>
+<section class="pair">
+  <header><h3>Leaderboard 728x90</h3>
+    <span class="dim">728&times;90</span></header>
+  <div class="cols"><div class="col">
+  <h4>Template + constraints &middot; <em>square</em> <span class="v">4 violacion(es)</span></h4>
+  <a class="shot" href="constraints/leader_728.svg">
+    <img src="constraints/thumbs/leader_728.jpg"
+         alt="Leaderboard 728x90" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo</li><li>subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo</li><li>support: se sale del lienzo. La caja quedo en (64,396) 209x19 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo</li><li>lockup: se sale del lienzo a 222px de ancho sobre 728px. RIGHT+TOP no reescala</li></ul>
+    <table><tr><td>headline</td><td>88px</td><td>2 ln</td><td>0.00 / 3.0</td></tr><tr><td>subhead</td><td>30px</td><td>1 ln</td><td>0.00 / 3.0</td></tr><tr><td>support</td><td>20px</td><td>1 ln</td><td>0.00 / 3.0</td></tr><tr><td>legal</td><td>13px</td><td>1 ln</td><td>11.73 / 4.5</td></tr></table>
+    <details><summary>Decisiones (8)</summary><ul><li>template &#x27;square&#x27; (1080x1080) elegido por proximidad de tamano: distancia 2.88 frente a portrait 3.10, landscape 3.45.</li><li>foto: recorte al CENTRO de 2160x267px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria</li><li>lockup por constraint RIGHT+TOP: 222px de ancho en (442,88)</li><li>coste del emplazamiento sobre el MISMO campo de costo: 0.209 en escala 0-1. No se busco: es donde cayo la caja</li><li>violacion -&gt; headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo</li><li>violacion -&gt; subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo</li><li>violacion -&gt; support: se sale del lienzo. La caja quedo en (64,396) 209x19 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo</li><li>violacion -&gt; lockup: se sale del lienzo a 222px de ancho sobre 728px. RIGHT+TOP no reescala</li></ul></details>
+  </div>
+</div><div class="col">
+  <h4>Decision desde el arte <span class="v">ATENCION</span></h4>
+  <a class="shot" href="leader_728.svg">
+    <img src="thumbs/leader_728.jpg"
+         alt="Leaderboard 728x90" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>la fotografia no puede ir a sangre en este aspecto sin cortar el sujeto: degradada a panel</li></ul>
+    <table><tr><td>headline</td><td>32px</td><td>1 ln</td><td>15.24 / 3.0</td></tr><tr><td>subhead</td><td>14px</td><td>1 ln</td><td>15.24 / 4.5</td></tr><tr><td>support</td><td>11px</td><td>1 ln</td><td>15.24 / 4.5</td></tr></table>
+    <details><summary>Decisiones (13)</summary><ul><li>a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 453px de alto, o 3667px de ancho, y la fuente tiene 2160px. La foto degrada a panel de 270x90 (3.0:1) y se promueve el campo de marca</li><li>region de la cara vedada al texto: 38x38px en (617,17) del lienzo, con 25% de margen</li><li>subhead: el piso de legibilidad redujo el contraste de tamano a 2.29:1 frente a 3.07:1 del master, asi que la jerarquia se re-expresa en peso (400 a 300)</li><li>support: el piso de legibilidad redujo el contraste de tamano a 2.91:1 frente a 4.60:1 del master, asi que la jerarquia se re-expresa en peso (900 a 300)</li><li>escalera de degradacion aplicada: tighten_leading -&gt; weight_for_size -&gt; drop_legal</li><li>texto emplazado en (68,9) por busqueda densa sobre el campo de costo: coste 0.004 en escala 0-1</li><li>headline: tipografia invertida a claro, contraste 15.24:1</li><li>subhead: tipografia invertida a claro, contraste 15.24:1</li><li>support: tipografia invertida a claro, contraste 15.24:1</li><li>legal retirado por la escalera de degradacion</li><li>lockup escalado a 0.50x en lugar de 0.25x: a la escala anterior el wordmark caia a 3.8px, bajo su piso de 7.5px</li><li>logo en variante clara: sobre este fondo la tinta daba 1.00:1</li><li>lockup a escala uniforme 0.50x, 111px de ancho, clear-space 8px, esquina de menor coste</li></ul></details>
+  </div>
+</div></div>
+  <div class="score">
+    <span>coste del emplazamiento sobre el mismo campo:
+      constraints <strong>0.209</strong> &middot; arte <strong>0.004</strong></span>
+    <span>ppi: 214 &middot; 576</span>
+  </div>
+  <details style="padding:10px 16px 14px"><summary>Constraints aplicados
+    (square)</summary><table class="ctab"><tr><td>fotografia</td><td>SCALE</td><td>SCALE</td></tr><tr><td>headline</td><td>LEFT</td><td>TOP</td></tr><tr><td>subhead</td><td>LEFT</td><td>TOP</td></tr><tr><td>support</td><td>LEFT</td><td>TOP</td></tr><tr><td>legal</td><td>LEFT</td><td>BOTTOM</td></tr><tr><td>scrim de pila</td><td>LEFT</td><td>TOP</td></tr><tr><td>scrim de legal</td><td>LEFT_RIGHT</td><td>BOTTOM</td></tr><tr><td>lockup</td><td>RIGHT</td><td>TOP</td></tr></table></details>
+</section>
+<section class="pair">
+  <header><h3>MPU 300x250</h3>
+    <span class="dim">300&times;250</span></header>
+  <div class="cols"><div class="col">
+  <h4>Template + constraints &middot; <em>square</em> <span class="v">5 violacion(es)</span></h4>
+  <a class="shot" href="constraints/mpu_300.svg">
+    <img src="constraints/thumbs/mpu_300.jpg"
+         alt="MPU 300x250" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo</li><li>subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo</li><li>support: se sale del lienzo. La caja quedo en (64,396) 209x19 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo</li><li>legal: se sale del lienzo. La caja quedo en (64,188) 284x12 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo</li><li>headline y legal se solapan</li></ul>
+    <table><tr><td>headline</td><td>88px</td><td>2 ln</td><td>0.00 / 3.0</td></tr><tr><td>subhead</td><td>30px</td><td>1 ln</td><td>0.00 / 3.0</td></tr><tr><td>support</td><td>20px</td><td>1 ln</td><td>0.00 / 3.0</td></tr><tr><td>legal</td><td>13px</td><td>1 ln</td><td>0.00 / 4.5</td></tr></table>
+    <details><summary>Decisiones (9)</summary><ul><li>template &#x27;square&#x27; (1080x1080) elegido por proximidad de tamano: distancia 2.74 frente a portrait 2.97, landscape 3.32.</li><li>foto: recorte al CENTRO de 2160x1800px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria</li><li>lockup por constraint RIGHT+TOP: 222px de ancho en (14,88)</li><li>coste del emplazamiento sobre el MISMO campo de costo: 0.189 en escala 0-1. No se busco: es donde cayo la caja</li><li>violacion -&gt; headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo</li><li>violacion -&gt; subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo</li><li>violacion -&gt; support: se sale del lienzo. La caja quedo en (64,396) 209x19 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo</li><li>violacion -&gt; legal: se sale del lienzo. La caja quedo en (64,188) 284x12 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo</li><li>violacion -&gt; headline y legal se solapan</li></ul></details>
+  </div>
+</div><div class="col">
+  <h4>Decision desde el arte <span class="ok">OK</span></h4>
+  <a class="shot" href="mpu_300.svg">
+    <img src="thumbs/mpu_300.jpg"
+         alt="MPU 300x250" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>3 scrim(s), el mayor de 20% detras de headline: dentro de lo normal para ese rol</li></ul>
+    <table><tr><td>headline</td><td>32px</td><td>3 ln</td><td>3.25 / 3.0 +scrim</td></tr><tr><td>subhead</td><td>14px</td><td>2 ln</td><td>5.13 / 4.5</td></tr><tr><td>support</td><td>11px</td><td>1 ln</td><td>4.86 / 4.5 +scrim</td></tr><tr><td>legal</td><td>9px</td><td>1 ln</td><td>4.87 / 4.5 +scrim</td></tr></table>
+    <details><summary>Decisiones (11)</summary><ul><li>recorte 2160x1800px de la fuente (100% del ancho); region focal contenida</li><li>region de la cara vedada al texto: 42x42px en (177,144) del lienzo, con 25% de margen</li><li>subhead: contraste de tamano comprimido a 2.29:1 frente a 3.07:1 del master</li><li>support: contraste de tamano comprimido a 2.91:1 frente a 4.60:1 del master</li><li>texto emplazado en (29,41) por busqueda densa sobre el campo de costo: coste 0.150 en escala 0-1</li><li>headline: contraste medido 2.07:1 contra 3.0 exigido, scrim con alpha 0.20</li><li>subhead: tipografia invertida a claro, contraste 5.13:1</li><li>support: contraste medido 4.24:1 contra 4.5 exigido, scrim con alpha 0.07</li><li>legal: contraste medido 3.35:1 contra 4.5 exigido, scrim con alpha 0.19</li><li>lockup degradado a marca sola: el wordmark habria quedado a 3.8px y no hay ancho para subir la escala. La marca va a 25px</li><li>lockup a escala uniforme 0.74x, 25px de ancho, clear-space 12px, esquina de menor coste</li></ul></details>
+  </div>
+</div></div>
+  <div class="score">
+    <span>coste del emplazamiento sobre el mismo campo:
+      constraints <strong>0.189</strong> &middot; arte <strong>0.150</strong></span>
+    <span>ppi: 518 &middot; 518</span>
+  </div>
+  <details style="padding:10px 16px 14px"><summary>Constraints aplicados
+    (square)</summary><table class="ctab"><tr><td>fotografia</td><td>SCALE</td><td>SCALE</td></tr><tr><td>headline</td><td>LEFT</td><td>TOP</td></tr><tr><td>subhead</td><td>LEFT</td><td>TOP</td></tr><tr><td>support</td><td>LEFT</td><td>TOP</td></tr><tr><td>legal</td><td>LEFT</td><td>BOTTOM</td></tr><tr><td>scrim de pila</td><td>LEFT</td><td>TOP</td></tr><tr><td>scrim de legal</td><td>LEFT_RIGHT</td><td>BOTTOM</td></tr><tr><td>lockup</td><td>RIGHT</td><td>TOP</td></tr></table></details>
+</section>
+<section class="pair">
+  <header><h3>Instagram feed 1:1</h3>
+    <span class="dim">1080&times;1080</span></header>
+  <div class="cols"><div class="col">
+  <h4>Template + constraints &middot; <em>square</em> <span class="ok">sin violaciones</span></h4>
+  <a class="shot" href="constraints/feed_1x1.svg">
+    <img src="constraints/thumbs/feed_1x1.jpg"
+         alt="Instagram feed 1:1" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>el resize por constraints resuelve este formato</li><li style="opacity:.6">heredado del master, no del mecanismo: legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 65px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize</li></ul>
+    <table><tr><td>headline</td><td>88px</td><td>2 ln</td><td>3.86 / 3.0</td></tr><tr><td>subhead</td><td>30px</td><td>1 ln</td><td>4.35 / 3.0</td></tr><tr><td>support</td><td>20px</td><td>1 ln</td><td>5.59 / 3.0</td></tr><tr><td>legal</td><td>13px</td><td>1 ln</td><td>7.94 / 4.5</td></tr></table>
+    <details><summary>Decisiones (5)</summary><ul><li>template &#x27;square&#x27; (1080x1080) elegido por proximidad de tamano: distancia 0.00 frente a portrait 0.22, landscape 0.58. El objetivo coincide con el template: este es su mejor caso.</li><li>foto: recorte al CENTRO de 2160x2160px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria</li><li>lockup por constraint RIGHT+TOP: 222px de ancho en (794,88)</li><li>coste del emplazamiento sobre el MISMO campo de costo: 0.164 en escala 0-1. No se busco: es donde cayo la caja</li><li>heredado del master -&gt; legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 65px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize</li></ul></details>
+  </div>
+</div><div class="col">
+  <h4>Decision desde el arte <span class="ok">OK</span></h4>
+  <a class="shot" href="feed_1x1.svg">
+    <img src="thumbs/feed_1x1.jpg"
+         alt="Instagram feed 1:1" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>2 scrim(s), el mayor de 22% detras de legal: dentro de lo normal para ese rol</li></ul>
+    <table><tr><td>headline</td><td>104px</td><td>3 ln</td><td>3.24 / 3.0 +scrim</td></tr><tr><td>subhead</td><td>32px</td><td>2 ln</td><td>5.59 / 3.0</td></tr><tr><td>support</td><td>20px</td><td>1 ln</td><td>5.63 / 3.0</td></tr><tr><td>legal</td><td>14px</td><td>1 ln</td><td>4.87 / 4.5 +scrim</td></tr></table>
+    <details><summary>Decisiones (8)</summary><ul><li>recorte 2160x2160px de la fuente (100% del ancho); region focal contenida</li><li>region de la cara vedada al texto: 153x153px en (636,644) del lienzo, con 25% de margen</li><li>texto emplazado en (122,367) por busqueda densa sobre el campo de costo: coste 0.149 en escala 0-1</li><li>headline: contraste medido 2.89:1 contra 3.0 exigido, scrim con alpha 0.06</li><li>subhead: tipografia invertida a claro, contraste 5.59:1</li><li>support: tipografia invertida a claro, contraste 5.63:1</li><li>legal: contraste medido 3.09:1 contra 4.5 exigido, scrim con alpha 0.22</li><li>lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste</li></ul></details>
+  </div>
+</div></div>
+  <div class="score">
+    <span>coste del emplazamiento sobre el mismo campo:
+      constraints <strong>0.164</strong> &middot; arte <strong>0.149</strong></span>
+    <span>ppi: 144 &middot; 144</span>
+  </div>
+  <details style="padding:10px 16px 14px"><summary>Constraints aplicados
+    (square)</summary><table class="ctab"><tr><td>fotografia</td><td>SCALE</td><td>SCALE</td></tr><tr><td>headline</td><td>LEFT</td><td>TOP</td></tr><tr><td>subhead</td><td>LEFT</td><td>TOP</td></tr><tr><td>support</td><td>LEFT</td><td>TOP</td></tr><tr><td>legal</td><td>LEFT</td><td>BOTTOM</td></tr><tr><td>scrim de pila</td><td>LEFT</td><td>TOP</td></tr><tr><td>scrim de legal</td><td>LEFT_RIGHT</td><td>BOTTOM</td></tr><tr><td>lockup</td><td>RIGHT</td><td>TOP</td></tr></table></details>
+</section>
+<section class="pair">
+  <header><h3>Half page 300x600</h3>
+    <span class="dim">300&times;600</span></header>
+  <div class="cols"><div class="col">
+  <h4>Template + constraints &middot; <em>square</em> <span class="v">3 violacion(es)</span></h4>
+  <a class="shot" href="constraints/half_300x600.svg">
+    <img src="constraints/thumbs/half_300x600.jpg"
+         alt="Half page 300x600" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo</li><li>subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo</li><li>legal: se sale del lienzo. La caja quedo en (64,538) 284x12 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo</li></ul>
+    <table><tr><td>headline</td><td>88px</td><td>2 ln</td><td>0.00 / 3.0</td></tr><tr><td>subhead</td><td>30px</td><td>1 ln</td><td>0.00 / 3.0</td></tr><tr><td>support</td><td>20px</td><td>1 ln</td><td>7.59 / 3.0</td></tr><tr><td>legal</td><td>13px</td><td>1 ln</td><td>0.00 / 4.5</td></tr></table>
+    <details><summary>Decisiones (7)</summary><ul><li>template &#x27;square&#x27; (1080x1080) elegido por proximidad de tamano: distancia 1.87 frente a portrait 2.09, landscape 2.44.</li><li>foto: recorte al CENTRO de 1350x2700px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria</li><li>lockup por constraint RIGHT+TOP: 222px de ancho en (14,88)</li><li>coste del emplazamiento sobre el MISMO campo de costo: 0.187 en escala 0-1. No se busco: es donde cayo la caja</li><li>violacion -&gt; headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo</li><li>violacion -&gt; subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo</li><li>violacion -&gt; legal: se sale del lienzo. La caja quedo en (64,538) 284x12 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo</li></ul></details>
+  </div>
+</div><div class="col">
+  <h4>Decision desde el arte <span class="ok">OK</span></h4>
+  <a class="shot" href="half_300x600.svg">
+    <img src="thumbs/half_300x600.jpg"
+         alt="Half page 300x600" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>3 scrim(s), el mayor de 19% detras de subhead: dentro de lo normal para ese rol</li></ul>
+    <table><tr><td>headline</td><td>40px</td><td>3 ln</td><td>3.46 / 3.0</td></tr><tr><td>subhead</td><td>14px</td><td>2 ln</td><td>4.88 / 4.5 +scrim</td></tr><tr><td>support</td><td>11px</td><td>1 ln</td><td>4.87 / 4.5 +scrim</td></tr><tr><td>legal</td><td>9px</td><td>1 ln</td><td>4.86 / 4.5 +scrim</td></tr></table>
+    <details><summary>Decisiones (9)</summary><ul><li>recorte 1350x2700px de la fuente (62% del ancho); region focal contenida</li><li>region de la cara vedada al texto: 68x68px en (163,396) del lienzo, con 25% de margen</li><li>support: contraste de tamano comprimido a 3.64:1 frente a 4.60:1 del master</li><li>texto emplazado en (123,18) por busqueda densa sobre el campo de costo: coste 0.152 en escala 0-1</li><li>subhead: contraste medido 3.49:1 contra 4.5 exigido, scrim con alpha 0.19</li><li>support: contraste medido 3.98:1 contra 4.5 exigido, scrim con alpha 0.12</li><li>legal: contraste medido 4.21:1 contra 4.5 exigido, scrim con alpha 0.07</li><li>lockup degradado a marca sola: el wordmark habria quedado a 3.8px y no hay ancho para subir la escala. La marca va a 30px</li><li>lockup a escala uniforme 0.88x, 30px de ancho, clear-space 15px, esquina de menor coste</li></ul></details>
+  </div>
+</div></div>
+  <div class="score">
+    <span>coste del emplazamiento sobre el mismo campo:
+      constraints <strong>0.187</strong> &middot; arte <strong>0.152</strong></span>
+    <span>ppi: 324 &middot; 324</span>
+  </div>
+  <details style="padding:10px 16px 14px"><summary>Constraints aplicados
+    (square)</summary><table class="ctab"><tr><td>fotografia</td><td>SCALE</td><td>SCALE</td></tr><tr><td>headline</td><td>LEFT</td><td>TOP</td></tr><tr><td>subhead</td><td>LEFT</td><td>TOP</td></tr><tr><td>support</td><td>LEFT</td><td>TOP</td></tr><tr><td>legal</td><td>LEFT</td><td>BOTTOM</td></tr><tr><td>scrim de pila</td><td>LEFT</td><td>TOP</td></tr><tr><td>scrim de legal</td><td>LEFT_RIGHT</td><td>BOTTOM</td></tr><tr><td>lockup</td><td>RIGHT</td><td>TOP</td></tr></table></details>
+</section>
+<section class="pair">
+  <header><h3>Pantalla de centro</h3>
+    <span class="dim">1920&times;1080</span></header>
+  <div class="cols"><div class="col">
+  <h4>Template + constraints &middot; <em>landscape</em> <span class="ok">sin violaciones</span></h4>
+  <a class="shot" href="constraints/screen_hd.svg">
+    <img src="constraints/thumbs/screen_hd.jpg"
+         alt="Pantalla de centro" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>el resize por constraints resuelve este formato</li></ul>
+    <table><tr><td>headline</td><td>104px</td><td>2 ln</td><td>4.32 / 3.0</td></tr><tr><td>subhead</td><td>32px</td><td>1 ln</td><td>8.11 / 3.0</td></tr><tr><td>support</td><td>24px</td><td>1 ln</td><td>7.78 / 3.0</td></tr><tr><td>legal</td><td>14px</td><td>1 ln</td><td>9.91 / 4.5</td></tr></table>
+    <details><summary>Decisiones (4)</summary><ul><li>template &#x27;landscape&#x27; (1920x1080) elegido por proximidad de tamano: distancia 0.00 frente a square 0.58, portrait 0.80. El objetivo coincide con el template: este es su mejor caso.</li><li>foto: recorte al CENTRO de 2160x1215px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria</li><li>lockup por constraint RIGHT+TOP: 222px de ancho en (1618,96)</li><li>coste del emplazamiento sobre el MISMO campo de costo: 0.114 en escala 0-1. No se busco: es donde cayo la caja</li></ul></details>
+  </div>
+</div><div class="col">
+  <h4>Decision desde el arte <span class="ok">OK</span></h4>
+  <a class="shot" href="screen_hd.svg">
+    <img src="thumbs/screen_hd.jpg"
+         alt="Pantalla de centro" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>1 scrim(s), el mayor de 44% detras de legal: dentro de lo normal para ese rol</li></ul>
+    <table><tr><td>headline</td><td>128px</td><td>3 ln</td><td>4.09 / 3.0</td></tr><tr><td>subhead</td><td>40px</td><td>1 ln</td><td>5.78 / 3.0</td></tr><tr><td>support</td><td>24px</td><td>1 ln</td><td>7.14 / 3.0</td></tr><tr><td>legal</td><td>18px</td><td>1 ln</td><td>4.87 / 4.5 +scrim</td></tr></table>
+    <details><summary>Decisiones (9)</summary><ul><li>recorte 2160x1215px de la fuente (100% del ancho); region focal contenida</li><li>region de la cara vedada al texto: 272x272px en (1131,266) del lienzo, con 25% de margen</li><li>texto emplazado en (54,54) por busqueda densa sobre el campo de costo: coste 0.155 en escala 0-1</li><li>headline: tipografia invertida a claro, contraste 4.09:1</li><li>subhead: tipografia invertida a claro, contraste 5.78:1</li><li>support: tipografia invertida a claro, contraste 7.14:1</li><li>legal: contraste medido 1.61:1 contra 4.5 exigido, scrim con alpha 0.44</li><li>logo en variante clara: sobre este fondo la tinta daba 1.28:1</li><li>lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste</li></ul></details>
+  </div>
+</div></div>
+  <div class="score">
+    <span>coste del emplazamiento sobre el mismo campo:
+      constraints <strong>0.114</strong> &middot; arte <strong>0.155</strong></span>
+    <span>ppi: 81 &middot; 81</span>
+  </div>
+  <details style="padding:10px 16px 14px"><summary>Constraints aplicados
+    (landscape)</summary><table class="ctab"><tr><td>fotografia</td><td>SCALE</td><td>SCALE</td></tr><tr><td>headline</td><td>LEFT</td><td>TOP</td></tr><tr><td>subhead</td><td>LEFT</td><td>TOP</td></tr><tr><td>support</td><td>LEFT</td><td>TOP</td></tr><tr><td>legal</td><td>LEFT</td><td>BOTTOM</td></tr><tr><td>scrim de pila</td><td>LEFT</td><td>TOP</td></tr><tr><td>scrim de legal</td><td>LEFT_RIGHT</td><td>BOTTOM</td></tr><tr><td>lockup</td><td>RIGHT</td><td>TOP</td></tr></table></details>
+</section>
+<section class="pair">
+  <header><h3>Print DL vertical</h3>
+    <span class="dim">991&times;2098</span></header>
+  <div class="cols"><div class="col">
+  <h4>Template + constraints &middot; <em>portrait</em> <span class="v">3 violacion(es)</span></h4>
+  <a class="shot" href="constraints/print_dl.svg">
+    <img src="constraints/thumbs/print_dl.jpg"
+         alt="Print DL vertical" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>headline: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo</li><li>subhead: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo</li><li>support: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo</li><li style="opacity:.6">heredado del master, no del mecanismo: legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 69px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize</li></ul>
+    <table><tr><td>headline</td><td>92px</td><td>2 ln</td><td>8.14 / 3.0</td></tr><tr><td>subhead</td><td>30px</td><td>1 ln</td><td>5.01 / 3.0</td></tr><tr><td>support</td><td>20px</td><td>1 ln</td><td>8.87 / 3.0</td></tr><tr><td>legal</td><td>13px</td><td>1 ln</td><td>13.71 / 4.5</td></tr></table>
+    <details><summary>Decisiones (8)</summary><ul><li>template &#x27;portrait&#x27; (1080x1350) elegido por proximidad de tamano: distancia 0.53 frente a square 0.75, landscape 1.33.</li><li>foto: recorte al CENTRO de 1275x2700px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria</li><li>lockup por constraint RIGHT+TOP: 222px de ancho en (704,96)</li><li>coste del emplazamiento sobre el MISMO campo de costo: 0.198 en escala 0-1. No se busco: es donde cayo la caja</li><li>violacion -&gt; headline: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo</li><li>violacion -&gt; subhead: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo</li><li>violacion -&gt; support: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo</li><li>heredado del master -&gt; legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 69px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize</li></ul></details>
+  </div>
+</div><div class="col">
+  <h4>Decision desde el arte <span class="ok">OK</span></h4>
+  <a class="shot" href="print_dl.svg">
+    <img src="thumbs/print_dl.jpg"
+         alt="Print DL vertical" loading="lazy"></a>
+  <div class="body">
+    <ul class="viol"><li>1 scrim(s), el mayor de 7% detras de legal: dentro de lo normal para ese rol</li></ul>
+    <table><tr><td>headline</td><td>128px</td><td>3 ln</td><td>3.68 / 3.0</td></tr><tr><td>subhead</td><td>40px</td><td>1 ln</td><td>3.75 / 3.0</td></tr><tr><td>support</td><td>24px</td><td>1 ln</td><td>3.93 / 3.0</td></tr><tr><td>legal</td><td>18px</td><td>1 ln</td><td>4.88 / 4.5 +scrim</td></tr></table>
+    <details><summary>Decisiones (5)</summary><ul><li>recorte 1275x2700px de la fuente (59% del ancho); region focal contenida</li><li>region de la cara vedada al texto: 238x238px en (530,1386) del lienzo, con 25% de margen</li><li>texto emplazado en (69,69) por busqueda densa sobre el campo de costo: coste 0.161 en escala 0-1</li><li>legal: contraste medido 4.30:1 contra 4.5 exigido, scrim con alpha 0.07</li><li>lockup a escala uniforme 0.71x, 159px de ancho, clear-space 12px, esquina de menor coste</li></ul></details>
+  </div>
+</div></div>
+  <div class="score">
+    <span>coste del emplazamiento sobre el mismo campo:
+      constraints <strong>0.198</strong> &middot; arte <strong>0.161</strong></span>
+    <span>ppi: 93 &middot; 93</span>
+  </div>
+  <details style="padding:10px 16px 14px"><summary>Constraints aplicados
+    (portrait)</summary><table class="ctab"><tr><td>fotografia</td><td>SCALE</td><td>SCALE</td></tr><tr><td>headline</td><td>LEFT</td><td>TOP</td></tr><tr><td>subhead</td><td>LEFT</td><td>TOP</td></tr><tr><td>support</td><td>LEFT</td><td>TOP</td></tr><tr><td>legal</td><td>LEFT</td><td>BOTTOM</td></tr><tr><td>scrim de legal</td><td>LEFT_RIGHT</td><td>BOTTOM</td></tr><tr><td>lockup</td><td>RIGHT</td><td>TOP</td></tr></table></details>
+</section>
+</div>

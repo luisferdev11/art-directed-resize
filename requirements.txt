@@ -1,0 +1,23 @@
+# Python 3.9+. Instalar con: pip install -r requirements.txt
+#
+# opencv-contrib, NO opencv-python a secas: el modulo cv2.saliency
+# (StaticSaliencyFineGrained, en src/vision.py) solo viene en el paquete contrib.
+# Instalar el equivocado no da error de import: falla en cv2.saliency, ya dentro
+# del pipeline, y parece un bug del codigo.
+opencv-contrib-python>=4.10,<5
+numpy>=1.26,<2
+lxml>=5.1
+
+# Adaptador multiproveedor de src/providers.py. No se usan los SDK de DeepInfra,
+# Groq ni Google: los tres exponen HTTP y dos comparten la forma de OpenAI, asi que
+# un cliente generico cubre la cadena entera sin tres ciclos de deprecacion.
+requests>=2.31
+
+# Pillow DEBE traer libraqm: sin el, PIL mide sin shaping y la calibracion
+# PIL<->Blink de la compuerta 2 (1.22% peor caso) deja de valer. Comprobar con:
+#   python3 -c "from PIL import features; print(features.check('raqm'))"
+Pillow>=11.0
+
+# --- fuera de pip, hacen falta igual ---
+# fonts-lato          Lato en /usr/share/fonts/truetype/lato (src/brand.py:8)
+# chromium            headless, para tools/shot.sh y tools/gate24_calibrate.py
