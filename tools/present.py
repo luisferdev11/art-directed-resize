@@ -1,4 +1,10 @@
-"""La portada: que es esto, por que existe y que hace, con las cifras medidas.
+"""La portada, EN INGLES: que es esto, por que existe y que hace, con sus cifras.
+
+Esta pagina esta en ingles y el resto del sitio en espanol, y es deliberado. Es lo
+primero que abre el cliente, que es australiano, y el puesto pide ingles fluido:
+entregar la puerta de entrada en espanol lo contradice sin querer. Las vistas de
+detalle son sobre todo imagenes y tablas de cifras, que se leen igual, y sus razones
+quedan en espanol porque traducirlas entera cuesta un dia que no hay.
 
 TODAS LAS CIFRAS SE LEEN DE LOS MANIFESTS Y DE LAS SALIDAS EN DISCO. Ninguna esta
 escrita a mano. Es la misma regla que gobierna el resto del proyecto: si el codigo
@@ -21,6 +27,28 @@ from nav import SHEETS
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REPO = "https://github.com/luisferdev11/art-directed-resize"
+
+# Las vistas de detalle estan en espanol; sus nombres aqui van en ingles porque esta
+# pagina lo esta. nav.py conserva los suyos para las paginas que si son en espanol.
+EN = {
+    "writeup.html": ("The write-up", "architecture notes on building with models"),
+    "meridian-quarter/face-off.html": ("Head to head",
+        "constraint resize against deciding from the art, 8 pairs"),
+    "meridian-quarter/index.html": ("The campaign",
+        "this engine over the master, 8 formats"),
+    "meridian-quarter/constraints/index.html": ("The rival mechanism",
+        "template plus constraints, on its own"),
+    "meridian-flat/index.html": ("From a flat JPEG",
+        "no layers, no text nodes: a model reads the piece"),
+    "swap/index.html": ("The photograph test",
+        "one master, three photographs: what moves and what does not"),
+    "rollout/index.html": ("One folder per centre",
+        "three centres, three self-contained packages"),
+    "generic66/spec.html": ("A whole media spec",
+        "66 sizes, no templates authored by hand"),
+    "generic66/index.html": ("All 66, with triage",
+        "every piece and what it flagged"),
+}
 
 
 # ------------------------------------------------------------------- las cifras
@@ -110,8 +138,8 @@ def swap_facts(site):
 
 # ------------------------------------------------------------------ el diagrama
 DIAGRAM = """
-<svg viewBox="0 0 760 260" role="img" aria-label="Arquitectura: dos adaptadores de
- entrada contra un unico modelo Scene, dos backends de layout y un emisor comun"
+<svg viewBox="0 0 760 260" role="img" aria-label="Architecture: two input adapters against a single
+ Scene model, two layout backends and one shared emitter"
  style="width:100%;height:auto;max-width:760px">
  <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
    markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
@@ -123,30 +151,30 @@ DIAGRAM = """
 
   <rect x="8" y="92" width="150" height="42" rx="7" fill="#fff" stroke="#d8d3c8"/>
   <text x="83" y="110" text-anchor="middle" font-size="12">master.jpg</text>
-  <text x="83" y="125" text-anchor="middle" font-size="10.5" opacity=".6">semantic.py + modelo</text>
+  <text x="83" y="125" text-anchor="middle" font-size="10.5" opacity=".6">semantic.py + model</text>
 
   <rect x="8" y="158" width="150" height="42" rx="7" fill="#faf7f0" stroke="#e0d5bd"
     stroke-dasharray="4 3"/>
-  <text x="83" y="176" text-anchor="middle" font-size="12">frame de Figma</text>
-  <text x="83" y="191" text-anchor="middle" font-size="10.5" opacity=".55">plugin · no construido</text>
+  <text x="83" y="176" text-anchor="middle" font-size="12">Figma frame</text>
+  <text x="83" y="191" text-anchor="middle" font-size="10.5" opacity=".55">plugin · not built</text>
 
   <rect x="238" y="82" width="120" height="62" rx="9" fill="#0E2A26"/>
   <text x="298" y="108" text-anchor="middle" fill="#F4F1EA" font-size="14"
     font-weight="700">Scene</text>
   <text x="298" y="126" text-anchor="middle" fill="#F4F1EA" font-size="10"
-    opacity=".7">el unico seam</text>
+    opacity=".7">the only seam</text>
 
   <rect x="430" y="34" width="160" height="46" rx="7" fill="#fff" stroke="#d8d3c8"/>
   <text x="510" y="53" text-anchor="middle" font-size="12">solve.py</text>
-  <text x="510" y="68" text-anchor="middle" font-size="10.5" opacity=".6">decide desde los pixeles</text>
+  <text x="510" y="68" text-anchor="middle" font-size="10.5" opacity=".6">decides from the pixels</text>
 
   <rect x="430" y="146" width="160" height="46" rx="7" fill="#fff" stroke="#d8d3c8"/>
   <text x="510" y="165" text-anchor="middle" font-size="12">constraints.py</text>
-  <text x="510" y="180" text-anchor="middle" font-size="10.5" opacity=".6">el mecanismo rival</text>
+  <text x="510" y="180" text-anchor="middle" font-size="10.5" opacity=".6">the rival mechanism</text>
 
   <rect x="640" y="82" width="112" height="62" rx="7" fill="#fff" stroke="#d8d3c8"/>
   <text x="696" y="104" text-anchor="middle" font-size="12">emit.py</text>
-  <text x="696" y="121" text-anchor="middle" font-size="10.5" opacity=".6">SVG editable</text>
+  <text x="696" y="121" text-anchor="middle" font-size="10.5" opacity=".6">editable SVG</text>
 
   <g stroke="currentColor" fill="none" marker-end="url(#ar)" opacity=".55">
    <path d="M158 47 C200 47 200 100 232 106"/>
@@ -165,15 +193,23 @@ def build(site: str) -> None:
     f = facts(site)
     sw = swap_facts(site)
     cards = "".join(
-        f'<a class="card" href="{rel}"><h3>{label}</h3><p>{desc}</p></a>'
+        '<a class="card" href="{}"><h3>{}</h3><p>{}</p></a>'.format(
+            rel, *EN.get(rel, (label, desc)))
         for rel, label, desc in SHEETS if os.path.exists(os.path.join(site, rel)))
 
     dec = ""
     if sw:
         res, n = sw
+        # Los nombres de campo vienen del banco de pruebas, que esta en espanol;
+        # esta pagina esta en ingles y se traducen aqui en lugar de renombrarlos
+        # alli, donde los leen las paginas que si son en espanol.
+        EN_FIELD = {"recorte": "crop", "cuerpos": "type sizes",
+                    "colores": "text colour", "scrims": "scrims",
+                    "hipotesis": "structure", "retirados": "dropped elements",
+                    "logo": "logo variant"}
         for campo in ("recorte", "cuerpos", "colores", "scrims"):
             a, c = res["art"].get(campo, 0), res["constraints"].get(campo, 0)
-            dec += (f'<tr><td>{campo}</td>'
+            dec += (f'<tr><td>{EN_FIELD.get(campo, campo)}</td>'
                     f'<td class="n {"hi" if a > c else ""}">{a} de {n}</td>'
                     f'<td class="n">{c} de {n}</td></tr>')
 
@@ -188,7 +224,10 @@ def build(site: str) -> None:
 
     doc = f"""<!doctype html>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>art-directed-resize &middot; un motor de layout que mira la fotografia</title>
+<title>art-directed-resize &middot; a layout engine that reads the photograph</title>
+<meta name="description" content="One master artwork becomes every format a media plan
+ asks for, in a single pass: each one cropped, typeset, contrast-corrected and degraded
+ on its own terms, with a stated reason behind every decision.">
 <style>
  :root{{--ink:#0E2A26;--pap:#F4F1EA;--acc:#E4572E;--line:#d8d3c8;--mut:#6b7f79}}
  *{{box-sizing:border-box}}
@@ -237,149 +276,154 @@ def build(site: str) -> None:
    font-size:13px;line-height:1.55;overflow-x:auto}}
  ul{{max-width:70ch}} li{{margin:7px 0}}
  .limits li::marker{{color:var(--acc)}}
+ .note{{font-size:13.5px;color:var(--mut);margin-top:10px}}
  footer{{margin:70px 0 0;padding-top:22px;border-top:1px solid var(--line);
    font-size:13.5px;color:var(--mut)}}
  a{{color:inherit}}
- {nav.CSS}
 </style>
 <div class="wrap">
 <header class="hero">
-<h1>Un motor de layout que <em>mira la fotografia</em></h1>
-<p class="lede">Un master entra y salen todos los formatos de la campana en una
- pasada, cada uno recortado, compuesto, corregido de contraste y degradado en sus
- propios terminos. Con una razon enunciable detras de cada decision.</p>
+<h1>A layout engine that <em>reads the photograph</em></h1>
+<p class="lede">One master goes in and every format of the campaign comes out in a
+ single pass, each one cropped, typeset, contrast-corrected and degraded on its own
+ terms. With a reason you can say out loud behind every decision.</p>
 <div class="cta">
- <a class="p" href="meridian-quarter/face-off.html">Ver el cara a cara &rarr;</a>
- <a class="s" href="meridian-quarter/index.html">La campana completa</a>
- <a class="s" href="{REPO}">Codigo en GitHub</a>
+ <a class="p" href="meridian-quarter/face-off.html">See the head to head &rarr;</a>
+ <a class="s" href="generic66/spec.html">66 sizes, no templates</a>
+ <a class="s" href="writeup.html">The write-up</a>
+ <a class="s" href="{REPO}">Source on GitHub</a>
 </div>
 <div class="kpis">
- <div class="kpi"><b>{f.get('n_formatos','?')} formatos</b><span>desde un master,
-   en una sola invocacion</span></div>
- <div class="kpi"><b>{f.get('n_flat','?')} sin estructura</b><span>generados desde un
-   JPEG plano, sin capas ni nodos de texto</span></div>
+ <div class="kpi"><b>{f.get('n_formatos','?')} formats</b><span>from one master, in a
+   single invocation</span></div>
+ <div class="kpi"><b>{f.get('n_flat','?')} with no structure</b><span>built from a flat
+   JPEG: no layers, no text nodes</span></div>
  <div class="kpi"><b>{len(f.get('centres',[]))} centres</b><span>{f.get('piezas','?')}
-   piezas en carpetas autocontenidas</span></div>
- <div class="kpi"><b>{f.get('loc','?')} lineas</b><span>de Python, sin framework,
-   deterministas</span></div>
+   pieces in self-contained folders</span></div>
+ <div class="kpi"><b>{f.get('loc','?')} lines</b><span>of Python, no framework,
+   deterministic</span></div>
 </div>
+<p class="note">This page and the write-up are in English. The detail views below are
+ in Spanish: they are mostly artwork and tables of figures, and every number in them
+ is generated, not written by hand.</p>
 </header>
 
-<h2>El problema<span>por que un resize no basta</span></h2>
-<p>Adaptar una campana a decenas de formatos es trabajo de decision, no de escalado.
- El mecanismo habitual —tres plantillas con constraints, y cada salida emparejada
- con la mas parecida por tamano— mueve cajas segun reglas fijadas de antemano.</p>
-<div class="box q"><strong>Un constraint no puede mirar la fotografia.</strong> No sabe
- donde esta la cara, ni si el titular sigue siendo legible sobre lo que acabo
- quedando detras, ni que a 8:1 la foto deberia dejar de ir a sangre. Funciona
- mientras el objetivo se parezca a una plantilla, y una campana no se parece a tres
- plantillas.</div>
+<h2>The problem<span>why a resize is not enough</span></h2>
+<p>Adapting a campaign to dozens of formats is decision work, not scaling work. The
+ usual mechanism &mdash; three hand-authored templates with constraints, each output
+ matched to the closest one by size &mdash; moves boxes according to rules fixed in
+ advance.</p>
+<div class="box q"><strong>A constraint cannot look at the photograph.</strong> It does
+ not know where the face is, whether the headline is still legible over whatever ended
+ up behind it, or that at 8:1 the photograph should stop bleeding altogether. It works
+ while the target resembles a template, and a campaign does not resemble three
+ templates.</div>
 
-<h2>La propuesta<span>que hace este motor</span></h2>
+<h2>What this engine does<span>the decisions it actually makes</span></h2>
 <table>
-<tr><th>Decision</th><th>Como se toma</th></tr>
-<tr><td>Roles</td><td>Se deducen del tamano, el area y la jerarquia relativa.
- <strong>No se leen los nombres de capa</strong>: renombra todo a "Layer 1" y el
- resultado no cambia. Depender de los nombres seria pedir un archivo autoreado
- para la herramienta.</td></tr>
-<tr><td>Recorte</td><td>Busqueda densa sobre 7 escalas y 13&times;13 posiciones, con el
- sujeto como restriccion dura y doble guarda de escala minima y maxima.</td></tr>
-<tr><td>Emplazamiento</td><td>No se elige de una lista de anclajes: se <strong>busca
- sobre un campo de costo derivado de los pixeles</strong> —saliencia, varianza de
- luminancia y gradiente— con la region de la cara vedada al texto.</td></tr>
-<tr><td>Contraste</td><td>Luminancia WCAG por percentiles, <strong>medida linea a
- linea</strong>. Donde falta, el alpha minimo del scrim se halla componiendo en sRGB,
- que es donde SVG compone de verdad.</td></tr>
-<tr><td>Degradacion</td><td>Escalera declarada, aplicada en orden: {esc}.
- Nada se comprime en silencio: si no cabe, algo cae y queda registrado por que.
- En esta campana cayo: {ret}.</td></tr>
-<tr><td>Estructura</td><td>Cuando ningun recorte a sangre contiene al sujeto, la foto
- degrada a panel lateral y se promueve el campo de marca. Es una decision
- <strong>emergente de una restriccion medida</strong>, no una plantilla por formato.
- Ocurrio en: {', '.join(f.get('paneles',[])) or 'ninguno'}.</td></tr>
-<tr><td>Salida</td><td>SVG editable: un <code>&lt;text&gt;</code> por linea con
- baselines absolutos y las fuentes al lado. <strong>Verificado: importa a Figma con
- capas y texto editable.</strong></td></tr>
+<tr><th>Decision</th><th>How it is taken</th></tr>
+<tr><td>Roles</td><td>Deduced from type size, area and relative hierarchy.
+ <strong>Layer names are never read</strong>: rename everything to "Layer 1" and the
+ result does not change. Depending on names would mean asking for a file authored for
+ the tool.</td></tr>
+<tr><td>Crop</td><td>Dense search over 7 scales and 13&times;13 positions, with the
+ subject as a hard constraint and a floor and ceiling on subject scale.</td></tr>
+<tr><td>Placement</td><td>Not picked from a list of anchors: <strong>searched over a
+ cost field derived from the pixels</strong> &mdash; saliency, luminance variance and
+ gradient &mdash; with the face region ruled out for text.</td></tr>
+<tr><td>Contrast</td><td>WCAG luminance by percentiles, <strong>measured line by
+ line</strong>. Where it falls short, the minimum scrim alpha is found by compositing
+ in sRGB, which is where SVG actually composites.</td></tr>
+<tr><td>Degradation</td><td>A stated ladder, applied in order: {esc}. Nothing is
+ silently squeezed: if it does not fit, something goes and the reason is recorded.
+ In this campaign what went was: {ret}.</td></tr>
+<tr><td>Structure</td><td>When no bleed crop can hold the subject, the photograph
+ degrades to a side panel and the brand field is promoted. That is a decision
+ <strong>emerging from a measured constraint</strong>, not a per-format template.
+ It happened in: {', '.join(f.get('paneles',[])) or 'none'}.</td></tr>
+<tr><td>Output</td><td>Editable SVG: one <code>&lt;text&gt;</code> per line with
+ absolute baselines and the fonts alongside. <strong>Verified: it imports into Figma
+ with layers and editable text.</strong></td></tr>
 </table>
 
-<h2>La arquitectura<span>un solo seam</span></h2>
-<p><code>Scene</code> es el unico punto de acoplamiento del sistema. Los formatos de
- archivo son adaptadores en los dos extremos, y el motor de decision es
- intercambiable. Por eso el mecanismo rival pudo implementarse como un
- <strong>segundo backend contra el mismo modelo</strong>, y por eso un plugin de
- Figma seria un tercer adaptador y no un proyecto aparte.</p>
+<h2>The architecture<span>a single seam</span></h2>
+<p><code>Scene</code> is the only coupling point in the system. File formats are
+ adapters at both ends, and the decision engine is interchangeable. That is why the
+ rival mechanism could be implemented as a <strong>second backend against the same
+ model</strong>, and why a Figma plugin would be a third adapter rather than a
+ separate project.</p>
 <div class="diagram">{DIAGRAM}</div>
-<p>Para un JPEG plano no hay nada que parsear: cero nodos de texto, cero roles, cero
- jerarquia. Ahi un modelo multimodal lee la pieza y asigna el rol <em>por funcion
- comunicativa</em>, que es lo unico que solo un modelo puede hacer; los pixeles y las
- metricas de la fuente miden despues donde esta cada cosa y cuanto mide. El texto
- quemado se retira con inpainting clasico para poder recomponer debajo. Si el
- esquema no valida, se cae al siguiente proveedor de la cadena <strong>y queda
- registrado</strong>.</p>
+<p>For a flat JPEG there is nothing to parse: zero text nodes, zero roles, zero
+ hierarchy. There a multimodal model reads the piece and assigns each role <em>by
+ communicative function</em>, which is the one thing only a model can do; the pixels
+ and the font metrics then measure where everything sits and how large it is. Burned-in
+ text is removed with classical inpainting so the artwork can be recomposed underneath.
+ If the schema does not validate, the chain falls through to the next provider
+ <strong>and the failure is recorded</strong>.</p>
 
-<h2>Los resultados, medidos<span>cada cifra con su N</span></h2>
+<h2>Measured results<span>every figure with its N</span></h2>
 <table>
-<tr><th>Que se midio</th><th>Desde el arte</th><th>Template + constraints</th></tr>
-<tr><td>Formatos que pasa el validador<br>
- <span style="font-weight:400;font-size:12.5px;color:var(--mut)">re-parseo del SVG
- entregado: solape, area segura, piso de cuerpo, escala del logo y contraste por
- linea. El mismo instrumento para los dos</span></td>
- <td class="n hi">{va[0]} de {va[1]}</td>
- <td class="n">{vc[0]} de {vc[1]}</td></tr>
+<tr><th>What was measured</th><th>Deciding from the art</th><th>Template + constraints</th></tr>
+<tr><td>Formats that pass the validator<br>
+ <span style="font-weight:400;font-size:12.5px;color:var(--mut)">re-parsing the
+ delivered SVG: overlap, safe area, type floor, logo scale and per-line contrast.
+ The same instrument for both</span></td>
+ <td class="n hi">{va[0]} of {va[1]}</td>
+ <td class="n">{vc[0]} of {vc[1]}</td></tr>
 </table>
-<p style="margin-top:-2px;font-size:14.5px;color:var(--mut)">Los
- <strong>{f.get('limpios','?')}</strong> formatos que el mecanismo por constraints
- resuelve sin una sola violacion atribuible a el son exactamente aquellos cuyo tamano
- coincide con una plantilla. Ese es el argumento honesto, y por eso la comparacion
- empieza por ahi.</p>
+<p style="margin-top:-2px;font-size:14.5px;color:var(--mut)">The
+ <strong>{f.get('limpios','?')}</strong> formats the constraint mechanism resolves
+ without a single violation attributable to it are exactly those whose size matches a
+ template. That is the honest claim, and it is why the comparison opens there.</p>
 
-<h2 style="font-size:19px;margin-top:34px">Al cambiar la fotografia, &iquest;que
- decision se rehace?</h2>
+<h2 style="font-size:19px;margin-top:34px">When the photograph changes, which decision
+ is remade?</h2>
 <table>
-<tr><th>Decision</th><th>Desde el arte</th><th>Template + constraints</th></tr>
+<tr><th>Decision</th><th>Deciding from the art</th><th>Template + constraints</th></tr>
 {dec}
 </table>
-<p>Al cambiar la fotografia, por la via de constraints <strong>lo unico que cambia es
- que pixeles se recortan</strong>: cuerpos, colores, scrims y elementos retirados son
- identicos. Esa es la tesis, medida.</p>
-<div class="box"><strong>Asignacion de rol:</strong> leer la pieza acierta {gold}
- frente a ordenar por tamano de fuente. La diferencia entera esta en un caso
- construido a proposito, y real: un aviso legal fijado en cuerpo grande, que aparece
- en cualquier promocion regulada. Ordenar por tamano acierta 1 de 4 ahi.
- <br><br><strong>N=3 no sostiene una comparacion de modelos, y no se presenta como
- tal.</strong> Sostiene que esa clase de pieza existe y que el orden por tamano falla
- en ella por construccion.</div>
+<p>Down the constraint route, the only thing that changes when you change the
+ photograph is <strong>which pixels get cropped</strong>: type sizes, colours, scrims
+ and dropped elements are identical. That is the thesis, measured.</p>
+<div class="box"><strong>Role assignment:</strong> reading the piece scores {gold}
+ against ranking by type size. The whole difference is one deliberately constructed
+ case, and a real one: a legal notice set in large type, which turns up in any
+ regulated promotion. Ranking by size gets 1 of 4 right there.
+ <br><br><strong>N=3 does not support a model comparison, and is not presented as
+ one.</strong> It supports the claim that this class of artwork exists and that
+ ranking by size fails on it by construction.</div>
 
-<h2>Que incluye<span>{len([1 for r,_,_ in SHEETS if os.path.exists(os.path.join(site,r))])} vistas generadas</span></h2>
+<h2>What is inside<span>{len([1 for r,_,_ in SHEETS if os.path.exists(os.path.join(site,r))])} generated views</span></h2>
 <div class="grid">{cards}</div>
 
-<h2>Lo que NO hace<span>y se dice antes de que lo pregunten</span></h2>
+<h2>What it does NOT do<span>said before anyone has to ask</span></h2>
 <ul class="limits">
-<li>No orquesta campanas: no agrupa, no nombra en lote, no exporta video ni vuelve a
- la herramienta de diseno por plugin. Es el motor de layout, no el producto.</li>
-<li><strong>El copy no varia por centre.</strong> Los tres centres llevan el mismo
- titular y las mismas fechas. Lo que cambia es la fotografia.</li>
-<li>Un unico campo de la escena queda sin verificar: el <strong>peso</strong>
- tipografico en la ruta del JPEG. Se intento derivarlo y empeoraba el resultado, asi
- que se dice en lugar de sugerir que todo esta medido.</li>
-<li>La placa reconstruida bajo el texto quemado es una <strong>aproximacion</strong>:
- bajo un titular de 92px el inpainting inventa textura plausible, no la original.</li>
-<li>Sin interfaz. Las paginas de este sitio son informes estaticos generados.</li>
+<li>It does not orchestrate campaigns: no bulk grouping, no bulk naming, no video
+ export, no round trip back into the design tool through a plugin. It is the layout
+ engine, not the product.</li>
+<li><strong>Copy does not vary per centre.</strong> All three centres carry the same
+ headline and the same dates. What changes is the photograph.</li>
+<li>Exactly one field of the scene goes unverified: typographic <strong>weight</strong>
+ on the flat-JPEG path. Deriving it was attempted and made the result worse, so it is
+ stated rather than implying everything is measured.</li>
+<li>The plate reconstructed under burned-in text is an <strong>approximation</strong>:
+ beneath a 92px headline the inpainting invents plausible texture, not the original.</li>
+<li>No interface. The pages on this site are generated static reports.</li>
 </ul>
 
-<h2>Reproducirlo</h2>
-<pre>pip install -r requirements.txt        <span style="opacity:.55"># opencv-CONTRIB, no opencv-python</span>
+<h2>Reproducing it</h2>
+<pre>pip install -r requirements.txt        <span style="opacity:.55"># opencv-CONTRIB, not opencv-python</span>
 
-./run.py --backend both                <span style="opacity:.55"># los dos backends de layout</span>
-./check.py                             <span style="opacity:.55"># re-parsea y mide el SVG entregado</span>
-python3 tools/swap_test.py             <span style="opacity:.55"># mismo master, tres fotografias</span>
-python3 tools/golden.py                <span style="opacity:.55"># asignacion de rol, con su N</span>
-./run.py --master assets/master-flat.jpg --formats video \\
-         --out out/spring-campaign/meridian-flat</pre>
+./run.py --backend both                <span style="opacity:.55"># both layout backends</span>
+./check.py                             <span style="opacity:.55"># re-parse and measure the delivered SVG</span>
+python3 tools/swap_test.py             <span style="opacity:.55"># one master, three photographs</span>
+python3 tools/golden.py                <span style="opacity:.55"># role assignment, with its N</span>
+./run.py --sizes specs/generic-66.txt \\
+         --out out/spring-campaign/generic66   <span style="opacity:.55"># somebody else's spec sheet</span></pre>
 
-<footer>Marca, tipografia y fotografia declaradas en <code>assets/LICENSES.md</code>.
- MERIDIAN QUARTER, Harbourside Plaza y Northgate Centre son nombres inventados.
- Codigo y documentacion en <a href="{REPO}">GitHub</a>.</footer>
+<footer>Brand, type and photography declared in <code>assets/LICENSES.md</code>.
+ MERIDIAN QUARTER, Harbourside Plaza and Northgate Centre are invented names.
+ Code and documentation on <a href="{REPO}">GitHub</a>.</footer>
 </div>
 """
     with open(os.path.join(site, "index.html"), "w") as fh:
