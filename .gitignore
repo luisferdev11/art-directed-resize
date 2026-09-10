@@ -25,3 +25,6 @@ description.md
 
 # El brief es un documento del CLIENTE. No es nuestro para publicarlo.
 *.pdf
+
+# el auditor de envio lee carta.md y respuestas.md, que son privados
+audit-envio.py
