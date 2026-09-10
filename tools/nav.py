@@ -12,6 +12,8 @@ from typing import List, Tuple
 # Cada entrega, relativa a out/spring-campaign/. El orden es el del argumento:
 # primero el cara a cara, que es la pieza central.
 SHEETS: List[Tuple[str, str, str]] = [
+    ("how-it-works.html", "Como funciona y como escala",
+     "arquitectura: hoy y a produccion, con lo propuesto marcado"),
     ("writeup.html", "El writeup",
      "notas de arquitectura sobre construir con modelos"),
     ("meridian-quarter/face-off.html", "Cara a cara",

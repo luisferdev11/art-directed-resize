@@ -1,0 +1,437 @@
+<!doctype html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How it works, and how it would scale</title>
+<meta name="description" content="How the layout engine takes each decision, exactly where a model is used and where it is not, and the architecture to run it at agency scale: concurrency, model observability, governance and where it meets the designer.">
+<style>
+ :root{--ink:#0E2A26;--pap:#F4F1EA;--acc:#E4572E;--line:#d8d3c8;--mut:#61756f;
+   --hoy:#14614d;--prop:#7a5200}
+ *{box-sizing:border-box}
+ body{margin:0;background:var(--pap);color:var(--ink);
+   font:16.5px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+ .wrap{max-width:840px;margin:0 auto;padding:0 24px 100px}
+ header.top{padding:58px 0 4px}
+ h1{font-size:clamp(29px,4.6vw,42px);line-height:1.12;margin:0 0 14px;
+   letter-spacing:-.02em;max-width:20ch}
+ .standfirst{font-size:19.5px;line-height:1.55;color:var(--mut);margin:0 0 8px;
+   max-width:60ch}
+ h2{font-size:26px;margin:58px 0 6px;letter-spacing:-.018em}
+ h2 .kicker{display:block;font-size:12px;letter-spacing:.09em;text-transform:uppercase;
+   color:var(--acc);margin-bottom:8px;font-weight:700}
+ h3{font-size:18.5px;margin:34px 0 6px;letter-spacing:-.01em}
+ p{margin:15px 0;max-width:68ch} ul,ol{max-width:68ch} li{margin:7px 0}
+ .tag{display:inline-block;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+   font-weight:800;padding:3px 9px;border-radius:99px;vertical-align:2px;margin-right:8px}
+ .tag.hoy{background:#e2eee8;color:var(--hoy)}
+ .tag.prop{background:#fbeccd;color:var(--prop)}
+ .banner{background:#fff;border:1px solid var(--line);border-left:3px solid var(--acc);
+   border-radius:0 11px 11px 0;padding:18px 22px;margin:26px 0}
+ .banner b{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;
+   color:var(--acc);margin-bottom:7px}
+ .box{background:#fff;border:1px solid var(--line);border-radius:11px;
+   padding:18px 22px;margin:22px 0}
+ .box h4{margin:0 0 8px;font-size:15px}
+ table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);
+   border-radius:11px;overflow:hidden;margin:18px 0;font-size:14.5px}
+ th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;
+   color:var(--mut);background:#fbfaf7;padding:10px 15px;font-weight:600}
+ td{padding:11px 15px;border-top:1px solid #f0efeb;vertical-align:top}
+ td:first-child{font-weight:600;width:30%}
+ td.n{text-align:right;font-variant-numeric:tabular-nums;width:20%}
+ .diagram{background:#fff;border:1px solid var(--line);border-radius:11px;
+   padding:22px;margin:20px 0;color:var(--ink);overflow-x:auto}
+ code{font-size:14px;background:#fff;border:1px solid var(--line);border-radius:4px;
+   padding:1px 5px}
+ hr{border:0;border-top:1px solid var(--line);margin:56px 0}
+ footer{font-size:14px;color:var(--mut);margin-top:20px;padding-top:20px;
+   border-top:1px solid var(--line)}
+ a{color:inherit}
+
+ .nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;padding:0 0 18px;
+   border-bottom:1px solid var(--line)}
+ .nav a,.nav span{font-size:12.5px;padding:6px 12px;border-radius:99px;
+   border:1px solid var(--line);background:#fff;text-decoration:none;line-height:1.2}
+ .nav span{background:var(--ink);color:var(--pap);border-color:var(--ink);font-weight:600}
+ .nav a:hover{border-color:var(--ink)}
+</style>
+<div class="wrap">
+<nav class="nav"><a href="index.html">&larr; indice</a><span>Como funciona y como escala</span><a href="writeup.html">El writeup</a><a href="meridian-quarter/face-off.html">Cara a cara</a><a href="meridian-quarter/index.html">Campana · desde el arte</a><a href="meridian-quarter/constraints/index.html">Campana · constraints</a><a href="meridian-flat/index.html">Desde un JPEG plano</a><a href="swap/index.html">La prueba de las fotos</a><a href="rollout/index.html">Un archivo por centre</a><a href="generic66/spec.html">Los 66 tamanos</a><a href="generic66/index.html">Los 66 · hoja de contactos</a></nav>
+<header class="top">
+<h1>How it works, and how it would scale</h1>
+<p class="standfirst">What the engine does today and how each decision is taken, then
+ the architecture I would build to run it for a whole agency: concurrency, cost,
+ observability over the model, governance, and where it meets the designer.</p>
+</header>
+
+<div class="banner"><b>Read this before anything else</b>
+ This page mixes two kinds of statement and labels every one of them.
+ <strong><span class="tag hoy">Today</span></strong> means it exists, it runs, and the
+ figure comes from a generated manifest you can open.
+ <strong><span class="tag prop">Proposed</span></strong> means it is an architecture
+ decision I can defend, with <em>not one line written</em>. Nothing on this page is
+ production software, and I would rather label it in every section than say it once at
+ the top and hope you remember.</div>
+
+<h2><span class="kicker">Part one</span>How the engine works</h2>
+
+<p><span class="tag hoy">Today</span> One master goes in. Every format comes out in a
+ single pass, each resolved on its own terms. The pipeline is six steps, and the
+ interesting property is that only one of them involves a model.</p>
+
+<h3>1. Read the piece into a format-independent scene</h3>
+<p>A vector master carries its own tree, so the scene is <em>measured</em>: elements,
+ positions, type sizes, hierarchy. Roles come from type size, area and relative
+ hierarchy, and <strong>layer names are never read</strong> &mdash; rename everything to
+ "Layer 1" and the result is identical. Depending on names would mean asking for a file
+ authored for the tool, which is the complaint this whole thing exists to answer.</p>
+
+<h3>2. Choose the crop, with the subject as a hard constraint</h3>
+<p>A dense search over seven scales and thirteen by thirteen positions, scored on how
+ much of the salient mass survives, the resolution left, and where the subject lands
+ against the thirds. A floor and a ceiling on subject scale: too small and the person
+ disappears, too large and it reads as a mistake. If no crop satisfies both, that
+ failure is a signal, not an error &mdash; see step 5.</p>
+
+<h3>3. Place the text by search over the pixels</h3>
+<p>This is the part that separates the engine from a template. The placement is not
+ chosen from a list of anchors. A cost field is built from the photograph &mdash;
+ saliency, local luminance variance, luminance gradient &mdash; and the text block is
+ searched densely over it with the detected face region ruled out entirely. The score
+ balances that cost against keeping the headline large, against thirds asymmetry, and
+ against staying faithful to the master's composition, so the layout does not wander
+ when the photograph does not demand it.</p>
+
+<h3>4. Measure contrast line by line, and size the scrim by compositing</h3>
+<p>WCAG luminance by percentiles, per line rather than per block, because a three-line
+ headline can have two lines over sky and the third over a red sign. Where a line falls
+ short, the minimum scrim opacity is found by compositing in sRGB, which is where SVG
+ actually composites &mdash; solving that blend in linear luminance under-sizes every
+ scrim on dark ground, which is a bug this engine had and the validator caught.</p>
+
+<h3>5. Degrade in a stated ladder</h3>
+<p>When not everything fits, something gives way in a declared order: tighten leading,
+ re-express hierarchy in weight when the legibility floor has compressed the size
+ contrast, drop the legal, drop the support. And when no bleed crop can hold the
+ subject at all, the photograph degrades to a side panel and the brand field is
+ promoted &mdash; a structural decision <em>emerging from a measured constraint</em>,
+ not a per-format template. Every rung that fires is recorded on the output.</p>
+
+<h3>6. Emit something a designer can actually work with</h3>
+<p>Layered SVG: one text element per line with absolute baselines, fonts alongside the
+ artwork. <span class="tag hoy">Today</span> Verified: it imports into Figma with its
+ layers and live text intact.</p>
+
+<div class="box"><h4>And then it checks its own homework</h4>
+ <p style="margin:0">A separate validator re-parses the delivered file and re-measures
+ everything from it &mdash; overlap, safe area, type floor, uniform logo scale, image
+ aspect, and per-line contrast against a backdrop it reconstructs from the file itself.
+ It does not ask the solver what it thinks it wrote. That distinction is not academic:
+ it is how the two most serious bugs in this codebase were found.</p></div>
+
+<h2><span class="kicker">Part two</span>Where the model is used, and where it is not</h2>
+
+<p><span class="tag hoy">Today</span> <strong>One model call per master. Not per
+ output.</strong> A campaign of 66 sizes makes exactly one.</p>
+
+<p>The model does one job: it reads a piece that carries no structure &mdash; a flat
+ JPEG, no layers, no text nodes &mdash; and returns the semantic scene, assigning each
+ block its role <em>by communicative function</em>. Headline, offer, operational
+ detail, legal notice. That is a judgement about what the words are doing, and it is
+ the one thing in this pipeline only a model can make.</p>
+
+<p>Everything measurable is measured. The model proposes a region; a colour-distance
+ mask over that region gives the pixel-accurate box. The model guesses a type size;
+ solving the size from the measured advance width against real font metrics leaves
+ nothing to guess. This is not caution about models. Each half is simply better at its
+ half, and the measured half is free, deterministic and reproducible.</p>
+
+<table>
+<tr><th>Decision</th><th>Taken by</th><th>Why</th></tr>
+<tr><td>Role of each text block</td><td>the model</td><td>communicative function is not
+ recoverable from geometry</td></tr>
+<tr><td>Where the ink sits, how large</td><td>pixels + font metrics</td><td>exact, free,
+ and identical next Tuesday</td></tr>
+<tr><td>Crop, placement, contrast, degradation</td><td>deterministic search</td><td>the
+ output must be reproducible and explainable</td></tr>
+<tr><td>Typographic weight</td><td>the model, <strong>unverified</strong></td><td>stated
+ as the one field this system does not check</td></tr>
+</table>
+
+<p>And the boundary is defended: if the model chain returns nothing valid, the failure
+ is recorded and travels onto the report page. A schema that does not validate triggers
+ the same fallback as a dead socket, because a provider that answers 200 with garbage
+ has failed just as completely as one that answers 500.</p>
+
+<h3>What the model would also do, in the real product</h3>
+<p><span class="tag prop">Proposed</span> Three more jobs, in the order I would build
+ them, and every one of them keeps the same shape: the model produces a
+ <em>proposal</em>, deterministic code turns it into geometry, and a person can see and
+ override it.</p>
+<ol>
+<li><strong>Brief to rollout plan.</strong> A brief or a spreadsheet becomes the list of
+ formats, centres and copy. It attacks the complaint about maintaining a spreadsheet by
+ hand, and it is the single highest-leverage addition because it removes work that
+ happens on every campaign rather than once per template.</li>
+<li><strong>Copy variation per centre.</strong> Same campaign, different opening dates,
+ different store counts, different legal wording per jurisdiction. Deterministic
+ fill-in from structured data first; the model only where the copy has to be
+ <em>rewritten</em> rather than substituted.</li>
+<li><strong>A review conversation.</strong> Not to generate layouts, but to explain the
+ ones produced and accept corrections in words. More on that below.</li>
+</ol>
+<p>What I would <strong>not</strong> put a model on: the layout decisions themselves.
+ They have to be reproducible, cheap and explainable, and a search over measured pixels
+ is all three.</p>
+
+<h2><span class="kicker">Part three</span>Scaling it</h2>
+
+<p><span class="tag hoy">Today</span> Measured on a laptop, single process, serial:
+ <strong>66 formats in 131 seconds</strong>, about
+ <strong>2.0 seconds per format</strong>. No GPU. The deterministic
+ path is CPU and memory only.</p>
+
+<p><span class="tag prop">Proposed</span> Three properties of the engine decide the
+ whole architecture, and they are properties it already has:</p>
+<ul>
+<li><strong>Every format is a pure function of the scene.</strong> The problem is
+ embarrassingly parallel by construction, with no shared state between outputs.</li>
+<li><strong>It is deterministic.</strong> Same input, same output. Which means retries
+ are free and safe, results are cacheable, and a re-run costs nothing to reason
+ about.</li>
+<li><strong>Model cost scales with masters, not with outputs.</strong> One call per
+ master. Doubling the number of sizes does not touch the model bill at all.</li>
+</ul>
+
+<div class="diagram">
+<svg viewBox="0 0 800 330" role="img" aria-label="Proposed production topology: an API
+ accepts a campaign, a queue fans it out to stateless workers, one cached model call per
+ master, artifacts to object storage, delivered through a Figma plugin and a web app"
+ style="width:100%;height:auto">
+ <defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+  markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+ </marker></defs>
+ <g font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11.5">
+  <rect x="6" y="16" width="132" height="40" rx="7" fill="#fff" stroke="#d8d3c8"/>
+  <text x="72" y="33" text-anchor="middle">Figma plugin</text>
+  <text x="72" y="47" text-anchor="middle" font-size="10" opacity=".6">read + write back</text>
+  <rect x="6" y="74" width="132" height="40" rx="7" fill="#fff" stroke="#d8d3c8"/>
+  <text x="72" y="91" text-anchor="middle">web app</text>
+  <text x="72" y="105" text-anchor="middle" font-size="10" opacity=".6">plan, review, chat</text>
+
+  <rect x="188" y="42" width="104" height="46" rx="7" fill="#fff" stroke="#d8d3c8"/>
+  <text x="240" y="62" text-anchor="middle">API</text>
+  <text x="240" y="77" text-anchor="middle" font-size="10" opacity=".6">idempotent</text>
+
+  <rect x="188" y="126" width="104" height="46" rx="7" fill="#fff" stroke="#d8d3c8"/>
+  <text x="240" y="146" text-anchor="middle">queue</text>
+  <text x="240" y="161" text-anchor="middle" font-size="10" opacity=".6">2 priorities</text>
+
+  <rect x="344" y="112" width="150" height="76" rx="9" fill="#0E2A26"/>
+  <text x="419" y="140" text-anchor="middle" fill="#F4F1EA" font-size="13"
+   font-weight="700">workers</text>
+  <text x="419" y="157" text-anchor="middle" fill="#F4F1EA" font-size="10"
+   opacity=".72">stateless, CPU only</text>
+  <text x="419" y="172" text-anchor="middle" fill="#F4F1EA" font-size="10"
+   opacity=".72">one task per format</text>
+
+  <rect x="344" y="18" width="150" height="62" rx="7" fill="#faf7f0" stroke="#e0d5bd"/>
+  <text x="419" y="38" text-anchor="middle">scene cache</text>
+  <text x="419" y="53" text-anchor="middle" font-size="10" opacity=".6">keyed by master hash</text>
+  <text x="419" y="68" text-anchor="middle" font-size="10" opacity=".6">1 model call per master</text>
+
+  <rect x="344" y="230" width="150" height="58" rx="7" fill="#fff" stroke="#d8d3c8"/>
+  <text x="419" y="250" text-anchor="middle">model chain</text>
+  <text x="419" y="265" text-anchor="middle" font-size="10" opacity=".6">pinned versions</text>
+  <text x="419" y="279" text-anchor="middle" font-size="10" opacity=".6">rate limited, budgeted</text>
+
+  <rect x="550" y="66" width="140" height="52" rx="7" fill="#fff" stroke="#d8d3c8"/>
+  <text x="620" y="86" text-anchor="middle">object store</text>
+  <text x="620" y="101" text-anchor="middle" font-size="10" opacity=".6">one folder per centre</text>
+
+  <rect x="550" y="150" width="140" height="52" rx="7" fill="#fff" stroke="#d8d3c8"/>
+  <text x="620" y="170" text-anchor="middle">decision log</text>
+  <text x="620" y="185" text-anchor="middle" font-size="10" opacity=".6">reasons + traces</text>
+
+  <rect x="550" y="234" width="140" height="52" rx="7" fill="#fff" stroke="#d8d3c8"/>
+  <text x="620" y="254" text-anchor="middle">golden set</text>
+  <text x="620" y="269" text-anchor="middle" font-size="10" opacity=".6">CI regression gate</text>
+
+  <g stroke="currentColor" fill="none" marker-end="url(#a2)" opacity=".5">
+   <path d="M138 36 C165 36 165 58 184 62"/>
+   <path d="M138 94 C165 94 165 72 184 68"/>
+   <path d="M240 88 L240 122"/>
+   <path d="M292 149 L340 150"/>
+   <path d="M419 112 L419 84"/>
+   <path d="M419 188 L419 226"/>
+   <path d="M494 138 L546 100"/>
+   <path d="M494 160 L546 172"/>
+   <path d="M494 258 L546 260"/>
+  </g>
+  <path d="M550 92 C520 92 300 30 144 30" stroke="currentColor" fill="none"
+   opacity=".28" stroke-dasharray="4 3" marker-end="url(#a2)"/>
+ </g>
+</svg></div>
+
+<h3>Concurrency</h3>
+<table>
+<tr><th>Unit</th><th>Shape</th></tr>
+<tr><td>Job</td><td>one campaign. Accepted by an idempotent API keyed on a content hash
+ of master plus spec, so a duplicate submit returns the existing job instead of doing
+ the work twice.</td></tr>
+<tr><td>Task</td><td>one output format. Fanned out from the job, executed by stateless
+ workers that hold nothing between tasks and can be killed at any moment.</td></tr>
+<tr><td>Two priorities</td><td>interactive, where a designer is watching a single piece
+ re-render, and batch, where a rollout runs overnight. They must not share a queue: one
+ large batch should never make one designer wait.</td></tr>
+<tr><td>The model step</td><td>isolated. It is the only rate-limited, non-free,
+ non-deterministic step, so it runs once per master, behind a cache keyed by the
+ master's hash, with a token bucket per provider and a spend ceiling per
+ tenant.</td></tr>
+<tr><td>Backpressure</td><td>queue depth is the signal. Workers scale on it; the API
+ sheds and queues rather than timing out; a tenant that floods the queue is throttled
+ rather than allowed to starve the rest.</td></tr>
+</table>
+
+<p><strong>A rough capacity figure, and I want to be honest about how rough.</strong>
+ At the measured 2.0 seconds per format, 8 worker cores handle
+ roughly <strong>14,472 formats an hour</strong>. That is an extrapolation from a
+ laptop, not a benchmark: real numbers depend on source resolution, canvas sizes and
+ how much of the ladder fires. What the figure is good for is the shape of the answer
+ &mdash; a mid-size agency's entire monthly output is hours of a handful of cores, and
+ this workload is cheap to run.</p>
+
+<h3>Storage and delivery</h3>
+<p><span class="tag prop">Proposed</span> Artifacts to object storage, laid out exactly
+ as the demo already lays them out on disk: <strong>one self-contained folder per
+ centre</strong>, artwork and fonts and manifest together, so a package can be zipped
+ and sent without anyone extracting it from a larger document. Every asset addressed by
+ the hash of master plus format plus config, which makes the store deduplicating and a
+ re-run a no-op.</p>
+
+<h2><span class="kicker">Part four</span>Observability over the model</h2>
+
+<p><span class="tag hoy">Today</span> The substrate already exists and is the part
+ people usually have to retrofit: <strong>every output carries the list of reasons that
+ produced it</strong> &mdash; which crop and why, where the text landed and at what
+ cost, which contrast was measured, which ladder rungs fired, which provider answered
+ and which ones failed first. It is printed on the report a human opens, not buried in
+ a log nobody reads.</p>
+
+<p><span class="tag prop">Proposed</span> Turn that into instrumentation:</p>
+<table>
+<tr><th>Signal</th><th>What it catches</th></tr>
+<tr><td>Fallback rate</td><td>the primary provider degrading. Rising fallback is the
+ earliest warning you get, and it is invisible unless you record the recovery.</td></tr>
+<tr><td>Schema-invalid rate</td><td>a provider silently changing behaviour behind a
+ pinned name.</td></tr>
+<tr><td>Agreement with the deterministic parser</td><td>a free online quality proxy. On
+ structured masters both paths run, and disagreement on role assignment is a signal
+ without needing a single label.</td></tr>
+<tr><td>Cost and latency per campaign</td><td>first-class metrics, per tenant, with the
+ spend ceiling enforced rather than reported after the fact.</td></tr>
+<tr><td>Triage distribution</td><td>the share of outputs flagged for review, tracked
+ over time. If it drifts up, quality moved before anyone complained.</td></tr>
+<tr><td>Trace</td><td>one id from campaign to piece to model call, so "why does this
+ asset look like this" is answerable in one query.</td></tr>
+</table>
+
+<div class="box"><h4>The regression gate</h4>
+ <p style="margin:0"><span class="tag prop">Proposed</span> The labelled set runs in CI
+ on every prompt change, model change and engine change. Not to compare models &mdash;
+ a small set cannot &mdash; but to catch catastrophic failure and regression against
+ yesterday's self, which is exactly what a small fixed set <em>is</em> good for. Prompt
+ changes go through review like code, because they are code.</p></div>
+
+<h2><span class="kicker">Part five</span>Governance</h2>
+<p><span class="tag prop">Proposed</span> Six commitments. They are not compliance
+ decoration; each one exists because of a specific way this kind of system goes wrong.</p>
+<table>
+<tr><td>Pinned versions</td><td>exact model identifiers, never a floating alias. A
+ provider improving a model overnight is still a change to your output, and it should
+ arrive through a deploy.</td></tr>
+<tr><td>Prompts in files</td><td>versioned, reviewed, diffable. An unversioned prompt is
+ an unversioned business rule.</td></tr>
+<tr><td>A person approves</td><td>nothing publishes itself. The triage exists so the
+ designer reviews what needs review rather than all of it, but the gate is a person.</td></tr>
+<tr><td>Data handling</td><td>declare what leaves the building &mdash; here, the master
+ image &mdash; to which provider, under what retention and training terms, and in which
+ region. For an Australian client that last one is a real constraint, not a
+ formality.</td></tr>
+<tr><td>No generative imagery</td><td>the engine crops, composes and reconstructs small
+ regions with classical inpainting. It does not synthesise brand imagery. That is a
+ declared limit, and it keeps brand safety out of scope entirely.</td></tr>
+<tr><td>Audit trail</td><td>every published asset traceable to its master, config, model
+ version and the reasons that produced it. If a client asks why an asset says what it
+ says, that question has an answer.</td></tr>
+</table>
+<p>And the one that matters most operationally: <strong>when the model is unavailable,
+ the system degrades to reduced capability rather than to nothing.</strong> Structured
+ masters keep working on the deterministic path. Only unstructured input is blocked, and
+ it says so.</p>
+
+<h2><span class="kicker">Part six</span>Where it meets the designer</h2>
+
+<p>The verified constraint that decides this: <strong>Figma's REST API is read-only for
+ design content.</strong> Reading a file, exporting images and managing comments happen
+ server-side; creating or modifying layers requires the Plugin API, which runs inside
+ the editor. The same shape holds elsewhere &mdash; Canva's Connect API covers assets,
+ template autofill and export while element manipulation lives in its Apps SDK. That is
+ not a limitation to route around. It decides the topology.</p>
+
+<p><span class="tag prop">Proposed</span> So: <strong>a plugin for reading and writing,
+ a web app for orchestration.</strong> The plugin would read the selected frame
+ into a scene and write finished pieces back as native layers; the web app would hold
+ the plan, the batch, the review and the history. That is the same division the incumbent tool
+ arrived at, and it arrived there for the same reason.</p>
+
+<h3>The conversational surface, and what it is actually for</h3>
+<p>A chat is genuinely good at three things here, and bad at a fourth.</p>
+<ul>
+<li><strong>Stating the plan before executing it.</strong> "Sixty-six sizes, four
+ centres, here is what will be built, approve when ready." This is the pattern the
+ incumbent does well and it deserves saying so: it is good UX and it is auditable.</li>
+<li><strong>Explaining a decision on demand.</strong> The reasons already exist for
+ every piece; a chat is the natural way to ask "why is the legal missing on the
+ leaderboard" and get "no bleed crop held the subject at eight to one, so the photograph
+ became a panel and the ladder dropped the legal to keep the offer above its legibility
+ floor."</li>
+<li><strong>Accepting a correction in words.</strong> "Keep the legal on the
+ leaderboard, drop the dates instead." That would be a change to the ladder for one
+ piece: it re-renders in about two seconds and does not touch the other sixty-five.</li>
+<li><strong>What it should not be</strong> is the only way in. A designer adjusting one
+ crop wants a handle, not a sentence. The chat is a control surface over an engine whose
+ decisions are already explicit, not a replacement for direct manipulation.</li>
+</ul>
+
+<h3>The loop that makes it usable</h3>
+<ol>
+<li>Point at a master. No template authoring, no setup.</li>
+<li>See the plan. Sizes, centres, what will be produced.</li>
+<li>Get the batch, sorted <strong>by what needs attention</strong> rather than by name.
+ Most pieces need nothing; the ones that do say why.</li>
+<li>Fix one thing, in the plugin or in words. One piece re-renders.</li>
+<li>Ship the packages, one folder per centre.</li>
+</ol>
+<p>Step three is the one that changes how the tool feels. A rough first pass that hands
+ you sixty-six files is homework. A rough first pass that hands you sixty-six files and
+ tells you which four to open is a tool.</p>
+
+<hr>
+
+<h2>What I would build first</h2>
+<p>Not the AI. The file architecture and one written acceptance metric:
+ <strong>what percentage of a campaign's formats need under N minutes of a designer's
+ time</strong>, agreed in week one and measured against a real campaign, so there is a
+ number to argue with instead of an impression.</p>
+<p>Then the plugin, because output that lands where the designer already works is worth
+ more than output that is technically correct somewhere else. Then the brief-to-plan
+ step, because it removes work that recurs on every campaign rather than once per
+ template. The layout engine is the part that already exists and the part that is
+ hardest to buy.</p>
+
+<footer>Everything labelled <span class="tag hoy">Today</span> is running in the
+ <a href="index.html">demo</a>, with its source on <a href="https://github.com/luisferdev11/art-directed-resize">GitHub</a>.
+ Everything labelled <span class="tag prop">Proposed</span> is design, and is offered as
+ design. The architecture reasoning behind the first half is in
+ <a href="writeup.html">the write-up</a>.</footer>
+
+</div>
