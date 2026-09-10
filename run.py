@@ -223,13 +223,35 @@ def main() -> int:
                     hint["rect"], hint["sujeto"], float(prep["px_w"]),
                     float(prep["px_h"]))
                 prep["focal_via"] = "modelo"
+                # DURA O BLANDA, y lo decide QUE es el sujeto.
+                #
+                # Las guardas de `crop.choose` acotan el ALTO de la region y estan
+                # calibradas sobre una cara. La region de un grupo conserva todo el
+                # ancho -es su extension; encogerla deja fuera a la gente de los
+                # extremos- asi que ninguna ventana mas estrecha que la fuente la
+                # contiene, y la foto degradaba a panel en casi todos los formatos.
+                # Medido sobre tres fotos de grupo: panel en 5 de 5, 4 de 5 y 2 de 5.
+                #
+                # Para un grupo la restriccion correcta no es "contener" sino
+                # "conservar la mayor parte", asi que la region entra blanda y la
+                # cobertura pasa del filtro al score. El panel sigue apareciendo
+                # cuando ni el mejor encuadre conserva lo suficiente, que a 8:1 es
+                # justo lo que debe pasar.
+                prep["face_hard"] = hint["sujeto"] not in semantic.SUJETOS_EXTENSOS
                 scene.notes.append(
                     f"las dos cascadas no coincidieron: la region que no se puede "
                     f"recortar la decidio un modelo. {hint['sujeto']} — "
                     f"{hint['que_es']}, confianza {hint['confianza']:.2f}. "
                     f"{hint['por_que']}")
+                if not prep["face_hard"]:
+                    scene.notes.append(
+                        f"el sujeto es una EXTENSION ancha ({hint['sujeto']}), no una "
+                        f"cara: la region se maximiza en lugar de exigirse, y la foto "
+                        f"solo degrada a panel si el mejor encuadre conserva menos del "
+                        f"{cropmod.SOFT_MIN_COVER:.0%}")
                 print(f"  · region focal por modelo: {hint['sujeto']} "
-                      f"({hint['confianza']:.2f})")
+                      f"({hint['confianza']:.2f})"
+                      f"{'' if prep['face_hard'] else ' [region blanda]'}")
             elif caras:
                 # DEGRADACION, no rendicion. Si el modelo no esta disponible, el
                 # conjunto de caras sigue siendo mejor que nada: se conserva su
@@ -241,10 +263,17 @@ def main() -> int:
                 y1 = max(f[1] + f[3] for f in caras)
                 prep["face"] = (x0, y0, x1 - x0, y1 - y0)
                 prep["focal_via"] = "envolvente"
+                # La envolvente de varias caras es, por construccion, una extension
+                # ancha. Exigirla entera manda a panel por la misma razon geometrica
+                # que el grupo del modelo, y aqui sabemos aun menos, asi que exigir
+                # mas seria al reves.
+                prep["face_hard"] = len(caras) <= 1
                 scene.notes.append(
                     f"el modelo no respondio: se usa la envolvente de las {len(caras)} "
                     f"caras detectadas. Conserva a todo el mundo, pero no sabe quien "
-                    f"sostiene la pieza")
+                    f"sostiene la pieza"
+                    + ("" if prep["face_hard"] else
+                       "; entra como region blanda, no como restriccion dura"))
             else:
                 prep["focal_via"] = "saliencia"
                 scene.notes.append("ni las cascadas ni el modelo dieron una region "

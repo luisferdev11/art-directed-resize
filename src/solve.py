@@ -238,27 +238,53 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
     master_cx = ((mh.rect[0] + mh.rect[2] / 2) / scene.width) if mh else 0.5
 
     # --- 1. hipotesis y recorte ---------------------------------------------
+    hard = bool(prep.get("face_hard", True))
     crect, cdiag = cropmod.choose(prep["px_w"], prep["px_h"], fmt.aspect,
-                                  prep["sal_ii"], prep["grid"], prep["face"])
+                                  prep["sal_ii"], prep["grid"], prep["face"],
+                                  face_hard=hard)
+    cdiag0 = dict(cdiag)          # el diagnostico del intento A SANGRE, antes del panel
     unsat = bool(cdiag.get("face_unsatisfiable"))
     panel = field = None
     if unsat:
         panel, field = _panel_geometry(fmt, master_cx)
         p_aspect = panel[2] / panel[3]
         crect, cdiag = cropmod.choose(prep["px_w"], prep["px_h"], p_aspect,
-                                      prep["sal_ii"], prep["grid"], prep["face"])
+                                      prep["sal_ii"], prep["grid"], prep["face"],
+                                      face_hard=hard)
         still = bool(cdiag.get("face_unsatisfiable"))
-        need_h = (prep["face"][3] / 0.45) if prep["face"] else 0.0
-        reasons.append(
-            f"a {fmt.aspect:.1f}:1 ningun recorte a sangre contiene la region focal por "
-            f"encima de la escala minima de sujeto: haria falta {need_h:.0f}px de alto, o "
-            f"{need_h*fmt.aspect:.0f}px de ancho, y la fuente tiene {prep['px_w']}px. "
-            f"La foto degrada a panel de {panel[2]:.0f}x{panel[3]:.0f} "
-            f"({p_aspect:.1f}:1) y se promueve el campo de marca"
-            + ("" if not still else "; el sujeto sigue apretado incluso en el panel"))
+        # La razon se cuenta distinta segun COMO fallo la restriccion, porque son dos
+        # fallas distintas y decir la equivocada es peor que no decir nada.
+        if hard:
+            need_h = (prep["face"][3] / 0.45) if prep["face"] else 0.0
+            reasons.append(
+                f"a {fmt.aspect:.1f}:1 ningun recorte a sangre contiene la region focal "
+                f"por encima de la escala minima de sujeto: haria falta {need_h:.0f}px de "
+                f"alto, o {need_h*fmt.aspect:.0f}px de ancho, y la fuente tiene "
+                f"{prep['px_w']}px. La foto degrada a panel de "
+                f"{panel[2]:.0f}x{panel[3]:.0f} ({p_aspect:.1f}:1) y se promueve el "
+                f"campo de marca"
+                + ("" if not still else
+                   "; el sujeto sigue apretado incluso en el panel"))
+        else:
+            cov = float(cdiag0.get("soft_cover", 0.0))
+            reasons.append(
+                f"a {fmt.aspect:.1f}:1 el mejor recorte a sangre conserva solo el "
+                f"{cov:.0%} de la region del sujeto, bajo el {cropmod.SOFT_MIN_COVER:.0%} "
+                f"exigido: la region es una extension ancha -un grupo-, no una cara, y "
+                f"no cabe. La foto degrada a panel de {panel[2]:.0f}x{panel[3]:.0f} "
+                f"({p_aspect:.1f}:1) y se promueve el campo de marca")
     else:
+        # "region focal contenida" solo si de verdad lo esta. Con la region blanda el
+        # encuadre puede conservar el 80% de un grupo, y decir "contenida" ahi seria
+        # exactamente la clase de afirmacion que este manifest existe para no hacer.
+        cov = float(cdiag.get("cover", 1.0))
+        if cdiag.get("face_soft") and cov < 0.995:
+            estado = (f"region del sujeto conservada al {cov:.0%} "
+                      f"(es una extension ancha, no una cara: se maximiza, no se exige)")
+        else:
+            estado = "region focal contenida"
         reasons.append(f"recorte {crect[2]:.0f}x{crect[3]:.0f}px de la fuente "
-                       f"({crect[2]/prep['px_w']:.0%} del ancho); region focal contenida")
+                       f"({crect[2]/prep['px_w']:.0%} del ancho); {estado}")
 
     ppi = vision.effective_ppi(prep["px_w"], crect[2] / prep["px_w"],
                                panel[2] if panel else W)
@@ -278,25 +304,47 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
     # ese objeto, la cara queda barata y el titular aterriza en la frente del sujeto.
     # El sistema protegia la cara al encuadrar y la tapaba al escribir. Se marca su
     # region, con margen porque la caja de Haar corta el pelo y la barbilla.
+    # SE VEDAN TODAS LAS CARAS, no solo la region focal. Vedar unicamente
+    # `prep["face"]` bastaba mientras el sujeto era una persona. Sobre un grupo de
+    # once, la region focal es la banda del modelo y el resto de las cabezas quedaban
+    # baratas: medido en el MPU de la foto de la piramide, el titular aterrizaba sobre
+    # las caras que el veto no cubria. `prep["faces"]` -las caras con acuerdo de las
+    # dos cascadas- ya estaba calculado y no se consumia en ningun sitio.
+    vedadas: List[Rect] = []
     if prep.get("face"):
-        fx, fy, fw_, fh_ = prep["face"]
+        vedadas.append(tuple(prep["face"]))
+    for f in (prep.get("faces") or []):
+        vedadas.append(tuple(f))
+
+    if vedadas:
         cx0, cy0, cw0, ch0 = crect
         tx, ty, tw, th = panel if panel else (0.0, 0.0, W, H)
-        px_ = tx + (fx - cx0) * tw / max(cw0, 1e-9)
-        py_ = ty + (fy - cy0) * th / max(ch0, 1e-9)
-        pw_ = fw_ * tw / max(cw0, 1e-9)
-        ph_ = fh_ * th / max(ch0, 1e-9)
-        m = 0.25
-        px_, py_ = px_ - pw_ * m, py_ - ph_ * m
-        pw_, ph_ = pw_ * (1 + 2 * m), ph_ * (1 + 2 * m)
-        a = max(0, int(px_ * grid[0] / W)); b = max(0, int(py_ * grid[1] / H))
-        c = min(grid[0], int(np.ceil((px_ + pw_) * grid[0] / W)))
-        d = min(grid[1], int(np.ceil((py_ + ph_) * grid[1] / H)))
-        if c > a and d > b:
-            cf[b:d, a:c] = 1.0
+        m = 0.25                      # la caja de Haar corta el pelo y la barbilla
+        puestas = 0
+        primera = None
+        for (fx, fy, fw_, fh_) in vedadas:
+            px_ = tx + (fx - cx0) * tw / max(cw0, 1e-9)
+            py_ = ty + (fy - cy0) * th / max(ch0, 1e-9)
+            pw_ = fw_ * tw / max(cw0, 1e-9)
+            ph_ = fh_ * th / max(ch0, 1e-9)
+            px_, py_ = px_ - pw_ * m, py_ - ph_ * m
+            pw_, ph_ = pw_ * (1 + 2 * m), ph_ * (1 + 2 * m)
+            a = max(0, int(px_ * grid[0] / W)); b = max(0, int(py_ * grid[1] / H))
+            c = min(grid[0], int(np.ceil((px_ + pw_) * grid[0] / W)))
+            d = min(grid[1], int(np.ceil((py_ + ph_) * grid[1] / H)))
+            if c > a and d > b:
+                cf[b:d, a:c] = 1.0
+                puestas += 1
+                if primera is None:
+                    primera = (pw_, ph_, px_, py_)
+        if puestas == 1 and primera:
             reasons.append(
-                f"region de la cara vedada al texto: {pw_:.0f}x{ph_:.0f}px en "
-                f"({px_:.0f},{py_:.0f}) del lienzo, con 25% de margen")
+                f"region de la cara vedada al texto: {primera[0]:.0f}x{primera[1]:.0f}px "
+                f"en ({primera[2]:.0f},{primera[3]:.0f}) del lienzo, con 25% de margen")
+        elif puestas > 1:
+            reasons.append(
+                f"{puestas} regiones de cara vedadas al texto, con 25% de margen cada "
+                f"una: sobre un grupo no basta vedar la region focal")
 
     ii = vision.integral(cf)
     gx, gy = grid[0] / W, grid[1] / H

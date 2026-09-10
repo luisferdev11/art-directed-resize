@@ -389,6 +389,22 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
 SUJETOS = ("persona", "grupo", "producto", "comida", "edificio", "ilustracion",
            "tipografia", "animal", "paisaje", "ninguno")
 
+# SUJETOS QUE SON UNA EXTENSION, NO UN OBJETO ENCUADRABLE.
+#
+# `focal_proxy` conserva el ANCHO de la caja del modelo en todos los casos menos
+# `persona` -es la extension del sujeto, y encogerla deja fuera la gente de los
+# extremos-. Para un objeto compacto eso da una caja que cualquier formato puede
+# contener. Para una extension ancha no: ninguna ventana mas estrecha que la fuente
+# la contiene al 99.5%, la guarda del recorte declara insatisfacible y la foto degrada
+# a panel en casi todos los formatos. Medido sobre tres fotos de grupo antes de esto:
+# panel en 5 de 5, 4 de 5 y 2 de 5.
+#
+# Para estos sujetos la restriccion correcta no es "contener" sino "conservar la mayor
+# parte", que es lo que `crop.choose(face_hard=False)` hace. La distincion es la misma
+# que el vocabulario del plan (`contener` / `preservar`) reducida a lo que se necesita
+# hoy: un booleano derivado de lo que el modelo YA responde en `sujeto`.
+SUJETOS_EXTENSOS = frozenset({"grupo", "edificio", "paisaje", "tipografia"})
+
 
 def _valida_focal(d, W: float, H: float):
     """Valida la respuesta del modelo sobre la region focal."""
