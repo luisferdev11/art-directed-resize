@@ -21,6 +21,8 @@ DOS HIPOTESIS ESTRUCTURALES:
 from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 
+import math
+
 import cv2
 import numpy as np
 
@@ -189,22 +191,66 @@ def _overlap(a: Rect, b: Rect) -> bool:
 
 
 # --------------------------------------------------------------------- panel
-def _panel_geometry(fmt: Format, master_cx: float) -> Tuple[Rect, Rect]:
-    """(rect del panel de foto, rect del campo de marca).
+def _panel_geometry(fmt: Format, master_cx: float, master_top: float = 0.1,
+                    src_aspect: float = 1.0) -> Tuple[Rect, Rect, str]:
+    """(rect del panel de foto, rect del campo de marca, orientacion).
 
     El panel va al lado OPUESTO al titular del master, para que el texto conserve
-    su lado. Su ancho se acota para que el aspecto del panel sea sano.
+    su lado. Y su ORIENTACION se decide, no se asume.
+
+    UNA TIRA LATERAL NO SIRVE EN UN LIENZO VERTICAL. El panel era siempre vertical y
+    a toda altura, y en 9:16 eso da una tira de 0.26:1: una fotografia apaisada
+    metida ahi queda en un sliver donde se leen dos letras del rotulo y una rueda, y
+    no se entiende cual es el sujeto. Medido sobre un anuncio de 612x424 -1.4:1- en
+    story de 1080x1920.
+
+    Para un lienzo alto la geometria correcta es una BANDA horizontal: la fotografia
+    cruza a lo ancho y el campo de marca ocupa el resto. Conserva el aspecto del
+    sujeto en lugar de destruirlo.
+
+    Cual de las dos se elige no es una regla escrita a mano: se calculan las dos y
+    gana la que le da al panel un aspecto mas parecido al de la FUENTE, por distancia
+    logaritmica. Es el mismo criterio con el que el mecanismo rival empareja
+    templates (`constraints.pick_template`), aplicado aqui a la hipotesis
+    estructural.
+
+    A 8:1 y en los ultra-wide sigue ganando la tira lateral, que es donde ya era la
+    respuesta correcta; los formatos altos y los cuadrados pasan a banda.
     """
     W, H = float(fmt.w), float(fmt.h)
-    pw = min(brand.PANEL_MAX_W * W, H * brand.PANEL_TARGET_ASPECT)
+    a = brand.PANEL_TARGET_ASPECT
+
+    pw = min(brand.PANEL_MAX_W * W, H * a)
     pw = max(pw, min(0.22 * W, H * 1.2))
+    lado_aspect = pw / max(H, 1e-9)
+
+    ph = min(brand.PANEL_MAX_W * H, W / a)
+    ph = max(ph, min(0.22 * H, W * 1.2))
+    banda_aspect = W / max(ph, 1e-9)
+
+    src = max(src_aspect, 1e-9)
+    d_lado = abs(math.log(max(lado_aspect, 1e-9) / src))
+    d_banda = abs(math.log(max(banda_aspect, 1e-9) / src))
+
+    if d_banda < d_lado:
+        # Banda. Va arriba o abajo, lo contrario de donde esta el titular del master,
+        # por la misma razon que la tira va al lado contrario: el texto conserva su
+        # mitad y el aire del master se respeta.
+        if master_top <= 0.5:                # titular arriba -> banda abajo
+            panel = (0.0, H - ph, W, ph)
+            field = (0.0, 0.0, W, H - ph)
+        else:
+            panel = (0.0, 0.0, W, ph)
+            field = (0.0, ph, W, H - ph)
+        return panel, field, "banda"
+
     if master_cx <= 0.5:                     # titular a la izquierda -> panel derecha
         panel = (W - pw, 0.0, pw, H)
         field = (0.0, 0.0, W - pw, H)
     else:
         panel = (0.0, 0.0, pw, H)
         field = (pw, 0.0, W - pw, H)
-    return panel, field
+    return panel, field, "lateral"
 
 
 def _compose_backdrop(fmt: Format, rgb: np.ndarray, crect: Rect,
@@ -246,7 +292,9 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
     unsat = bool(cdiag.get("face_unsatisfiable"))
     panel = field = None
     if unsat:
-        panel, field = _panel_geometry(fmt, master_cx)
+        panel, field, orient = _panel_geometry(
+            fmt, master_cx, master_top,
+            float(prep["px_w"]) / max(float(prep["px_h"]), 1e-9))
         p_aspect = panel[2] / panel[3]
         crect, cdiag = cropmod.choose(prep["px_w"], prep["px_h"], p_aspect,
                                       prep["sal_ii"], prep["grid"], prep["face"],
@@ -260,7 +308,7 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
                 f"a {fmt.aspect:.1f}:1 ningun recorte a sangre contiene la region focal "
                 f"por encima de la escala minima de sujeto: haria falta {need_h:.0f}px de "
                 f"alto, o {need_h*fmt.aspect:.0f}px de ancho, y la fuente tiene "
-                f"{prep['px_w']}px. La foto degrada a panel de "
+                f"{prep['px_w']}px. La foto degrada a panel {orient} de "
                 f"{panel[2]:.0f}x{panel[3]:.0f} ({p_aspect:.1f}:1) y se promueve el "
                 f"campo de marca"
                 + ("" if not still else
@@ -271,8 +319,10 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
                 f"a {fmt.aspect:.1f}:1 el mejor recorte a sangre conserva solo el "
                 f"{cov:.0%} de la region del sujeto, bajo el {cropmod.SOFT_MIN_COVER:.0%} "
                 f"exigido: la region es una extension y no una cara, asi que no cabe "
-                f"entera. La foto degrada a panel de {panel[2]:.0f}x{panel[3]:.0f} "
-                f"({p_aspect:.1f}:1) y se promueve el campo de marca")
+                f"entera. La foto degrada a panel {orient} de "
+                f"{panel[2]:.0f}x{panel[3]:.0f} ({p_aspect:.1f}:1), la orientacion "
+                f"que conserva mejor el aspecto de la fuente, y se promueve el "
+                f"campo de marca")
     else:
         # "region focal contenida" solo si de verdad lo esta. Con la region blanda el
         # encuadre puede conservar el 80% de un grupo, y decir "contenida" ahi seria
