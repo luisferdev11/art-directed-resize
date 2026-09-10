@@ -209,7 +209,7 @@
       "effective_ppi": 576.0,
       "field_cost": 0.0042,
       "reasons": [
-        "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 440px de alto, o 3559px de ancho, y la fuente tiene 2160px. La foto degrada a panel de 270x90 (3.0:1) y se promueve el campo de marca",
+        "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 440px de alto, o 3559px de ancho, y la fuente tiene 2160px. La foto degrada a panel lateral de 270x90 (3.0:1) y se promueve el campo de marca",
         "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "subhead: el piso de legibilidad redujo el contraste de tamano a 2.29:1 frente a 3.07:1 del master, asi que la jerarquia se re-expresa en peso (400 a 300)",
         "support: el piso de legibilidad redujo el contraste de tamano a 2.91:1 frente a 4.60:1 del master, asi que la jerarquia se re-expresa en peso (900 a 300)",

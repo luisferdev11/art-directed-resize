@@ -5837,7 +5837,7 @@
       "effective_ppi": 205.7,
       "field_cost": 0.0069,
       "reasons": [
-        "a 8.2:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 440px de alto, o 3618px de ancho, y la fuente tiene 2160px. La foto degrada a panel de 756x252 (3.0:1) y se promueve el campo de marca",
+        "a 8.2:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 440px de alto, o 3618px de ancho, y la fuente tiene 2160px. La foto degrada a panel lateral de 756x252 (3.0:1) y se promueve el campo de marca",
         "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (137,18) por busqueda densa sobre el campo de costo: coste 0.007 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 15.24:1",
