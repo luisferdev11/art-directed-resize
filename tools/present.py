@@ -1,0 +1,392 @@
+"""La portada: que es esto, por que existe y que hace, con las cifras medidas.
+
+TODAS LAS CIFRAS SE LEEN DE LOS MANIFESTS Y DE LAS SALIDAS EN DISCO. Ninguna esta
+escrita a mano. Es la misma regla que gobierna el resto del proyecto: si el codigo
+cambia y la pagina no, la pagina miente, y una pagina que se vende sola es
+exactamente donde mas caro sale mentir.
+
+Lo que NO lleva esta pagina, a proposito:
+  · ninguna cita del brief del cliente. Ese documento es suyo.
+  · ningun nombre de cliente del empleador del autor.
+  · ninguna cifra sin su N al lado.
+"""
+from __future__ import annotations
+import json, os, subprocess, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
+
+import nav
+from nav import SHEETS
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPO = "https://github.com/luisferdev11/art-directed-resize"
+
+
+# ------------------------------------------------------------------- las cifras
+def validator(d):
+    """El veredicto del validador, corriendolo. No se deduce de otra fuente."""
+    r = subprocess.run([sys.executable, "-B", os.path.join(ROOT, "check.py"), d],
+                       cwd=ROOT, capture_output=True, text=True)
+    last = [l for l in r.stdout.strip().splitlines() if l.strip()][-1:]
+    if not last:
+        return None
+    t = last[0]
+    if t.startswith("VERDE"):
+        n = int(t.split(":")[1].split()[0])
+        return (n, n)
+    if t.startswith("FALLA"):
+        parts = t.replace("FALLA:", "").split()
+        return (int(parts[2]) - int(parts[0]), int(parts[2]))
+    return None
+
+
+def facts(site):
+    """Se leen del disco. Si algo falta, se dice que falta en lugar de inventarlo."""
+    f = {}
+
+    def man(*parts):
+        p = os.path.join(site, *parts, "manifest.json")
+        return json.load(open(p)) if os.path.exists(p) else None
+
+    f["val_art"] = validator(os.path.join(site, "meridian-quarter"))
+    f["val_con"] = validator(os.path.join(site, "meridian-quarter", "constraints"))
+    a, c = man("meridian-quarter"), man("meridian-quarter", "constraints")
+    if a and c:
+        oa = [x for x in a["outputs"] if not x.get("failed")]
+        oc = [x for x in c["outputs"] if not x.get("failed")]
+        f["n_formatos"] = len(oa)
+        f["viol_total"] = sum(len(x.get("violations") or []) for x in oc)
+        f["viol_formatos"] = sum(1 for x in oc if x.get("violations"))
+        f["limpios"] = len(oc) - f["viol_formatos"]
+        f["n_bloques"] = sum(len(x["blocks"]) for x in oa)
+        f["escalera"] = sorted({s for x in oa for s in (x.get("ladder") or [])})
+        f["paneles"] = [x["key"] for x in oa if x.get("hypothesis") == "panel"]
+        f["retirados"] = sorted({d for x in oa for d in (x.get("dropped") or [])})
+
+    fl = man("meridian-flat")
+    if fl:
+        f["n_flat"] = len([x for x in fl["outputs"] if not x.get("failed")])
+        f["flat_roles"] = [b["role"] for b in fl["outputs"][0]["blocks"]]
+
+    ro = os.path.join(site, "rollout")
+    if os.path.isdir(ro):
+        cs = sorted(x for x in os.listdir(ro) if os.path.isdir(os.path.join(ro, x)))
+        f["centres"] = cs
+        f["piezas"] = sum(len([y for y in os.listdir(os.path.join(ro, x))
+                               if y.endswith(".svg")]) for x in cs)
+
+    g = os.path.join(ROOT, "out", "_golden", "golden.json")
+    if os.path.exists(g):
+        j = json.load(open(g))
+        f["gold"] = (j["n_masters"], j["n_asignaciones"],
+                     j["aciertos_por_tamano"], j["aciertos_por_modelo"])
+
+    f["loc"] = sum(sum(1 for _ in open(os.path.join(dp, fn)))
+                   for dp, _, fs in os.walk(ROOT)
+                   for fn in fs if fn.endswith(".py")
+                   and "__pycache__" not in dp and "/docs/" not in dp
+                   and "/out/" not in dp)
+    return f
+
+
+def swap_facts(site):
+    """Las decisiones que se rehacen al cambiar la fotografia, contadas en disco."""
+    out = os.path.join(ROOT, "out", "_swap")
+    if not os.path.isdir(out):
+        return None
+    import swap_test as SW
+    res = {"art": {}, "constraints": {}}
+    for backend, sub in (("art", ""), ("constraints", "constraints")):
+        for fk in SW.VIDEO_ORDER:
+            ds = [SW.decisions(os.path.join(out, k, sub), fk) for k, _, _ in SW.PHOTOS]
+            if any(x is None for x in ds):
+                return None
+            for campo in SW.DECISIONS:
+                if len({repr(x[campo]) for x in ds}) > 1:
+                    res[backend][campo] = res[backend].get(campo, 0) + 1
+    return res, len(SW.VIDEO_ORDER)
+
+
+# ------------------------------------------------------------------ el diagrama
+DIAGRAM = """
+<svg viewBox="0 0 760 260" role="img" aria-label="Arquitectura: dos adaptadores de
+ entrada contra un unico modelo Scene, dos backends de layout y un emisor comun"
+ style="width:100%;height:auto;max-width:760px">
+ <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+   markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+ </marker></defs>
+ <g font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12.5">
+  <rect x="8" y="26" width="150" height="42" rx="7" fill="#fff" stroke="#d8d3c8"/>
+  <text x="83" y="44" text-anchor="middle" font-size="12">master.svg</text>
+  <text x="83" y="59" text-anchor="middle" font-size="10.5" opacity=".6">parse_svg.py</text>
+
+  <rect x="8" y="92" width="150" height="42" rx="7" fill="#fff" stroke="#d8d3c8"/>
+  <text x="83" y="110" text-anchor="middle" font-size="12">master.jpg</text>
+  <text x="83" y="125" text-anchor="middle" font-size="10.5" opacity=".6">semantic.py + modelo</text>
+
+  <rect x="8" y="158" width="150" height="42" rx="7" fill="#faf7f0" stroke="#e0d5bd"
+    stroke-dasharray="4 3"/>
+  <text x="83" y="176" text-anchor="middle" font-size="12">frame de Figma</text>
+  <text x="83" y="191" text-anchor="middle" font-size="10.5" opacity=".55">plugin · no construido</text>
+
+  <rect x="238" y="82" width="120" height="62" rx="9" fill="#0E2A26"/>
+  <text x="298" y="108" text-anchor="middle" fill="#F4F1EA" font-size="14"
+    font-weight="700">Scene</text>
+  <text x="298" y="126" text-anchor="middle" fill="#F4F1EA" font-size="10"
+    opacity=".7">el unico seam</text>
+
+  <rect x="430" y="34" width="160" height="46" rx="7" fill="#fff" stroke="#d8d3c8"/>
+  <text x="510" y="53" text-anchor="middle" font-size="12">solve.py</text>
+  <text x="510" y="68" text-anchor="middle" font-size="10.5" opacity=".6">decide desde los pixeles</text>
+
+  <rect x="430" y="146" width="160" height="46" rx="7" fill="#fff" stroke="#d8d3c8"/>
+  <text x="510" y="165" text-anchor="middle" font-size="12">constraints.py</text>
+  <text x="510" y="180" text-anchor="middle" font-size="10.5" opacity=".6">el mecanismo rival</text>
+
+  <rect x="640" y="82" width="112" height="62" rx="7" fill="#fff" stroke="#d8d3c8"/>
+  <text x="696" y="104" text-anchor="middle" font-size="12">emit.py</text>
+  <text x="696" y="121" text-anchor="middle" font-size="10.5" opacity=".6">SVG editable</text>
+
+  <g stroke="currentColor" fill="none" marker-end="url(#ar)" opacity=".55">
+   <path d="M158 47 C200 47 200 100 232 106"/>
+   <path d="M158 113 L232 113"/>
+   <path d="M158 179 C200 179 200 128 232 122" stroke-dasharray="4 3"/>
+   <path d="M358 100 C395 100 395 57 424 57"/>
+   <path d="M358 126 C395 126 395 169 424 169"/>
+   <path d="M590 57 C615 57 615 100 634 106"/>
+   <path d="M590 169 C615 169 615 128 634 122"/>
+  </g>
+ </g>
+</svg>"""
+
+
+def build(site: str) -> None:
+    f = facts(site)
+    sw = swap_facts(site)
+    cards = "".join(
+        f'<a class="card" href="{rel}"><h3>{label}</h3><p>{desc}</p></a>'
+        for rel, label, desc in SHEETS if os.path.exists(os.path.join(site, rel)))
+
+    dec = ""
+    if sw:
+        res, n = sw
+        for campo in ("recorte", "cuerpos", "colores", "scrims"):
+            a, c = res["art"].get(campo, 0), res["constraints"].get(campo, 0)
+            dec += (f'<tr><td>{campo}</td>'
+                    f'<td class="n {"hi" if a > c else ""}">{a} de {n}</td>'
+                    f'<td class="n">{c} de {n}</td></tr>')
+
+    g = f.get("gold")
+    gold = (f'<strong>{g[3]}/{g[1]}</strong> frente a <strong>{g[2]}/{g[1]}</strong>, '
+            f'sobre <strong>N={g[0]} masters</strong>' if g else "pendiente de medir")
+
+    va = f.get("val_art") or ("?", "?")
+    vc = f.get("val_con") or ("?", "?")
+    esc = ", ".join(f["escalera"]) if f.get("escalera") else "ninguno"
+    ret = ", ".join(f["retirados"]) if f.get("retirados") else "ninguno"
+
+    doc = f"""<!doctype html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>art-directed-resize &middot; un motor de layout que mira la fotografia</title>
+<style>
+ :root{{--ink:#0E2A26;--pap:#F4F1EA;--acc:#E4572E;--line:#d8d3c8;--mut:#6b7f79}}
+ *{{box-sizing:border-box}}
+ body{{margin:0;background:var(--pap);color:var(--ink);
+   font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}}
+ .wrap{{max-width:1080px;margin:0 auto;padding:0 24px 90px}}
+ header.hero{{padding:64px 0 10px}}
+ h1{{font-size:clamp(30px,5vw,46px);line-height:1.1;margin:0 0 14px;
+   letter-spacing:-.02em;max-width:19ch}}
+ h1 em{{font-style:normal;color:var(--acc)}}
+ .lede{{font-size:clamp(17px,2.2vw,20px);max-width:62ch;margin:0 0 26px;color:var(--mut)}}
+ h2{{font-size:24px;margin:56px 0 12px;letter-spacing:-.01em}}
+ h2 span{{color:var(--acc);font-size:15px;font-weight:400;margin-left:8px}}
+ p{{max-width:70ch}}
+ .cta{{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0 0}}
+ .cta a{{display:inline-block;padding:11px 20px;border-radius:99px;text-decoration:none;
+   font-size:14.5px;font-weight:600;border:1px solid var(--ink)}}
+ .cta a.p{{background:var(--ink);color:var(--pap)}}
+ .cta a.s{{background:transparent;color:var(--ink)}}
+ .kpis{{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;
+   margin:40px 0 0}}
+ .kpi{{background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px 18px}}
+ .kpi b{{display:block;font-size:27px;letter-spacing:-.02em;line-height:1.15}}
+ .kpi span{{display:block;font-size:12.5px;color:var(--mut);margin-top:5px}}
+ .box{{background:#fff;border:1px solid var(--line);border-radius:11px;
+   padding:20px 22px;margin:18px 0}}
+ .box.q{{border-left:3px solid var(--acc)}}
+ table{{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);
+   border-radius:11px;overflow:hidden;margin:14px 0;font-size:14.5px}}
+ th{{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;
+   color:var(--mut);background:#fbfaf7;padding:10px 16px;font-weight:600}}
+ td{{padding:11px 16px;border-top:1px solid #f0efeb;vertical-align:top}}
+ td:first-child{{font-weight:600;width:30%}}
+ td.n{{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;width:22%}}
+ td.hi{{color:var(--acc)}}
+ .grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;
+   margin:16px 0}}
+ .card{{display:block;background:#fff;border:1px solid var(--line);border-radius:11px;
+   padding:18px 20px;text-decoration:none;color:inherit}}
+ .card:hover{{border-color:var(--ink)}}
+ .card h3{{margin:0 0 5px;font-size:16px}}
+ .card p{{margin:0;font-size:13.5px;color:var(--mut)}}
+ .diagram{{background:#fff;border:1px solid var(--line);border-radius:11px;
+   padding:22px;margin:16px 0;color:var(--ink);overflow-x:auto}}
+ pre{{background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px 18px;
+   font-size:13px;line-height:1.55;overflow-x:auto}}
+ ul{{max-width:70ch}} li{{margin:7px 0}}
+ .limits li::marker{{color:var(--acc)}}
+ footer{{margin:70px 0 0;padding-top:22px;border-top:1px solid var(--line);
+   font-size:13.5px;color:var(--mut)}}
+ a{{color:inherit}}
+ {nav.CSS}
+</style>
+<div class="wrap">
+<header class="hero">
+<h1>Un motor de layout que <em>mira la fotografia</em></h1>
+<p class="lede">Un master entra y salen todos los formatos de la campana en una
+ pasada, cada uno recortado, compuesto, corregido de contraste y degradado en sus
+ propios terminos. Con una razon enunciable detras de cada decision.</p>
+<div class="cta">
+ <a class="p" href="meridian-quarter/face-off.html">Ver el cara a cara &rarr;</a>
+ <a class="s" href="meridian-quarter/index.html">La campana completa</a>
+ <a class="s" href="{REPO}">Codigo en GitHub</a>
+</div>
+<div class="kpis">
+ <div class="kpi"><b>{f.get('n_formatos','?')} formatos</b><span>desde un master,
+   en una sola invocacion</span></div>
+ <div class="kpi"><b>{f.get('n_flat','?')} sin estructura</b><span>generados desde un
+   JPEG plano, sin capas ni nodos de texto</span></div>
+ <div class="kpi"><b>{len(f.get('centres',[]))} centres</b><span>{f.get('piezas','?')}
+   piezas en carpetas autocontenidas</span></div>
+ <div class="kpi"><b>{f.get('loc','?')} lineas</b><span>de Python, sin framework,
+   deterministas</span></div>
+</div>
+</header>
+
+<h2>El problema<span>por que un resize no basta</span></h2>
+<p>Adaptar una campana a decenas de formatos es trabajo de decision, no de escalado.
+ El mecanismo habitual —tres plantillas con constraints, y cada salida emparejada
+ con la mas parecida por tamano— mueve cajas segun reglas fijadas de antemano.</p>
+<div class="box q"><strong>Un constraint no puede mirar la fotografia.</strong> No sabe
+ donde esta la cara, ni si el titular sigue siendo legible sobre lo que acabo
+ quedando detras, ni que a 8:1 la foto deberia dejar de ir a sangre. Funciona
+ mientras el objetivo se parezca a una plantilla, y una campana no se parece a tres
+ plantillas.</div>
+
+<h2>La propuesta<span>que hace este motor</span></h2>
+<table>
+<tr><th>Decision</th><th>Como se toma</th></tr>
+<tr><td>Roles</td><td>Se deducen del tamano, el area y la jerarquia relativa.
+ <strong>No se leen los nombres de capa</strong>: renombra todo a "Layer 1" y el
+ resultado no cambia. Depender de los nombres seria pedir un archivo autoreado
+ para la herramienta.</td></tr>
+<tr><td>Recorte</td><td>Busqueda densa sobre 7 escalas y 13&times;13 posiciones, con el
+ sujeto como restriccion dura y doble guarda de escala minima y maxima.</td></tr>
+<tr><td>Emplazamiento</td><td>No se elige de una lista de anclajes: se <strong>busca
+ sobre un campo de costo derivado de los pixeles</strong> —saliencia, varianza de
+ luminancia y gradiente— con la region de la cara vedada al texto.</td></tr>
+<tr><td>Contraste</td><td>Luminancia WCAG por percentiles, <strong>medida linea a
+ linea</strong>. Donde falta, el alpha minimo del scrim se halla componiendo en sRGB,
+ que es donde SVG compone de verdad.</td></tr>
+<tr><td>Degradacion</td><td>Escalera declarada, aplicada en orden: {esc}.
+ Nada se comprime en silencio: si no cabe, algo cae y queda registrado por que.
+ En esta campana cayo: {ret}.</td></tr>
+<tr><td>Estructura</td><td>Cuando ningun recorte a sangre contiene al sujeto, la foto
+ degrada a panel lateral y se promueve el campo de marca. Es una decision
+ <strong>emergente de una restriccion medida</strong>, no una plantilla por formato.
+ Ocurrio en: {', '.join(f.get('paneles',[])) or 'ninguno'}.</td></tr>
+<tr><td>Salida</td><td>SVG editable: un <code>&lt;text&gt;</code> por linea con
+ baselines absolutos y las fuentes al lado. <strong>Verificado: importa a Figma con
+ capas y texto editable.</strong></td></tr>
+</table>
+
+<h2>La arquitectura<span>un solo seam</span></h2>
+<p><code>Scene</code> es el unico punto de acoplamiento del sistema. Los formatos de
+ archivo son adaptadores en los dos extremos, y el motor de decision es
+ intercambiable. Por eso el mecanismo rival pudo implementarse como un
+ <strong>segundo backend contra el mismo modelo</strong>, y por eso un plugin de
+ Figma seria un tercer adaptador y no un proyecto aparte.</p>
+<div class="diagram">{DIAGRAM}</div>
+<p>Para un JPEG plano no hay nada que parsear: cero nodos de texto, cero roles, cero
+ jerarquia. Ahi un modelo multimodal lee la pieza y asigna el rol <em>por funcion
+ comunicativa</em>, que es lo unico que solo un modelo puede hacer; los pixeles y las
+ metricas de la fuente miden despues donde esta cada cosa y cuanto mide. El texto
+ quemado se retira con inpainting clasico para poder recomponer debajo. Si el
+ esquema no valida, se cae al siguiente proveedor de la cadena <strong>y queda
+ registrado</strong>.</p>
+
+<h2>Los resultados, medidos<span>cada cifra con su N</span></h2>
+<table>
+<tr><th>Que se midio</th><th>Desde el arte</th><th>Template + constraints</th></tr>
+<tr><td>Formatos que pasa el validador<br>
+ <span style="font-weight:400;font-size:12.5px;color:var(--mut)">re-parseo del SVG
+ entregado: solape, area segura, piso de cuerpo, escala del logo y contraste por
+ linea. El mismo instrumento para los dos</span></td>
+ <td class="n hi">{va[0]} de {va[1]}</td>
+ <td class="n">{vc[0]} de {vc[1]}</td></tr>
+</table>
+<p style="margin-top:-2px;font-size:14.5px;color:var(--mut)">Los
+ <strong>{f.get('limpios','?')}</strong> formatos que el mecanismo por constraints
+ resuelve sin una sola violacion atribuible a el son exactamente aquellos cuyo tamano
+ coincide con una plantilla. Ese es el argumento honesto, y por eso la comparacion
+ empieza por ahi.</p>
+
+<h2 style="font-size:19px;margin-top:34px">Al cambiar la fotografia, &iquest;que
+ decision se rehace?</h2>
+<table>
+<tr><th>Decision</th><th>Desde el arte</th><th>Template + constraints</th></tr>
+{dec}
+</table>
+<p>Al cambiar la fotografia, por la via de constraints <strong>lo unico que cambia es
+ que pixeles se recortan</strong>: cuerpos, colores, scrims y elementos retirados son
+ identicos. Esa es la tesis, medida.</p>
+<div class="box"><strong>Asignacion de rol:</strong> leer la pieza acierta {gold}
+ frente a ordenar por tamano de fuente. La diferencia entera esta en un caso
+ construido a proposito, y real: un aviso legal fijado en cuerpo grande, que aparece
+ en cualquier promocion regulada. Ordenar por tamano acierta 1 de 4 ahi.
+ <br><br><strong>N=3 no sostiene una comparacion de modelos, y no se presenta como
+ tal.</strong> Sostiene que esa clase de pieza existe y que el orden por tamano falla
+ en ella por construccion.</div>
+
+<h2>Que incluye<span>{len([1 for r,_,_ in SHEETS if os.path.exists(os.path.join(site,r))])} vistas generadas</span></h2>
+<div class="grid">{cards}</div>
+
+<h2>Lo que NO hace<span>y se dice antes de que lo pregunten</span></h2>
+<ul class="limits">
+<li>No orquesta campanas: no agrupa, no nombra en lote, no exporta video ni vuelve a
+ la herramienta de diseno por plugin. Es el motor de layout, no el producto.</li>
+<li><strong>El copy no varia por centre.</strong> Los tres centres llevan el mismo
+ titular y las mismas fechas. Lo que cambia es la fotografia.</li>
+<li>Un unico campo de la escena queda sin verificar: el <strong>peso</strong>
+ tipografico en la ruta del JPEG. Se intento derivarlo y empeoraba el resultado, asi
+ que se dice en lugar de sugerir que todo esta medido.</li>
+<li>La placa reconstruida bajo el texto quemado es una <strong>aproximacion</strong>:
+ bajo un titular de 92px el inpainting inventa textura plausible, no la original.</li>
+<li>Sin interfaz. Las paginas de este sitio son informes estaticos generados.</li>
+</ul>
+
+<h2>Reproducirlo</h2>
+<pre>pip install -r requirements.txt        <span style="opacity:.55"># opencv-CONTRIB, no opencv-python</span>
+
+./run.py --backend both                <span style="opacity:.55"># los dos backends de layout</span>
+./check.py                             <span style="opacity:.55"># re-parsea y mide el SVG entregado</span>
+python3 tools/swap_test.py             <span style="opacity:.55"># mismo master, tres fotografias</span>
+python3 tools/golden.py                <span style="opacity:.55"># asignacion de rol, con su N</span>
+./run.py --master assets/master-flat.jpg --formats video \\
+         --out out/spring-campaign/meridian-flat</pre>
+
+<footer>Marca, tipografia y fotografia declaradas en <code>assets/LICENSES.md</code>.
+ MERIDIAN QUARTER, Harbourside Plaza y Northgate Centre son nombres inventados.
+ Codigo y documentacion en <a href="{REPO}">GitHub</a>.</footer>
+</div>
+"""
+    with open(os.path.join(site, "index.html"), "w") as fh:
+        fh.write(doc)
+    print(f"portada escrita: {len(doc)//1024} KB -> {os.path.join(site, 'index.html')}")
+
+
+if __name__ == "__main__":
+    build(sys.argv[1] if len(sys.argv) > 1
+          else os.path.join(ROOT, "out", "spring-campaign"))

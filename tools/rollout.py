@@ -1,7 +1,13 @@
-"""Un archivo por centre. La cuarta queja del cliente, respondida literalmente.
+"""Un archivo por centre.
 
-    "It also cannot separate files into different 'centres' thus creating one
-     overly large document"                                   -- el brief [pdf]
+El problema, dicho en palabras propias: una campana de retail property sale a
+varios centros comerciales, y cada centro necesita su paquete. Si el rollout
+entrega un unico documento con todo dentro, alguien tiene que sacar a mano lo de
+cada centro antes de poder mandarlo.
+
+NO SE CITA EL BRIEF DEL CLIENTE EN ESTA PAGINA, y la pagina es publica. El
+documento es suyo, la cita seria suya, y publicarla atribuida es una decision que
+les corresponde a ellos. El argumento se sostiene igual sin ella.
 
 Lo verificado del competidor: 1340 assets aterrizan en UNA pagina de Figma,
 `Rollout - 4:26 pm 21/07/2026`, agrupados por vendor dentro de ese unico documento
@@ -149,13 +155,14 @@ def page(made):
 <div class="wrap">
 {nav.render(DEST, "rollout/index.html")}
 <h1>Un archivo por centre</h1>
-<blockquote>"It also cannot separate files into different 'centres' thus creating one
- overly large document" <em>&mdash; el brief del cliente [pdf]</em></blockquote>
-<p class="sub">Lo verificado del competidor: 1340 assets aterrizan en una sola pagina
- de Figma, agrupados por vendor dentro de ese unico documento
- <em style="opacity:.55;font-size:12px">[ui, competencia.md §2]</em>. Agrupar no es
- separar. Aqui cada centre es una carpeta autocontenida: se abre, se comprime y se
- manda sola.</p>
+<p class="sub">Una campana de retail property sale a varios centros, y cada centro
+ necesita su paquete. Si el rollout entrega un unico documento con todo dentro,
+ alguien tiene que extraer a mano lo de cada centro antes de poder mandarlo.</p>
+<p class="sub">Lo verificado del mecanismo por templates: 1340 assets aterrizan en una
+ sola pagina de Figma, agrupados por vendor dentro de ese unico documento
+ <em style="opacity:.55;font-size:12px">[captura del producto en funcionamiento]</em>.
+ Agrupar no es separar. Aqui cada centre es una carpeta autocontenida: se abre, se
+ comprime y se manda sola.</p>
 
 <h2>Las tres piezas, mismo formato</h2>
 <p class="sub">{BY_HERO} &mdash; una por centre, cada una en su carpeta. Misma
