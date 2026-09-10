@@ -201,6 +201,12 @@ def main() -> int:
         man = run_backend(name, scene, keys, prep, d, a.master)
         total += len(man["outputs"])
 
+    # El SDK enviá en segundo plano; sin esto un proceso corto se muere antes.
+    try:
+        import trace as _tr
+        _tr.flush()
+    except Exception:
+        pass
     print(f"\n{total} formatos en {time.time()-t0:.1f}s -> {a.out}")
     return 0
 

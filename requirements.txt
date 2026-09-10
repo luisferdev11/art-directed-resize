@@ -18,6 +18,12 @@ requests>=2.31
 #   python3 -c "from PIL import features; print(features.check('raqm'))"
 Pillow>=11.0
 
+# OPCIONAL. Trazas de la llamada al modelo: proveedor, latencia, si el esquema valido
+# y cada intento fallido antes del que respondio. Si no esta instalado, o si faltan las
+# claves, el pipeline corre EXACTAMENTE IGUAL y lo dice una vez en el log. La
+# observabilidad no puede estar en el camino critico.
+langfuse>=3,<4
+
 # --- fuera de pip, hacen falta igual ---
 # fonts-lato          Lato en /usr/share/fonts/truetype/lato (src/brand.py:8)
 # chromium            headless, para tools/shot.sh y tools/gate24_calibrate.py

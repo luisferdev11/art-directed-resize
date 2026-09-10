@@ -21,6 +21,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import requests
 
 import secrets_env as S
+import trace as T
 
 TIMEOUT = 120
 
@@ -108,7 +109,9 @@ def complete_vision(prompt: str, image_path: str,
     Resultado None significa que la cadena entera se agoto.
     """
     log = log if log is not None else []
+    intento = 0
     for p in CHAIN:
+        intento += 1
         key = S.get(p["key"])
         if not key:
             log.append(f"{p['name']}: sin clave en .env, se salta")
@@ -116,28 +119,54 @@ def complete_vision(prompt: str, image_path: str,
         if not _budget_ok(p, log):
             continue
         t0 = time.time()
-        try:
-            fn = _call_openai if p["kind"] == "openai" else _call_gemini
-            out = fn(p, key, prompt, image_path)
-            if not (out or "").strip():
-                raise ValueError("respuesta vacia")
-            if accept is not None:
-                value, errs = accept(out)
-                if value is None:
-                    log.append(f"{p['name']} ({p['model']}): respondio en "
-                               f"{time.time()-t0:.1f}s pero el esquema NO VALIDA, se "
-                               f"pasa al siguiente. " + "; ".join(errs[:3]))
-                    continue
-            else:
-                value = out
-            log.append(f"{p['name']} ({p['model']}): ok en {time.time()-t0:.1f}s, "
-                       f"clave {S.redact(key)}")
-            return value, p["name"], log
-        except Exception as e:
-            detail = str(e)
-            if isinstance(e, requests.HTTPError) and e.response is not None:
-                detail = f"HTTP {e.response.status_code}: {e.response.text[:200]}"
-            log.append(f"{p['name']} ({p['model']}): FALLO en {time.time()-t0:.1f}s, "
-                       f"{type(e).__name__}. {detail[:220]}")
+        # Un span por INTENTO, no por llamada. El intento que falla es justo el que
+        # hay que poder contar: la tasa de fallback es la senal mas temprana de que
+        # el proveedor principal se degrada, y no existe si el fallo no se registra.
+        with T.Span(f"vision:{p['name']}", kind="generation",
+                    model=p["model"],
+                    input={"prompt_chars": len(prompt),
+                           "image": os.path.basename(image_path)},
+                    metadata={"provider": p["name"], "url": p["url"],
+                              "intento": intento}) as sp:
+            try:
+                fn = _call_openai if p["kind"] == "openai" else _call_gemini
+                out = fn(p, key, prompt, image_path)
+                if not (out or "").strip():
+                    raise ValueError("respuesta vacia")
+                if accept is not None:
+                    value, errs = accept(out)
+                    if value is None:
+                        log.append(f"{p['name']} ({p['model']}): respondio en "
+                                   f"{time.time()-t0:.1f}s pero el esquema NO VALIDA, se "
+                                   f"pasa al siguiente. " + "; ".join(errs[:3]))
+                        sp.update(level="WARNING",
+                                  status_message="esquema no valida",
+                                  metadata={"provider": p["name"], "intento": intento,
+                                            "resultado": "esquema_invalido",
+                                            "errores": errs[:3],
+                                            "latencia_s": round(time.time() - t0, 2)})
+                        continue
+                else:
+                    value = out
+                log.append(f"{p['name']} ({p['model']}): ok en {time.time()-t0:.1f}s, "
+                           f"clave {S.redact(key)}")
+                sp.update(output={"chars": len(out)},
+                          metadata={"provider": p["name"], "intento": intento,
+                                    "resultado": "ok",
+                                    "latencia_s": round(time.time() - t0, 2)})
+                T.trace_meta(metadata={"proveedor_final": p["name"],
+                                       "modelo_final": p["model"],
+                                       "intentos": intento})
+                return value, p["name"], log
+            except Exception as e:
+                detail = str(e)
+                if isinstance(e, requests.HTTPError) and e.response is not None:
+                    detail = f"HTTP {e.response.status_code}: {e.response.text[:200]}"
+                log.append(f"{p['name']} ({p['model']}): FALLO en {time.time()-t0:.1f}s, "
+                           f"{type(e).__name__}. {detail[:220]}")
+                sp.update(level="ERROR", status_message=f"{type(e).__name__}",
+                          metadata={"provider": p["name"], "intento": intento,
+                                    "resultado": "fallo", "detalle": detail[:220],
+                                    "latencia_s": round(time.time() - t0, 2)})
     log.append("la cadena de proveedores se agoto sin una respuesta utilizable")
     return None, "", log

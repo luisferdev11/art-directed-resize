@@ -40,6 +40,7 @@ from PIL import Image
 import brand
 import providers
 import text as T
+import trace as TR
 from scene import Lockup, Photo, Scene, TextBlock
 
 SVG = "http://www.w3.org/2000/svg"
@@ -291,9 +292,26 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
                         f"texto, sin metadatos. El parser de SVG extrae 0 elementos"]
 
     prompt = open(PROMPT).read().replace("{W}", str(int(W))).replace("{H}", str(int(H)))
-    data, provider, log = providers.complete_vision(
-        prompt, path, accept=lambda raw: validate(_parse_json(raw), W, H))
-    notes.extend("proveedor · " + l for l in log)
+    # Una traza por MASTER, no por formato: la llamada al modelo ocurre una sola vez
+    # y de ella salen todos los tamanos. Es la unidad que hay que poder medir.
+    with TR.Span("escena desde raster", input={"master": os.path.basename(path),
+                                               "lienzo": f"{int(W)}x{int(H)}"}) as sp:
+        TR.trace_meta(name="scene-from-raster",
+                      tags=["scene", "raster"],
+                      metadata={"master": os.path.basename(path),
+                                "lienzo": f"{int(W)}x{int(H)}"})
+        data, provider, log = providers.complete_vision(
+            prompt, path, accept=lambda raw: validate(_parse_json(raw), W, H))
+        notes.extend("proveedor · " + l for l in log)
+        sp.update(output={"proveedor": provider,
+                          "roles": [t["role"] for t in (data or {}).get("texts", [])]},
+                  metadata={"intentos": len([l for l in log if ":" in l]),
+                            "fallback": provider != providers.CHAIN[0]["name"]})
+        # Un score por corrida: cuantos de los cuatro roles se recuperaron. Es la
+        # senal de calidad mas barata que existe y no necesita ninguna etiqueta.
+        if data:
+            sp.score("roles_recuperados", len(data["texts"]) / 4.0,
+                     "1.0 = los cuatro roles del master")
     if data is None:
         # Aqui no hay camino determinista al que caer: sobre un raster el parser de
         # SVG extrae cero elementos, que es justamente el punto de partida. Se falla
@@ -302,6 +320,7 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
         raise ValueError("la cadena de proveedores se agoto sin una escena valida; "
                          "ver la bitacora de proveedores")
 
+    notes.append(f"observabilidad · {TR.estado()}")
     notes.append(f"escena semantica leida por {provider}: "
                  + ", ".join(f"{t['role']}={t['size']:.0f}px" for t in data["texts"]))
 

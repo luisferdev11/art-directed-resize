@@ -28,3 +28,6 @@ description.md
 
 # el auditor de envio lee carta.md y respuestas.md, que son privados
 audit-envio.py
+
+# el demo local no se publica: escribe fuera de docs/ y no va a Pages
+out/_demo/
