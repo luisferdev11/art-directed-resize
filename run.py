@@ -147,6 +147,9 @@ def main() -> int:
                     help="sustituye la fotografia del master conservando su estructura. "
                          "Es la prueba de que el layout se DERIVA del arte: mismo "
                          "master, otra foto, otro layout")
+    ap.add_argument("--copy-from-photo", action="store_true",
+                    help="con --photo: el modelo escribe la copy desde la imagen. "
+                         "Los roles, cuerpos y geometria siguen siendo del master")
     ap.add_argument("--no-model-focal", action="store_true",
                     help="no preguntar a un modelo por la region focal aunque las "
                          "cascadas no coincidan; se cae a saliencia")
@@ -192,6 +195,51 @@ def main() -> int:
         scene.photo.px_w, scene.photo.px_h = _I.open(a.photo).size
         print(f"  · fotografia sustituida: {os.path.basename(a.photo)} "
               f"{scene.photo.px_w}x{scene.photo.px_h}px")
+
+        # LA COPY DESDE LA FOTOGRAFIA.
+        #
+        # Solo con --photo, es decir solo cuando la entrada es una foto suelta y no
+        # hay copy de nadie que pisar. Con un master -SVG o pieza compuesta- la copy
+        # ya existe y no se toca.
+        #
+        # Se sustituyen las PALABRAS y nada mas: rol, cuerpo del master, peso, caja y
+        # jerarquia siguen siendo los del master de referencia. Asi el layout que
+        # salga se mueve por la fotografia y por el largo del texto, que es lo que se
+        # quiere ensenar, y no porque se haya reordenado la pieza por detras.
+        #
+        # El aviso legal NO se genera: es texto fijo de marca y no es del modelo
+        # escribirlo.
+        if a.copy_from_photo:
+            try:
+                import semantic as _sem
+                cd, clog = _sem.copy_from_model(a.photo)
+                for l in clog:
+                    scene.notes.append("copy · " + l)
+                if cd:
+                    cambiados = []
+                    for b in scene.texts:
+                        nuevo = cd["copy"].get(b.role)
+                        if nuevo:
+                            b.words = nuevo.split()
+                            cambiados.append(f"{b.role}=\u201c{nuevo}\u201d")
+                    scene.notes.append(
+                        "copy escrita por el modelo desde la fotografia: "
+                        + "; ".join(cambiados))
+                    if cd.get("por_que"):
+                        scene.notes.append("por que esa linea: " + cd["por_que"])
+                    scene.notes.append(
+                        "el aviso legal no se genera: es texto fijo de marca. Los "
+                        "roles, los cuerpos y la geometria son los del master")
+                    print(f"  · copy desde la foto: "
+                          f"{cd['copy'].get('headline','')!r}")
+                else:
+                    scene.notes.append(
+                        "no se pudo escribir copy utilizable desde la fotografia: se "
+                        "conserva la del master de referencia")
+            except Exception as e:
+                scene.notes.append(
+                    f"copy desde la fotografia no disponible ({type(e).__name__}): se "
+                    f"conserva la del master")
 
     prep = cropmod.prepare(scene.photo.src_path)
 

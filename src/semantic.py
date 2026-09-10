@@ -50,6 +50,7 @@ PROMPTS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
                        "prompts")
 PROMPT = os.path.join(PROMPTS, "scene_from_image.txt")
 PROMPT_FOCAL = os.path.join(PROMPTS, "focal_region.txt")
+PROMPT_COPY = os.path.join(PROMPTS, "copy_from_image.txt")
 GRID = 1000.0            # rejilla normalizada que se le pide al modelo
 LEADING = 1.16           # interlineado supuesto al resolver el cuerpo desde la altura
 COLOR_TOL = 78.0         # distancia euclidea en RGB para la mascara de tinta
@@ -566,3 +567,71 @@ def focal_proxy(rect, sujeto: str, W: float, H: float):
         return rect
     nh = tope
     return (x, y + (h - nh) / 2.0, w, nh)
+
+
+# ------------------------------------------------------- copy desde la fotografia
+# Limites de palabra por rol. No son de estilo: son de LAYOUT. Un titular de treinta
+# palabras no se le puede pedir al solver que quepa en un banner de 8:1, y el modelo
+# no tiene por que saberlo, asi que se le dice en el prompt y se comprueba aqui.
+COPY_LIMITES = {"headline": (1, 5), "subhead": (3, 10), "support": (2, 8)}
+COPY_ROLES = tuple(COPY_LIMITES)
+
+
+def _valida_copy(d, W: float = 0.0, H: float = 0.0):
+    """Valida la copy generada. Devuelve (dict por rol, errores)."""
+    if not isinstance(d, dict):
+        return None, ["la respuesta no es un objeto"]
+    out, errs = {}, []
+    for rol in COPY_ROLES:
+        v = d.get(rol)
+        if not isinstance(v, str) or not v.strip():
+            errs.append(f"{rol} ausente o vacio")
+            continue
+        t = " ".join(v.split())          # colapsa saltos de linea y dobles espacios
+        n = len(t.split())
+        lo, hi = COPY_LIMITES[rol]
+        if n < lo or n > hi:
+            errs.append(f"{rol} con {n} palabras, fuera de {lo}-{hi}")
+            continue
+        if any(c in t for c in "!¡") or "\n" in v:
+            errs.append(f"{rol} lleva exclamacion o salto de linea")
+            continue
+        # MAYUSCULAS sostenidas: el motor decide la caja, no el modelo.
+        letras = [c for c in t if c.isalpha()]
+        if letras and sum(1 for c in letras if c.isupper()) / len(letras) > 0.8:
+            errs.append(f"{rol} en mayusculas sostenidas")
+            continue
+        out[rol] = t
+    if errs:
+        return None, errs
+    return {"copy": out, "por_que": str(d.get("por_que", ""))}, []
+
+
+def copy_from_model(path: str):
+    """Escribe la copy de campana a partir de la fotografia.
+
+    Solo se usa cuando la entrada es una FOTOGRAFIA SUELTA. Con un master -SVG o
+    pieza compuesta- la copy ya existe y no se toca: inventarla ahi seria pisar el
+    trabajo de alguien.
+
+    Se sustituyen tres roles y no el cuarto: el aviso legal es texto fijo de marca y
+    no es del modelo escribirlo. Y la jerarquia, los cuerpos y la geometria siguen
+    siendo los del master de referencia: lo unico que cambia son las palabras, asi
+    que si el layout se mueve se mueve por la fotografia y por el largo del texto,
+    no porque se haya reordenado la pieza.
+    """
+    from PIL import Image
+    W, H = Image.open(path).size
+    prompt = open(PROMPT_COPY).read()
+    with TR.Span("copy desde la foto",
+                 input={"imagen": os.path.basename(path), "lienzo": [W, H]}) as sp:
+        TR.trace_meta(name="copy-from-image", tags=["copy", "raster"],
+                      metadata={"imagen": os.path.basename(path)})
+        data, provider, log = providers.complete_vision(
+            prompt, path, accept=lambda raw: _valida_copy(_parse_json(raw), W, H))
+        if not data:
+            sp.update(level="WARNING", status_message="sin copy utilizable")
+            return None, log
+        sp.update(output={"copy": data["copy"], "por_que": data["por_que"]},
+                  metadata={"provider": provider})
+        return data, log

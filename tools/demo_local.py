@@ -93,21 +93,31 @@ def procesar(jid: str, ruta: str, nombre: str) -> None:
             else:
                 que = (f"{pista['sujeto']} — {pista['que_es']}" if pista
                        else "sin foco claro")
-                paso(f"es una fotografia ({que}): se aplica la campana encima")
+                paso(f"es una fotografia ({que}): escribiendo la campana")
+                # Una foto suelta no trae copy de nadie, asi que pegarle la del
+                # master de referencia -"SPRING STYLE IS HERE"- es lo unico del
+                # demo que no salia de la entrada. Con --copy-from-photo la escribe
+                # el modelo desde la imagen; los roles, los cuerpos y la geometria
+                # siguen siendo los del master, asi que lo unico que cambia son las
+                # palabras. Y se nota en el layout: sobre el anuncio de la camioneta
+                # el coste del 4:5 baja de 0.85 a 0.40, porque un titular que cabe
+                # encuentra donde ponerse.
                 r = subprocess.run(
                     base + ["--master", os.path.join(ROOT, "assets", "master.svg"),
-                            "--photo", ruta],
+                            "--photo", ruta, "--copy-from-photo"],
                     cwd=ROOT, capture_output=True, text=True, timeout=900)
                 via = (f"sin copy sobrepuesto, asi que se trato como FOTOGRAFIA: "
-                       f"estructura del master de referencia, tu foto. El modelo "
+                       f"estructura y jerarquia del master de referencia, tu foto, y "
+                       f"la copy escrita por el modelo desde la imagen. El modelo "
                        f"identifico {que}")
         if r.returncode != 0 and pieza:
             paso("la escena no valido: se aplica la campana sobre la fotografia")
             r = subprocess.run(
                 base + ["--master", os.path.join(ROOT, "assets", "master.svg"),
-                        "--photo", ruta],
+                        "--photo", ruta, "--copy-from-photo"],
                 cwd=ROOT, capture_output=True, text=True, timeout=900)
-            via = "el esquema de la escena no valido: se uso la ruta de fotografia"
+            via = ("la pieza no entro como composicion: se uso la ruta de "
+                   "fotografia, con la copy escrita desde la imagen")
         if r.returncode != 0:
             paso("fallo", estado="error",
                  detalle=(r.stderr or r.stdout)[-700:])
