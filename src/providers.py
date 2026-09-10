@@ -48,6 +48,10 @@ CHAIN: List[Dict[str, Any]] = [
 _spent_usd = 0.0
 GEMINI_USD_PER_CALL = 0.004      # estimacion conservadora para una imagen + 2k tokens
 
+# Tope de lo que se guarda en la traza. Una escena semantica cabe de sobra; el limite
+# es contra un proveedor que devuelva basura larga.
+TRACE_OUTPUT_MAX = 20000
+
 
 def _data_uri(path: str) -> Tuple[str, str]:
     mime = mimetypes.guess_type(path)[0] or "image/jpeg"
@@ -148,9 +152,19 @@ def complete_vision(prompt: str, image_path: str,
                         continue
                 else:
                     value = out
+                # Se nombra la VARIABLE DE ENTORNO, no la clave. Antes se registraba
+                # un prefijo de la clave "para depurar" y ese fragmento acabo en el
+                # sitio publicado. El nombre de la variable distingue proveedores igual
+                # de bien y no es un secreto.
                 log.append(f"{p['name']} ({p['model']}): ok en {time.time()-t0:.1f}s, "
-                           f"clave {S.redact(key)}")
-                sp.update(output={"chars": len(out)},
+                           f"clave de {p['key']} {S.redact(key)}")
+                # La respuesta ENTERA, no su tamano. Guardar `len(out)` hacia la
+                # traza inservible para lo unico que se necesita en Langfuse: ver que
+                # devolvio el modelo cuando el esquema valido pero la escena salio mal.
+                # Se acota por si un proveedor devuelve algo enorme.
+                sp.update(output={"respuesta": out[:TRACE_OUTPUT_MAX],
+                                  "truncada": len(out) > TRACE_OUTPUT_MAX,
+                                  "chars": len(out)},
                           metadata={"provider": p["name"], "intento": intento,
                                     "resultado": "ok",
                                     "latencia_s": round(time.time() - t0, 2)})

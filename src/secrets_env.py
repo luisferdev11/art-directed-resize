@@ -34,7 +34,15 @@ def get(name: str) -> Optional[str]:
 
 
 def redact(s: str) -> str:
-    """Para logs: deja ver que hay clave sin revelarla."""
-    if not s:
-        return "(sin clave)"
-    return f"{s[:4]}...{s[-2:]} ({len(s)} chars)"
+    """Para logs: deja ver que HAY clave, y nada mas.
+
+    La version anterior devolvia `{s[:4]}...{s[-2:]} ({len(s)} chars)`. Eso son seis
+    caracteres de la clave y su longitud exacta, y esas notas viajan al manifest y de
+    ahi al sitio publicado: el fragmento quedo en cuatro archivos y en todo el
+    historial del repo. El riesgo practico de seis de treinta y dos caracteres es
+    bajo; el problema es que el docstring de este modulo promete que las claves nunca
+    se pegan en el manifest, y este helper era quien las pegaba. No se filtra un
+    prefijo "para poder depurar": si hay que distinguir dos claves, se nombra la
+    variable de entorno, que no es secreta.
+    """
+    return "(clave configurada)" if s else "(sin clave)"
