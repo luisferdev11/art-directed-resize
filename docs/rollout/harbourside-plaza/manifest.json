@@ -11,8 +11,8 @@
     "roles por rango de cuerpo: headline=92px, subhead=30px, support=20px, legal=13px",
     "el bloque menor (13px) mide < 30% del titular (92px) -> legal",
     "region focal: 2 caras con acuerdo: cual sostiene la composicion, o si el sujeto es el grupo entero, no lo dice la geometria. Se pregunta al modelo",
-    "region focal · deepinfra (Qwen/Qwen3-VL-235B-A22B-Instruct): ok en 9.9s, clave de DEEPINFRA_API_KEY (clave configurada)",
-    "las dos cascadas no coincidieron: la region que no se puede recortar la decidio un modelo. persona — hombre con sombrero, confianza 0.95. el hombre es el sujeto principal y su rostro y torso deben mantenerse en todos los recortes"
+    "region focal · deepinfra (Qwen/Qwen3-VL-235B-A22B-Instruct): ok en 14.2s, clave de DEEPINFRA_API_KEY (clave configurada)",
+    "las dos cascadas no coincidieron: la region que no se puede recortar la decidio un modelo. persona — hombre con sombrero, confianza 0.95. el hombre es el sujeto principal y está en primer plano, mirando a cámara"
   ],
   "outputs": [
     {
@@ -217,7 +217,7 @@
       "effective_ppi": 1088.0,
       "field_cost": 0.0067,
       "reasons": [
-        "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 1169px de alto, o 9454px de ancho, y la fuente tiene 4080px. La foto degrada a panel lateral de 270x90 (3.0:1) y se promueve el campo de marca",
+        "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 1177px de alto, o 9524px de ancho, y la fuente tiene 4080px. La foto degrada a panel lateral de 270x90 (3.0:1) y se promueve el campo de marca",
         "3 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "subhead: el piso de legibilidad redujo el contraste de tamano a 2.29:1 frente a 3.07:1 del master, asi que la jerarquia se re-expresa en peso (400 a 300)",
         "support: el piso de legibilidad redujo el contraste de tamano a 2.91:1 frente a 4.60:1 del master, asi que la jerarquia se re-expresa en peso (900 a 300)",

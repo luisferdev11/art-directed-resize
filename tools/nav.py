@@ -16,6 +16,8 @@ SHEETS: List[Tuple[str, str, str]] = [
      "arquitectura: hoy y a produccion, con lo propuesto marcado"),
     ("evolution.html", "Como cambio",
      "ocho pasos, cada uno una falla que se midio primero"),
+    ("whats-next.html", "Que sigue",
+     "el plan a producto: infra, agente, escala, datos y despliegue"),
     ("writeup.html", "El writeup",
      "notas de arquitectura sobre construir con modelos"),
     ("meridian-quarter/face-off.html", "Cara a cara",
