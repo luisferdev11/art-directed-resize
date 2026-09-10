@@ -28,7 +28,7 @@ from lxml import etree
 import brand
 import text as T
 import vision
-from formats import BY_KEY
+from formats import BY_KEY, from_sizes
 
 SVG = "http://www.w3.org/2000/svg"
 TOL = 1.5           # holgura en px para el area segura
@@ -149,7 +149,11 @@ def check_dir(d: str) -> int:
     for o in man["outputs"]:
         if o.get("failed"):
             continue
-        fmt = BY_KEY[o["key"]]
+        # Un set de tamanos externo no esta en la tabla: se reconstruye la fila
+        # desde el manifest, con los mismos insets genericos con que se emitio.
+        fmt = BY_KEY.get(o["key"])
+        if fmt is None:
+            fmt = from_sizes(f"{o['w']}x{o['h']}")[0]
         path = os.path.join(d, o["file"])
         root, boxes = _boxes(path)
         sx, sy, sw, sh = fmt.safe_box()

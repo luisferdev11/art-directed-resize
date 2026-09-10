@@ -25,7 +25,7 @@ import constraints as constraintsmod
 import crop as cropmod
 import emit
 import solve as solvemod
-from formats import BY_KEY, FORMATS, VIDEO_ORDER
+from formats import BY_KEY, FORMATS, VIDEO_ORDER, from_sizes
 from parse_svg import parse
 
 BACKENDS = {"art": solvemod.solve, "constraints": constraintsmod.solve}
@@ -138,6 +138,11 @@ def main() -> int:
     ap.add_argument("--formats", default="all",
                     help="'all', 'video', o claves separadas por coma")
     ap.add_argument("--out", default="out/spring-campaign/meridian-quarter")
+    ap.add_argument("--sizes", default=None,
+                    help="set de tamanos externo, 'AxB,CxD,...' o la ruta de un "
+                         "archivo con uno por linea. Sustituye a --formats: sirve "
+                         "para correr una hoja de especificaciones ajena sin tocar "
+                         "la tabla de formatos")
     ap.add_argument("--photo", default=None,
                     help="sustituye la fotografia del master conservando su estructura. "
                          "Es la prueba de que el layout se DERIVA del arte: mismo "
@@ -147,7 +152,17 @@ def main() -> int:
                          "mecanismo rival; 'both' emite los dos para el cara a cara")
     a = ap.parse_args()
 
-    if a.formats == "all":
+    if a.sizes:
+        spec = a.sizes
+        if os.path.exists(spec):
+            spec = ",".join(l.strip() for l in open(spec) if l.strip()
+                            and not l.startswith("#"))
+        extra = from_sizes(spec)
+        BY_KEY.update({f.key: f for f in extra})
+        keys = [f.key for f in extra]
+        print(f"set externo: {len(keys)} tamanos, insets simetricos del "
+              f"{__import__('formats').GENERIC_INSET:.0%} del lado menor")
+    elif a.formats == "all":
         keys = [f.key for f in FORMATS]
     elif a.formats == "video":
         keys = list(VIDEO_ORDER)

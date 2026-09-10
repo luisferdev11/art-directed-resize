@@ -59,3 +59,37 @@ FORMATS: List[Format] = [
 
 BY_KEY = {f.key: f for f in FORMATS}
 VIDEO_ORDER = [f.key for f in FORMATS if f.in_video]
+
+# Margen por defecto para un set de tamanos arbitrario: 6% del lado menor, por los
+# cuatro lados. No hay insets de plataforma que declarar cuando el tamano viene de
+# una hoja de especificaciones, asi que se usa uno simetrico y se dice cual es.
+GENERIC_INSET = 0.060
+
+
+def from_sizes(spec: str) -> List[Format]:
+    """Convierte 'AxB,CxD,...' en filas de formato.
+
+    Existe para poder correr un set de especificaciones ajeno sin tocar codigo ni
+    esta tabla. Es la misma afirmacion de la arquitectura llevada al limite: un
+    formato es una fila, y las filas pueden llegar de fuera.
+    """
+    out: List[Format] = []
+    seen = set()
+    for tok in spec.replace(";", ",").split(","):
+        tok = tok.strip().lower().replace("×", "x")
+        if not tok:
+            continue
+        try:
+            w, h = (int(round(float(v))) for v in tok.split("x", 1))
+        except ValueError:
+            raise ValueError(f"tamano no reconocido: {tok!r}")
+        if w < 16 or h < 16:
+            raise ValueError(f"tamano demasiado pequeno: {w}x{h}")
+        key = f"{w}x{h}"
+        if key in seen:
+            continue
+        seen.add(key)
+        i = GENERIC_INSET
+        out.append(Format(key, f"{w}x{h}", w, h, (i, i, i, i), in_video=False,
+                          note="tamano de un set de especificaciones externo"))
+    return out

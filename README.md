@@ -74,6 +74,13 @@ scrims, dropped elements and logo variant are identical across all five formats.
 the art route, the crop changes in 5 of 5, the scrims in 4 of 5, the colours in 3 of
 5 and the type sizes in 3 of 5.
 
+**A whole media spec, no templates authored** — the same master against a generic set of
+**66 banner sizes**, ratios from 8.2:1 to 1:2.3, canvases up to 3840x2160. All 66 pass the
+validator. One degraded the photograph to a side panel because no bleed crop could hold the
+subject. Eight are flagged for insufficient source resolution, which the engine measures and
+states rather than papering over. Two minutes eleven seconds, one invocation, zero templates
+written by hand.
+
 **Head to head** — the same independent validator over both backends: this engine
 passes 8 of 8; a faithful template-and-constraints resize fails 7 of 8, with zero
 violations on exactly the three formats whose size matches a template. That is the
@@ -90,6 +97,8 @@ python3 tools/face_off.py  out/spring-campaign/meridian-quarter
 python3 tools/swap_test.py             # same master, three photographs
 python3 tools/rollout.py               # one self-contained folder per centre
 python3 tools/golden.py                # role assignment, size ranking vs model
+./run.py --sizes specs/generic-66.txt \
+         --out out/spring-campaign/generic66   # someone else's spec sheet, verbatim
 
 ./run.py --master assets/master-flat.jpg --formats video \
          --out out/spring-campaign/meridian-flat     # from a flat JPEG

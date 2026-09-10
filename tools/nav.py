@@ -24,6 +24,10 @@ SHEETS: List[Tuple[str, str, str]] = [
      "mismo master, tres fotos: quien mueve el layout y quien no"),
     ("rollout/index.html", "Un archivo por centre",
      "tres centres, tres carpetas autocontenidas"),
+    ("generic66/spec.html", "Los 66 tamanos",
+     "un set de medios entero, sin autorear plantillas"),
+    ("generic66/index.html", "Los 66 · hoja de contactos",
+     "las 66 piezas con su triage"),
 ]
 
 CSS = """
