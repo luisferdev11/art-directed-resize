@@ -106,11 +106,14 @@ def prepare(photo_path: str, grid: Tuple[int, int] = (96, 96)):
     import cv2
     im = Image.open(photo_path).convert("RGB")
     rgb = np.asarray(im)
-    sal_box, face = vision.focal_region(rgb)
     gray = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY)
+    sal_box, face = vision.focal_region(rgb)
+    # La lista completa viaja aparte: quien decide necesita saber si la duda viene
+    # de que no hay ninguna cara o de que hay muchas, y son dos casos distintos.
+    caras = vision.agreed_faces(gray)
     S = vision.saliency(cv2.resize(gray, grid, interpolation=cv2.INTER_AREA))
     lo, hi = np.percentile(S, 2), np.percentile(S, 98)
     S = np.clip((S - lo) / max(hi - lo, 1e-9), 0, 1)
     return {"rgb": rgb, "px_w": im.size[0], "px_h": im.size[1],
-            "sal_box": sal_box, "face": face,
+            "sal_box": sal_box, "face": face, "faces": caras,
             "sal_ii": vision.integral(S), "grid": grid}

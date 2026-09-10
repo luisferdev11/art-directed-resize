@@ -10,7 +10,9 @@
     "lockup: grupo con geometria vectorial, area menor, 222x34 en (794,96); marca 34x34 y wordmark a 15px",
     "roles por rango de cuerpo: headline=92px, subhead=30px, support=20px, legal=13px",
     "el bloque menor (13px) mide < 30% del titular (92px) -> legal",
-    "region focal por acuerdo de las dos cascadas Haar, sin llamar a ningun modelo"
+    "region focal: 2 caras con acuerdo: cual sostiene la composicion, o si el sujeto es el grupo entero, no lo dice la geometria. Se pregunta al modelo",
+    "region focal · deepinfra (Qwen/Qwen3-VL-235B-A22B-Instruct): ok en 12.3s, clave de DEEPINFRA_API_KEY (clave configurada)",
+    "las dos cascadas no coincidieron: la region que no se puede recortar la decidio un modelo. persona — hombre con sombrero, confianza 0.95. el hombre es el sujeto principal y está en primer plano, dominando la composición visual"
   ],
   "outputs": [
     {
@@ -21,18 +23,18 @@
       "file": "portrait_4x5.svg",
       "hypothesis": "bleed",
       "crop_px": [
-        1364.3,
+        1212.7,
         0.0,
         2261.0,
         2826.2
       ],
       "effective_ppi": 150.7,
-      "field_cost": 0.0376,
+      "field_cost": 0.0374,
       "reasons": [
         "recorte 2261x2826px de la fuente (55% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 188x188px en (246,706) del lienzo, con 25% de margen",
-        "texto emplazado en (59,59) por busqueda densa sobre el campo de costo: coste 0.038 en escala 0-1",
-        "legal: contraste medido 4.31:1 contra 4.5 exigido, scrim con alpha 0.08",
+        "region de la cara vedada al texto: 380x380px en (186,628) del lienzo, con 25% de margen",
+        "texto emplazado en (59,59) por busqueda densa sobre el campo de costo: coste 0.037 en escala 0-1",
+        "legal: contraste medido 4.16:1 contra 4.5 exigido, scrim con alpha 0.10",
         "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
       ],
       "dropped": [],
@@ -53,8 +55,8 @@
             "IS HERE"
           ],
           "fill": "#0E2A26",
-          "contrast": 12.77,
-          "achieved": 12.77,
+          "contrast": 12.67,
+          "achieved": 12.67,
           "scrimmed": false,
           "required": 3.0
         },
@@ -66,8 +68,8 @@
             "Up to 50% off across 120 stores"
           ],
           "fill": "#0E2A26",
-          "contrast": 7.02,
-          "achieved": 7.02,
+          "contrast": 7.03,
+          "achieved": 7.03,
           "scrimmed": false,
           "required": 3.0
         },
@@ -79,8 +81,8 @@
             "12 - 28 SEPTEMBER"
           ],
           "fill": "#0E2A26",
-          "contrast": 7.24,
-          "achieved": 7.24,
+          "contrast": 12.55,
+          "achieved": 12.55,
           "scrimmed": false,
           "required": 3.0
         },
@@ -92,8 +94,8 @@
             "Terms and conditions apply. See centre for details."
           ],
           "fill": "#0E2A26",
-          "contrast": 4.31,
-          "achieved": 4.87,
+          "contrast": 4.16,
+          "achieved": 4.89,
           "scrimmed": true,
           "required": 4.5
         }
@@ -101,7 +103,7 @@
       "scrims": [
         {
           "for": "legal",
-          "alpha": 0.082
+          "alpha": 0.104
         }
       ]
     },
@@ -113,18 +115,18 @@
       "file": "story_9x16.svg",
       "hypothesis": "bleed",
       "crop_px": [
-        1095.2,
-        0.0,
-        1451.5,
-        2580.5
+        1210.4,
+        327.7,
+        1175.0,
+        2089.0
       ],
-      "effective_ppi": 96.8,
-      "field_cost": 0.0132,
+      "effective_ppi": 78.3,
+      "field_cost": 0.013,
       "reasons": [
-        "recorte 1452x2580px de la fuente (36% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 294x294px en (584,1099) del lienzo, con 25% de margen",
-        "texto emplazado en (113,151) por busqueda densa sobre el campo de costo: coste 0.013 en escala 0-1",
-        "legal: contraste medido 2.27:1 contra 4.5 exigido, scrim con alpha 0.34",
+        "recorte 1175x2089px de la fuente (29% del ancho); region focal contenida",
+        "region de la cara vedada al texto: 731x731px en (360,906) del lienzo, con 25% de margen",
+        "texto emplazado en (178,151) por busqueda densa sobre el campo de costo: coste 0.013 en escala 0-1",
+        "legal: contraste medido 3.29:1 contra 4.5 exigido, scrim con alpha 0.20",
         "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
       ],
       "dropped": [],
@@ -138,7 +140,7 @@
       "blocks": [
         {
           "role": "headline",
-          "size": 128.0,
+          "size": 104.0,
           "weight": 900,
           "lines": [
             "SPRING",
@@ -146,48 +148,48 @@
             "IS HERE"
           ],
           "fill": "#0E2A26",
-          "contrast": 12.66,
-          "achieved": 12.66,
+          "contrast": 12.61,
+          "achieved": 12.61,
           "scrimmed": false,
           "required": 3.0
         },
         {
           "role": "subhead",
-          "size": 40.0,
+          "size": 32.0,
           "weight": 400,
           "lines": [
             "Up to 50% off",
             "across 120 stores"
           ],
           "fill": "#0E2A26",
-          "contrast": 12.5,
-          "achieved": 12.5,
+          "contrast": 12.39,
+          "achieved": 12.39,
           "scrimmed": false,
           "required": 3.0
         },
         {
           "role": "support",
-          "size": 24.0,
+          "size": 20.0,
           "weight": 900,
           "lines": [
             "12 - 28 SEPTEMBER"
           ],
           "fill": "#0E2A26",
-          "contrast": 12.38,
-          "achieved": 12.38,
+          "contrast": 12.34,
+          "achieved": 12.34,
           "scrimmed": false,
           "required": 3.0
         },
         {
           "role": "legal",
-          "size": 18.0,
+          "size": 14.0,
           "weight": 400,
           "lines": [
             "Terms and conditions apply. See centre for details."
           ],
           "fill": "#FFFFFF",
-          "contrast": 2.27,
-          "achieved": 4.86,
+          "contrast": 3.29,
+          "achieved": 4.87,
           "scrimmed": true,
           "required": 4.5
         }
@@ -195,7 +197,7 @@
       "scrims": [
         {
           "for": "legal",
-          "alpha": 0.339
+          "alpha": 0.196
         }
       ]
     },
@@ -215,8 +217,8 @@
       "effective_ppi": 1088.0,
       "field_cost": 0.0067,
       "reasons": [
-        "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 584px de alto, o 4728px de ancho, y la fuente tiene 4080px. La foto degrada a panel de 270x90 (3.0:1) y se promueve el campo de marca",
-        "region de la cara vedada al texto: 26x26px en (582,51) del lienzo, con 25% de margen",
+        "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 1177px de alto, o 9524px de ancho, y la fuente tiene 4080px. La foto degrada a panel de 270x90 (3.0:1) y se promueve el campo de marca",
+        "region de la cara vedada al texto: 53x53px en (564,40) del lienzo, con 25% de margen",
         "subhead: el piso de legibilidad redujo el contraste de tamano a 2.29:1 frente a 3.07:1 del master, asi que la jerarquia se re-expresa en peso (400 a 300)",
         "support: el piso de legibilidad redujo el contraste de tamano a 2.91:1 frente a 4.60:1 del master, asi que la jerarquia se re-expresa en peso (900 a 300)",
         "escalera de degradacion aplicada: tighten_leading -> weight_for_size -> drop_legal",
@@ -305,14 +307,15 @@
         2580.5
       ],
       "effective_ppi": 743.2,
-      "field_cost": 0.1991,
+      "field_cost": 0.1351,
       "reasons": [
         "recorte 3097x2580px de la fuente (76% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 38x38px en (87,143) del lienzo, con 25% de margen",
-        "texto emplazado en (15,15) por busqueda densa sobre el campo de costo: coste 0.199 en escala 0-1",
-        "headline: contraste medido 2.90:1 contra 3.0 exigido, scrim con alpha 0.05",
-        "subhead: contraste medido 1.72:1 contra 4.5 exigido, scrim con alpha 0.42",
-        "support: contraste medido 2.14:1 contra 4.5 exigido, scrim con alpha 0.35",
+        "region de la cara vedada al texto: 77x77px en (60,127) del lienzo, con 25% de margen",
+        "subhead: contraste de tamano comprimido a 2.15:1 frente a 3.07:1 del master",
+        "support: contraste de tamano comprimido a 2.55:1 frente a 4.60:1 del master",
+        "texto emplazado en (149,15) por busqueda densa sobre el campo de costo: coste 0.135 en escala 0-1",
+        "subhead: contraste medido 2.35:1 contra 4.5 exigido, scrim con alpha 0.32",
+        "support: contraste medido 1.45:1 contra 4.5 exigido, scrim con alpha 0.47",
         "legal: contraste medido 4.28:1 contra 4.5 exigido, scrim con alpha 0.08",
         "lockup degradado a marca sola: el wordmark habria quedado a 3.8px y no hay ancho para subir la escala. La marca va a 25px",
         "lockup a escala uniforme 0.74x, 25px de ancho, clear-space 12px, esquina de menor coste"
@@ -328,7 +331,7 @@
       "blocks": [
         {
           "role": "headline",
-          "size": 48.0,
+          "size": 28.0,
           "weight": 900,
           "lines": [
             "SPRING",
@@ -336,35 +339,36 @@
             "IS HERE"
           ],
           "fill": "#0E2A26",
-          "contrast": 2.9,
-          "achieved": 3.24,
-          "scrimmed": true,
+          "contrast": 13.01,
+          "achieved": 13.01,
+          "scrimmed": false,
           "required": 3.0
         },
         {
           "role": "subhead",
-          "size": 14.0,
+          "size": 13.0,
           "weight": 400,
           "lines": [
             "Up to 50% off",
             "across 120 stores"
           ],
-          "fill": "#FFFFFF",
-          "contrast": 1.72,
-          "achieved": 4.88,
+          "fill": "#0E2A26",
+          "contrast": 2.35,
+          "achieved": 4.86,
           "scrimmed": true,
           "required": 4.5
         },
         {
           "role": "support",
-          "size": 12.0,
+          "size": 11.0,
           "weight": 900,
           "lines": [
-            "12 - 28 SEPTEMBER"
+            "12 - 28",
+            "SEPTEMBER"
           ],
-          "fill": "#0E2A26",
-          "contrast": 2.14,
-          "achieved": 4.86,
+          "fill": "#FFFFFF",
+          "contrast": 1.45,
+          "achieved": 4.9,
           "scrimmed": true,
           "required": 4.5
         },
@@ -384,16 +388,12 @@
       ],
       "scrims": [
         {
-          "for": "headline",
-          "alpha": 0.054
-        },
-        {
           "for": "subhead",
-          "alpha": 0.423
+          "alpha": 0.321
         },
         {
           "for": "support",
-          "alpha": 0.349
+          "alpha": 0.469
         },
         {
           "for": "legal",
@@ -409,18 +409,18 @@
       "file": "feed_1x1.svg",
       "hypothesis": "bleed",
       "crop_px": [
-        1149.3,
+        1044.8,
         0.0,
         2826.2,
         2826.2
       ],
       "effective_ppi": 188.4,
-      "field_cost": 0.0933,
+      "field_cost": 0.1015,
       "reasons": [
         "recorte 2826x2826px de la fuente (69% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 151x151px en (279,565) del lienzo, con 25% de margen",
-        "texto emplazado en (519,65) por busqueda densa sobre el campo de costo: coste 0.093 en escala 0-1",
-        "legal: contraste medido 4.25:1 contra 4.5 exigido, scrim con alpha 0.09",
+        "region de la cara vedada al texto: 304x304px en (213,502) del lienzo, con 25% de margen",
+        "texto emplazado en (519,65) por busqueda densa sobre el campo de costo: coste 0.102 en escala 0-1",
+        "legal: contraste medido 4.08:1 contra 4.5 exigido, scrim con alpha 0.11",
         "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
       ],
       "dropped": [],
@@ -442,8 +442,8 @@
             "IS HERE"
           ],
           "fill": "#0E2A26",
-          "contrast": 13.07,
-          "achieved": 13.07,
+          "contrast": 13.04,
+          "achieved": 13.04,
           "scrimmed": false,
           "required": 3.0
         },
@@ -456,8 +456,8 @@
             "across 120 stores"
           ],
           "fill": "#0E2A26",
-          "contrast": 5.08,
-          "achieved": 5.08,
+          "contrast": 4.65,
+          "achieved": 4.65,
           "scrimmed": false,
           "required": 3.0
         },
@@ -469,8 +469,8 @@
             "12 - 28 SEPTEMBER"
           ],
           "fill": "#0E2A26",
-          "contrast": 6.27,
-          "achieved": 6.27,
+          "contrast": 5.55,
+          "achieved": 5.55,
           "scrimmed": false,
           "required": 3.0
         },
@@ -482,8 +482,8 @@
             "Terms and conditions apply. See centre for details."
           ],
           "fill": "#0E2A26",
-          "contrast": 4.25,
-          "achieved": 4.88,
+          "contrast": 4.08,
+          "achieved": 4.87,
           "scrimmed": true,
           "required": 4.5
         }
@@ -491,7 +491,7 @@
       "scrims": [
         {
           "for": "legal",
-          "alpha": 0.089
+          "alpha": 0.111
         }
       ]
     }

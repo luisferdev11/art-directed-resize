@@ -143,29 +143,48 @@ def face_candidates(gray: np.ndarray) -> Tuple[List[Rect], List[Rect]]:
     return out[0], out[1]
 
 
-def dominant_face(gray: np.ndarray) -> Optional[Rect]:
-    """La cara en la que las DOS cascadas coinciden, o None.
+def agreed_faces(gray: np.ndarray) -> List[Rect]:
+    """Caras en las que las DOS cascadas coinciden, de mayor a menor.
 
-    Una cascada frontal de 2001 sola es un generador de falsos positivos. Medido
-    sobre una foto de una persona con gorra y gafas frente a un edificio, las dos
-    juntas devolvieron ocho detecciones y ninguna era una cara: un reloj de pulsera,
-    ventanas de la fachada y postes sobre cesped. Se tomaba la mas grande -una
-    ventana al 94% del ancho- y, como la region focal es restriccion DURA del
-    recorte, el encuadre se iba al borde y cortaba al sujeto.
-
-    Exigir que las dos cascadas coincidan lo resuelve, y no es un umbral ajustado a
-    los casos que tenia a mano: es un ensemble de dos detectores entrenados por
-    separado. Medido sobre cuatro fotografias, las tres con sujeto real dan acuerdo
-    con IoU de 0.79 a 0.93, y la que fallaba no da ninguno.
-
-    Devolver None NO es quedarse sin nada: significa que este detector no lo sabe, y
-    quien llama decide si preguntarle a un modelo o caer en la saliencia.
+    Un ensemble de dos detectores entrenados por separado, no un umbral ajustado a
+    los casos que habia a mano. Una cascada frontal de 2001 sola es un generador de
+    falsos positivos: sobre una foto de una persona con gorra y gafas frente a un
+    edificio devolvieron ocho detecciones entre las dos y ninguna era una cara -un
+    reloj de pulsera, ventanas de la fachada, postes sobre cesped-. Ninguna de esas
+    ocho tenia acuerdo.
     """
     a, b = face_candidates(gray)
-    pares = [(x, _iou(x, y)) for x in a for y in b if _iou(x, y) > 0.30]
-    if not pares:
-        return None
-    return max(pares, key=lambda z: z[0][2] * z[0][3])[0]
+    fuera = []
+    for x in a:
+        v = max((_iou(x, y) for y in b), default=0.0)
+        if v > 0.30:
+            fuera.append(x)
+    return sorted(fuera, key=lambda r: -r[2] * r[3])
+
+
+def dominant_face(gray: np.ndarray) -> Optional[Rect]:
+    """La cara cuando NO HAY DUDA, y None cuando la hay.
+
+    Devolver None no es quedarse sin respuesta: es declarar que este detector no
+    puede responder, para que quien llama escale a quien si puede.
+
+    Hay duda en dos casos, y los dos importan:
+
+      · CERO caras con acuerdo. O no hay nadie, o la pieza no es una fotografia de
+        una persona: una ilustracion, un producto, tipografia sobre un color.
+
+      · VARIAS caras con acuerdo. Medido sobre una foto de grupo: once caras
+        corroboradas repartidas entre el 31% y el 69% del ancho. Elegir la mayor
+        -que es lo que se hacia- fija el recorte a una persona y se come al resto.
+        Cual de ellas sostiene la composicion, o si lo que importa es el grupo
+        entero, es un juicio compositivo. La geometria no lo tiene.
+
+    La tentacion aqui era escribir un agrupador con sus umbrales y una escalera de
+    encogimiento. Seria mi criterio disfrazado de medicion, y ajustado a las fotos
+    que tenia delante.
+    """
+    caras = agreed_faces(gray)
+    return caras[0] if len(caras) == 1 else None
 
 
 def people(gray: np.ndarray) -> List[Rect]:

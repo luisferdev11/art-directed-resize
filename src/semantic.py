@@ -381,7 +381,12 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
 
 
 # ------------------------------------------------------- la region que no se corta
-SUJETOS = ("persona", "producto", "comida", "edificio", "ilustracion",
+# "grupo" entro despues, y lo pidio el propio modelo. Sobre una foto de once
+# personas respondio sujeto="grupo", el esquema lo rechazo por desconocido y la
+# cadena cayo al siguiente proveedor gastando catorce segundos. La respuesta era
+# correcta y la lista estaba corta: un esquema demasiado estrecho no protege, filtra
+# lo que no supo prever quien lo escribio.
+SUJETOS = ("persona", "grupo", "producto", "comida", "edificio", "ilustracion",
            "tipografia", "animal", "paisaje", "ninguno")
 
 
@@ -461,26 +466,32 @@ def focal_from_model(path: str, min_conf: float = 0.45):
 
 
 def focal_proxy(rect, sujeto: str, W: float, H: float):
-    """Adapta la caja del modelo al tamano que esperan las guardas del recorte.
+    """Adapta la caja del modelo a lo que la guarda del recorte sabe acotar.
 
-    `crop.choose` acota la region focal entre el 5.5% y el 45% del alto del recorte,
-    y esa calibracion esta hecha sobre una CARA. La caja que devuelve el modelo es
-    otra cosa: para una persona incluye cara y torso, y a menudo pasa del 45%, lo que
-    dispararia `face_unsatisfiable` en casi todos los formatos y degradaria la foto a
-    panel en todos ellos. El bug que se arregla es de UBICACION, no de tamano, asi
-    que se conserva donde esta y se ajusta cuanto ocupa.
+    `crop.choose` compara `alto_de_la_caja / alto_del_recorte` contra un suelo y un
+    techo, calibrados sobre una cara. Solo mira el ALTO. Encoger tambien el ancho
+    -que es lo que hacia la primera version- pierde justo lo que importa en un
+    grupo: el modelo devolvia del 25% al 73% del ancho y quedaba en 36% a 62%, o sea
+    la gente de los extremos fuera. El ancho es la extension del sujeto y no se toca.
 
-    En una persona, la cabeza esta arriba: el proxy va al tercio superior de la caja.
-    En lo demas -un producto, un plato, una ilustracion- lo que importa es el objeto
-    entero, asi que se encoge hacia su centro.
+    Que se conserva de cada caja depende de que sea el sujeto:
+
+      persona   la cabeza, arriba. La caja del modelo incluye el torso y pasaria del
+                techo en casi todos los formatos, degradando la foto a panel siempre.
+      grupo     la banda de las caras, que es la parte alta. Conservar hasta los pies
+                obliga a recortes que no caben y no anade nada.
+      lo demas  el objeto entero; si es demasiado alto se encoge hacia su centro,
+                porque un producto o un plato no tienen "parte de arriba" util.
     """
     x, y, w, h = rect
-    tope = 0.40 * min(W, H)
+    tope = 0.40 * H
     if sujeto == "persona":
         lado = min(w, h * 0.32, tope)
         return (x + w / 2.0 - lado / 2.0, y + h * 0.02, lado, lado)
-    if max(w, h) <= tope:
+    if sujeto == "grupo":
+        nh = min(h * 0.55, tope)
+        return (x, y + h * 0.02, w, nh)
+    if h <= tope:
         return rect
-    k = tope / max(w, h)
-    nw, nh = w * k, h * k
-    return (x + (w - nw) / 2.0, y + (h - nh) / 2.0, nw, nh)
+    nh = tope
+    return (x, y + (h - nh) / 2.0, w, nh)

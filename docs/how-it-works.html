@@ -154,15 +154,30 @@
  detections and <strong>not one was a face</strong>: a wristwatch, windows in the facade,
  poles on grass. The largest sat at 94% of the width, the crop is pinned to it as a hard
  constraint, and every format cut the subject in half.</p>
-<p><span class="tag hoy">Today</span> Two changes, and the second is the architectural
- one. <strong>A face now counts only when both cascades agree</strong> &mdash; an
- ensemble of two independently trained detectors, not a threshold fitted to the cases at
- hand. Measured over four photographs, the three with a real subject agree at IoU 0.79 to
- 0.93 and the failing one produces no agreement at all.</p>
-<p>And when they do not agree, <strong>the question escalates to a model</strong>: not
- "where is the face" but "what must not be cropped, and what is it". On that photograph
- it answered <em>person, man in a shirt, confidence 0.95</em>, with a box on the actual
- subject, in nine seconds. Every format was usable again.</p>
+<p><span class="tag hoy">Today</span> <strong>A face now counts only when both cascades
+ agree</strong> &mdash; an ensemble of two independently trained detectors, not a
+ threshold fitted to the cases at hand. Measured over four photographs, the three with a
+ real subject agree at IoU 0.79 to 0.93 and the failing one produces no agreement.</p>
+<p>Agreement is not enough on its own either. On a group photograph, eleven corroborated
+ faces span from 31% to 69% of the width. Taking the largest &mdash; which is what the
+ code did &mdash; pins the crop to one person and cuts the rest of the team out of frame.
+ Which face carries the composition, or whether the subject is the group itself, is a
+ compositional judgement. Geometry does not have it.</p>
+<p>So the cheap path answers only when it is <strong>unambiguous</strong>: exactly one
+ agreed face. Zero, or several, is a declaration that this detector cannot say.</p>
+<p>And then <strong>the question escalates to a model</strong>: not "where is the face"
+ but "what must not be cropped, and what is it". On the cap-and-sunglasses photograph it
+ answered <em>person, man in a shirt, confidence 0.95</em>, with a box on the actual
+ subject, in nine seconds. On the group it answered <em>group, a team posing
+ together</em>, with a box holding all eleven. Every format was usable again, and in
+ 9:16 the photograph honestly degrades to a panel, because a row of eleven people does
+ not survive a vertical bleed crop.</p>
+<div class="box"><h4>The schema was too narrow, and the model said so</h4>
+ <p style="margin:0">On the group it first answered <code>subject: "group"</code>, which
+ was not in the enumeration. Validation rejected it and the chain spent fourteen seconds
+ falling through to the next provider. The answer was right and the list was short. A
+ schema that is too narrow does not protect you: it filters out what its author failed to
+ anticipate, and the trace is what made that visible.</p></div>
 <div class="box"><h4>Why this is the interesting half</h4>
  <p style="margin:0">A cascade can only ever answer one question: is there a frontal
  human face. A campaign is not always a person. It is a product, a plate of food, an

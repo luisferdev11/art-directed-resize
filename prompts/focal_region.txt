@@ -17,7 +17,7 @@ Devuelve UNICAMENTE un objeto JSON, sin texto alrededor y sin bloque de codigo:
   "lleva_copy": true si la imagen es una PIEZA PUBLICITARIA ya compuesta -con
                 titular, oferta o aviso legal sobrepuestos-, false si es una
                 fotografia o ilustracion sin texto de campana encima,
-  "sujeto": "persona | producto | comida | edificio | ilustracion | tipografia | animal | paisaje | ninguno",
+  "sujeto": "persona | grupo | producto | comida | edificio | ilustracion | tipografia | animal | paisaje | ninguno",
   "que_es": "en cinco palabras o menos, que es exactamente",
   "focal": [x0, y0, x1, y1],
   "confianza": 0.0 a 1.0,
@@ -35,7 +35,13 @@ REGLAS:
    no responder: si de verdad no hay una region privilegiada, usa "ninguno" y pon
    `confianza` baja.
 
-3. Si hay varias personas, la que domina la composicion, no todas.
+3. Si hay VARIAS PERSONAS, decide que sostiene la pieza y dilo en `sujeto`:
+   · si leen como un GRUPO -un equipo, una familia, una mesa- el sujeto es el grupo
+     y `focal` es la region que lo contiene como composicion, no una sola cara;
+   · si una domina claramente -esta delante, mira a camara, ocupa mas- esa;
+   · si hay gente de fondo que no forma parte del mensaje, ignorala.
+   Esta es la decision que un detector geometrico no puede tomar, y es la razon por
+   la que se te pregunta: no elijas "la mas grande" por defecto.
 
 4. `confianza` baja significa que la imagen no tiene un foco claro -un paisaje, una
    textura, un fondo-. Eso es una respuesta valida y util: el sistema entonces

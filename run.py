@@ -206,9 +206,15 @@ def main() -> int:
     #
     # Es el mismo router que decide todo lo demas en este sistema, y por eso el coste
     # sigue siendo por master y no por formato.
+    caras = prep.get("faces") or []
     if prep.get("face") is None and not a.no_model_focal:
         try:
             import semantic
+            porque = ("ninguna cara con acuerdo entre las dos cascadas"
+                      if not caras else
+                      f"{len(caras)} caras con acuerdo: cual sostiene la composicion, "
+                      f"o si el sujeto es el grupo entero, no lo dice la geometria")
+            scene.notes.append("region focal: " + porque + ". Se pregunta al modelo")
             hint, flog = semantic.focal_from_model(scene.photo.src_path)
             for l in flog:
                 scene.notes.append("region focal · " + l)
@@ -224,6 +230,21 @@ def main() -> int:
                     f"{hint['por_que']}")
                 print(f"  · region focal por modelo: {hint['sujeto']} "
                       f"({hint['confianza']:.2f})")
+            elif caras:
+                # DEGRADACION, no rendicion. Si el modelo no esta disponible, el
+                # conjunto de caras sigue siendo mejor que nada: se conserva su
+                # envolvente, que es la lectura literal de "no cortar a nadie".
+                # Es peor que preguntar -no sabe quien importa- y mejor que ignorar
+                # que hay gente. Y se dice cual de las dos cosas ocurrio.
+                x0 = min(f[0] for f in caras); y0 = min(f[1] for f in caras)
+                x1 = max(f[0] + f[2] for f in caras)
+                y1 = max(f[1] + f[3] for f in caras)
+                prep["face"] = (x0, y0, x1 - x0, y1 - y0)
+                prep["focal_via"] = "envolvente"
+                scene.notes.append(
+                    f"el modelo no respondio: se usa la envolvente de las {len(caras)} "
+                    f"caras detectadas. Conserva a todo el mundo, pero no sabe quien "
+                    f"sostiene la pieza")
             else:
                 prep["focal_via"] = "saliencia"
                 scene.notes.append("ni las cascadas ni el modelo dieron una region "
@@ -234,8 +255,8 @@ def main() -> int:
     else:
         prep["focal_via"] = "cascadas" if prep.get("face") else "saliencia"
         if prep.get("face"):
-            scene.notes.append("region focal por acuerdo de las dos cascadas Haar, "
-                               "sin llamar a ningun modelo")
+            scene.notes.append("una sola cara, y las dos cascadas coinciden: region "
+                               "focal resuelta sin llamar a ningun modelo")
 
     names = ["art", "constraints"] if a.backend == "both" else [a.backend]
     total = 0

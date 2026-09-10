@@ -31,6 +31,7 @@ photograph, so the layout is decided from the art.
 |---|---|
 | **Infers roles without reading layer names** | headline, subhead, support and legal are deduced from type size, area and relative hierarchy. Rename every layer to `Layer 1` and nothing changes. |
 | **Crops with the subject as a hard constraint** | dense search over 7 scales x 13 x 13 positions, with a minimum and a maximum subject scale. |
+| **Knows when it does not know** | a face counts only when two independently trained cascades agree. Zero agreements, or several, is ambiguity, not an answer: the question then escalates to a model, and it is asked as *what must not be cropped, and what is it* rather than *where is the face*. |
 | **Places text by search, not by anchors** | the cost field combines saliency, local luminance variance and gradient. The face region is excluded outright. |
 | **Measures contrast, per line** | WCAG luminance by percentiles. Where a line falls short, the minimum scrim alpha is found by compositing in sRGB, which is where SVG actually composites. |
 | **Degrades in a stated ladder** | tighten leading, re-express hierarchy in weight, drop the legal, drop the support. When no bleed crop can hold the subject, the photograph becomes a side panel and the brand field is promoted. |
@@ -51,12 +52,23 @@ master.jpg   ->  semantic.py    -/                   ^
                                                           same Scene, same emitter)
 ```
 
+The model is used in exactly two places, and only where nothing cheaper can answer.
+
 For a flat JPEG there is nothing to parse: zero text nodes, zero roles, zero
 hierarchy. A multimodal model reads the piece and returns the semantic scene; the
 **pixels and the font metrics** then measure where everything is and how big it is.
 The model classifies by communicative function, which is the one thing only a model
 can do here. The burned-in text is removed with classical inpainting so the
 photograph can be re-composed underneath.
+
+The second place is the crop. Two Haar cascades agreeing on a face settle the focal
+region for free, in milliseconds. They also fail: on a subject in a cap and
+sunglasses they returned eight detections between them and **not one was a face** —
+a wristwatch, windows in a facade, poles on grass. And on a group photograph eleven
+corroborated faces still do not say which one carries the composition. Certainty is
+free; ambiguity is escalated. A cascade can only ever answer one question, and a
+campaign is not always a person: it is a product, a plate of food, an illustration,
+a piece that is nothing but typography.
 
 ## Results, measured
 
@@ -104,8 +116,14 @@ python3 tools/golden.py                # role assignment, size ranking vs model
          --out out/spring-campaign/meridian-flat     # from a flat JPEG
 ```
 
-The AI path needs a key in `.env` (see `.env.example`). Everything else is local
-and deterministic.
+```bash
+python3 tools/demo_local.py     # drop an image in a browser, get five formats back
+```
+
+The AI path needs a key in `.env` (see `.env.example`). Everything else is local and
+deterministic. Model calls are traced if Langfuse is configured — one span per
+attempt, so a fallback is counted rather than silently absorbed — and the pipeline
+runs identically when it is not.
 
 ## What this is not
 
