@@ -237,7 +237,7 @@ def main() -> int:
                 # cobertura pasa del filtro al score. El panel sigue apareciendo
                 # cuando ni el mejor encuadre conserva lo suficiente, que a 8:1 es
                 # justo lo que debe pasar.
-                prep["face_hard"] = hint["sujeto"] not in semantic.SUJETOS_EXTENSOS
+                prep["face_hard"] = not semantic.es_extenso(hint["sujeto"])
                 scene.notes.append(
                     f"las dos cascadas no coincidieron: la region que no se puede "
                     f"recortar la decidio un modelo. {hint['sujeto']} — "

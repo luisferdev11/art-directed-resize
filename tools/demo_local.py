@@ -44,7 +44,7 @@ def procesar(jid: str, ruta: str, nombre: str) -> None:
             _trabajos[jid].update(paso=txt, t=round(time.time() - t0, 1), **kw)
 
     try:
-        # DOS CAMINOS, y cual se toma lo decide la imagen, no un boton.
+        # TRES CAMINOS, y cual se toma lo decide el archivo, no un boton.
         #
         # Si lo que sueltas es una PIEZA ya compuesta -copy sobrepuesto, logo,
         # jerarquia- el modelo la lee y la escena sale de ahi. Si es una FOTOGRAFIA
@@ -57,28 +57,50 @@ def procesar(jid: str, ruta: str, nombre: str) -> None:
         # gastaba tres cuartos de minuto averiguando algo que se pregunta en diez
         # segundos. La misma llamada devuelve la region que no se puede recortar,
         # asi que no es una consulta extra: es la que ya haciamos, antes.
-        paso("mirando que tipo de imagen es")
         sys.path.insert(0, os.path.join(ROOT, "src"))
         import semantic
-        pista, _log = semantic.focal_from_model(ruta)
         base = [sys.executable, "-B", os.path.join(ROOT, "run.py"),
                 "--formats", FORMATOS, "--out", d]
-        pieza = bool(pista and pista.get("lleva_copy"))
-        if pieza:
-            paso("es una pieza compuesta: leyendo su escena")
+
+        # TERCERA RUTA, y la del caso de uso real: un SVG DE CAMPANA.
+        #
+        # Aqui no hay nada que preguntarle a un modelo para decidir la ruta. Un SVG
+        # trae su estructura -nodos de texto, raster, lockup- y eso es exactamente lo
+        # que el parser consume, asi que entra como master y sale el rollout. Es el
+        # pipeline apuntado a su propia salida: los SVG que este motor emite valen
+        # como entrada, y por eso "componente de campana -> rollout" no es una
+        # feature que falte sino la que ya esta. El componente de Figma sera un
+        # adaptador mas delante del mismo `Scene`.
+        es_svg = ruta.lower().endswith(".svg")
+        if es_svg:
+            paso("es un SVG de campana: leyendo su estructura")
             r = subprocess.run(base + ["--master", ruta],
                                cwd=ROOT, capture_output=True, text=True, timeout=900)
-            via = "lleva copy sobrepuesto: la escena se leyo de la propia imagen"
+            via = ("SVG de campana: su estructura se lee del archivo -sin nombres de "
+                   "capa- y se produce el rollout. Es el caso de uso real, y la "
+                   "entrada puede ser una salida de este mismo motor")
+            pieza = False
         else:
-            que = (f"{pista['sujeto']} — {pista['que_es']}" if pista else "sin foco claro")
-            paso(f"es una fotografia ({que}): se aplica la campana encima")
-            r = subprocess.run(
-                base + ["--master", os.path.join(ROOT, "assets", "master.svg"),
-                        "--photo", ruta],
-                cwd=ROOT, capture_output=True, text=True, timeout=900)
-            via = (f"sin copy sobrepuesto, asi que se trato como FOTOGRAFIA: "
-                   f"estructura del master de referencia, tu foto. El modelo "
-                   f"identifico {que}")
+            paso("mirando que tipo de imagen es")
+            pista, _log = semantic.focal_from_model(ruta)
+            pieza = bool(pista and pista.get("lleva_copy"))
+            if pieza:
+                paso("es una pieza compuesta: leyendo su escena")
+                r = subprocess.run(base + ["--master", ruta],
+                                   cwd=ROOT, capture_output=True, text=True,
+                                   timeout=900)
+                via = "lleva copy sobrepuesto: la escena se leyo de la propia imagen"
+            else:
+                que = (f"{pista['sujeto']} — {pista['que_es']}" if pista
+                       else "sin foco claro")
+                paso(f"es una fotografia ({que}): se aplica la campana encima")
+                r = subprocess.run(
+                    base + ["--master", os.path.join(ROOT, "assets", "master.svg"),
+                            "--photo", ruta],
+                    cwd=ROOT, capture_output=True, text=True, timeout=900)
+                via = (f"sin copy sobrepuesto, asi que se trato como FOTOGRAFIA: "
+                       f"estructura del master de referencia, tu foto. El modelo "
+                       f"identifico {que}")
         if r.returncode != 0 and pieza:
             paso("la escena no valido: se aplica la campana sobre la fotografia")
             r = subprocess.run(
@@ -183,9 +205,10 @@ PAGINA = """<!doctype html>
  pixels and the font metrics measure it, and the engine resolves five formats. Nothing
  here is authored in advance.</p>
 
-<div id="drop"><b>Drop an image here</b><span>or click to choose &middot; JPEG or PNG,
- up to 25 MB</span></div>
-<input id="file" type="file" accept="image/*" hidden>
+<div id="drop"><b>Drop an image or a campaign SVG here</b><span>or click to choose
+ &middot; JPEG, PNG or SVG, up to 25 MB &middot; an SVG this engine emitted works as
+ input too</span></div>
+<input id="file" type="file" accept="image/*,.svg,image/svg+xml" hidden>
 
 <div class="estado" id="estado">
   <div id="paso">…</div>
@@ -324,8 +347,9 @@ class Handler(BaseHTTPRequestHandler):
             break
 
         ext = os.path.splitext(nombre)[1].lower()
-        if ext not in (".jpg", ".jpeg", ".png", ".webp"):
-            return self._envia(400, "text/plain", b"formato no admitido: JPEG o PNG")
+        if ext not in (".jpg", ".jpeg", ".png", ".webp", ".svg"):
+            return self._envia(400, "text/plain",
+                               b"formato no admitido: JPEG, PNG o SVG")
         if len(datos) < 1024:
             return self._envia(400, "text/plain", b"el archivo llego vacio")
 
@@ -333,6 +357,9 @@ class Handler(BaseHTTPRequestHandler):
         d = os.path.join(OUT, jid)
         os.makedirs(d, exist_ok=True)
         ruta = os.path.join(d, "master" + (".jpg" if ext in (".jpg", ".jpeg") else ext))
+        # Un SVG con raster embebido pesa megas: el minimo de 1KB no aplica igual,
+        # pero tampoco molesta. Lo que importa es que la extension sobreviva, porque
+        # es lo que enruta.
         with open(ruta, "wb") as fh:
             fh.write(datos)
         with _lock:

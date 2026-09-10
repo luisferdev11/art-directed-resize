@@ -408,6 +408,12 @@ def build(site: str) -> None:
  stated rather than implying everything is measured.</li>
 <li>The plate reconstructed under burned-in text is an <strong>approximation</strong>:
  beneath a 92px headline the inpainting invents plausible texture, not the original.</li>
+<li><strong>A group is harder than a person, and it shows.</strong> When the subject is
+ a group the focal region is a wide extent rather than a face, so it is maximised
+ instead of required: at 4:5 and 1:1 it holds on a bleed crop, at 8:1 the photograph
+ still degrades to a side panel, and in a 300&times;250 MPU the headline ends up over
+ faces &mdash; the triage flags exactly those. Measured on three group photographs, not
+ argued from one.</li>
 <li>No interface. The pages on this site are generated static reports.</li>
 </ul>
 

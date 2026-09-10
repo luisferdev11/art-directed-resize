@@ -30,7 +30,7 @@
       "field_cost": 0.1518,
       "reasons": [
         "recorte 1350x2700px de la fuente (62% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "support: contraste de tamano comprimido a 3.64:1 frente a 4.60:1 del master",
         "texto emplazado en (123,18) por busqueda densa sobre el campo de costo: coste 0.152 en escala 0-1",
         "subhead: contraste medido 3.49:1 contra 4.5 exigido, scrim con alpha 0.19",
@@ -136,7 +136,7 @@
       "field_cost": 0.1656,
       "reasons": [
         "recorte 1800x2700px de la fuente (83% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "support: contraste de tamano comprimido a 3.64:1 frente a 4.60:1 del master",
         "texto emplazado en (19,194) por busqueda densa sobre el campo de costo: coste 0.166 en escala 0-1",
         "headline: contraste medido 2.20:1 contra 3.0 exigido, scrim con alpha 0.18",
@@ -239,7 +239,7 @@
       "field_cost": 0.1602,
       "reasons": [
         "recorte 1080x2484px de la fuente (50% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "support: contraste de tamano comprimido a 3.64:1 frente a 4.60:1 del master",
         "texto emplazado en (33,19) por busqueda densa sobre el campo de costo: coste 0.160 en escala 0-1",
         "subhead: contraste medido 3.41:1 contra 4.5 exigido, scrim con alpha 0.20",
@@ -345,7 +345,7 @@
       "field_cost": 0.1584,
       "reasons": [
         "recorte 1518x2700px de la fuente (70% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "support: contraste de tamano comprimido a 3.64:1 frente a 4.60:1 del master",
         "texto emplazado en (84,29) por busqueda densa sobre el campo de costo: coste 0.158 en escala 0-1",
         "subhead: contraste medido 3.88:1 contra 4.5 exigido, scrim con alpha 0.14",
@@ -451,7 +451,7 @@
       "field_cost": 0.1628,
       "reasons": [
         "recorte 1350x2700px de la fuente (62% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (54,30) por busqueda densa sobre el campo de costo: coste 0.163 en escala 0-1",
         "subhead: contraste medido 4.19:1 contra 4.5 exigido, scrim con alpha 0.10",
         "support: contraste medido 3.95:1 contra 4.5 exigido, scrim con alpha 0.13",
@@ -551,7 +551,7 @@
       "field_cost": 0.163,
       "reasons": [
         "recorte 1800x2700px de la fuente (83% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (31,373) por busqueda densa sobre el campo de costo: coste 0.163 en escala 0-1",
         "headline: contraste medido 2.86:1 contra 3.0 exigido, scrim con alpha 0.06",
         "subhead: tipografia invertida a claro, contraste 4.86:1",
@@ -653,7 +653,7 @@
       "field_cost": 0.17,
       "reasons": [
         "recorte 1519x2700px de la fuente (70% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (32,506) por busqueda densa sobre el campo de costo: coste 0.170 en escala 0-1",
         "headline: contraste medido 2.78:1 contra 3.0 exigido, scrim con alpha 0.07",
         "subhead: tipografia invertida a claro, contraste 4.77:1",
@@ -755,7 +755,7 @@
       "field_cost": 0.1656,
       "reasons": [
         "recorte 2160x2700px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (97,349) por busqueda densa sobre el campo de costo: coste 0.166 en escala 0-1",
         "headline: contraste medido 2.90:1 contra 3.0 exigido, scrim con alpha 0.05",
         "subhead: tipografia invertida a claro, contraste 5.81:1",
@@ -856,7 +856,7 @@
       "field_cost": 0.1878,
       "reasons": [
         "recorte 2160x1069px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (88,18) por busqueda densa sobre el campo de costo: coste 0.188 en escala 0-1",
         "headline: contraste medido 1.48:1 contra 3.0 exigido, scrim con alpha 0.32",
         "subhead: contraste medido 4.03:1 contra 4.5 exigido, scrim con alpha 0.10",
@@ -967,7 +967,7 @@
       "field_cost": 0.1639,
       "reasons": [
         "recorte 1736x2700px de la fuente (80% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (39,513) por busqueda densa sobre el campo de costo: coste 0.164 en escala 0-1",
         "headline: contraste medido 2.72:1 contra 3.0 exigido, scrim con alpha 0.09",
         "subhead: tipografia invertida a claro, contraste 4.89:1",
@@ -1064,7 +1064,7 @@
       "field_cost": 0.1363,
       "reasons": [
         "recorte 1818x2700px de la fuente (84% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (41,41) por busqueda densa sobre el campo de costo: coste 0.136 en escala 0-1",
         "subhead: contraste medido 3.61:1 contra 4.5 exigido, scrim con alpha 0.17",
         "support: contraste medido 3.50:1 contra 4.5 exigido, scrim con alpha 0.19",
@@ -1164,7 +1164,7 @@
       "field_cost": 0.1467,
       "reasons": [
         "recorte 1505x2700px de la fuente (70% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (41,41) por busqueda densa sobre el campo de costo: coste 0.147 en escala 0-1",
         "subhead: contraste medido 4.01:1 contra 4.5 exigido, scrim con alpha 0.12",
         "support: contraste medido 4.23:1 contra 4.5 exigido, scrim con alpha 0.09",
@@ -1263,7 +1263,7 @@
       "field_cost": 0.2091,
       "reasons": [
         "recorte 2160x555px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "support: contraste de tamano comprimido a 3.64:1 frente a 4.60:1 del master",
         "texto emplazado en (92,15) por busqueda densa sobre el campo de costo: coste 0.209 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 5.21:1",
@@ -1369,7 +1369,7 @@
       "field_cost": 0.1711,
       "reasons": [
         "recorte 1519x2700px de la fuente (70% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (43,681) por busqueda densa sobre el campo de costo: coste 0.171 en escala 0-1",
         "headline: contraste medido 2.73:1 contra 3.0 exigido, scrim con alpha 0.08",
         "subhead: tipografia invertida a claro, contraste 4.81:1",
@@ -1465,7 +1465,7 @@
       "field_cost": 0.22,
       "reasons": [
         "recorte 2160x860px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (17,34) por busqueda densa sobre el campo de costo: coste 0.220 en escala 0-1",
         "headline: contraste medido 2.96:1 contra 3.0 exigido, scrim con alpha 0.05",
         "subhead: tipografia invertida a claro, contraste 8.72:1",
@@ -1566,7 +1566,7 @@
       "field_cost": 0.1798,
       "reasons": [
         "recorte 2160x1260px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (105,32) por busqueda densa sobre el campo de costo: coste 0.180 en escala 0-1",
         "headline: contraste medido 1.48:1 contra 3.0 exigido, scrim con alpha 0.32",
         "subhead: tipografia invertida a claro, contraste 4.20:1",
@@ -1673,7 +1673,7 @@
       "field_cost": 0.1629,
       "reasons": [
         "recorte 2025x2700px de la fuente (94% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (46,482) por busqueda densa sobre el campo de costo: coste 0.163 en escala 0-1",
         "headline: contraste medido 2.96:1 contra 3.0 exigido, scrim con alpha 0.05",
         "subhead: tipografia invertida a claro, contraste 6.32:1",
@@ -1769,7 +1769,7 @@
       "field_cost": 0.1361,
       "reasons": [
         "recorte 1800x2700px de la fuente (83% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (46,46) por busqueda densa sobre el campo de costo: coste 0.136 en escala 0-1",
         "subhead: contraste medido 3.85:1 contra 4.5 exigido, scrim con alpha 0.15",
         "support: contraste medido 3.52:1 contra 4.5 exigido, scrim con alpha 0.18",
@@ -1868,7 +1868,7 @@
       "field_cost": 0.2563,
       "reasons": [
         "recorte 2160x589px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (90,19) por busqueda densa sobre el campo de costo: coste 0.256 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.68:1",
         "subhead: contraste medido 1.46:1 contra 4.5 exigido, scrim con alpha 0.43",
@@ -1968,7 +1968,7 @@
       "field_cost": 0.2033,
       "reasons": [
         "recorte 2160x1080px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (118,24) por busqueda densa sobre el campo de costo: coste 0.203 en escala 0-1",
         "headline: contraste medido 1.48:1 contra 3.0 exigido, scrim con alpha 0.32",
         "subhead: tipografia invertida a claro, contraste 6.98:1",
@@ -2074,7 +2074,7 @@
       "field_cost": 0.1746,
       "reasons": [
         "recorte 2160x1329px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (70,34) por busqueda densa sobre el campo de costo: coste 0.175 en escala 0-1",
         "headline: contraste medido 1.50:1 contra 3.0 exigido, scrim con alpha 0.32",
         "subhead: tipografia invertida a claro, contraste 3.98:1",
@@ -2177,7 +2177,7 @@
       "field_cost": 0.2401,
       "reasons": [
         "recorte 2160x675px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (54,17) por busqueda densa sobre el campo de costo: coste 0.240 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.75:1",
         "subhead: contraste medido 4.16:1 contra 4.5 exigido, scrim con alpha 0.09",
@@ -2282,7 +2282,7 @@
       "field_cost": 0.1877,
       "reasons": [
         "recorte 2160x1234px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (133,44) por busqueda densa sobre el campo de costo: coste 0.188 en escala 0-1",
         "headline: contraste medido 1.89:1 contra 3.0 exigido, scrim con alpha 0.24",
         "subhead: tipografia invertida a claro, contraste 3.23:1",
@@ -2389,7 +2389,7 @@
       "field_cost": 0.2239,
       "reasons": [
         "recorte 2160x540px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "escalera de degradacion aplicada: tighten_leading -> weight_for_size -> drop_legal",
         "texto emplazado en (58,14) por busqueda densa sobre el campo de costo: coste 0.224 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.71:1",
@@ -2484,7 +2484,7 @@
       "field_cost": 0.224,
       "reasons": [
         "recorte 2160x557px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (60,15) por busqueda densa sobre el campo de costo: coste 0.224 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.97:1",
         "subhead: contraste medido 1.52:1 contra 4.5 exigido, scrim con alpha 0.42",
@@ -2584,7 +2584,7 @@
       "field_cost": 0.1727,
       "reasons": [
         "recorte 2160x679px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (19,19) por busqueda densa sobre el campo de costo: coste 0.173 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.90:1",
         "subhead: tipografia invertida a claro, contraste 5.86:1",
@@ -2681,7 +2681,7 @@
       "field_cost": 0.19,
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (92,35) por busqueda densa sobre el campo de costo: coste 0.190 en escala 0-1",
         "headline: contraste medido 2.31:1 contra 3.0 exigido, scrim con alpha 0.16",
         "subhead: contraste medido 2.67:1 contra 3.0 exigido, scrim con alpha 0.09",
@@ -2788,7 +2788,7 @@
       "field_cost": 0.2006,
       "reasons": [
         "recorte 2024x2700px de la fuente (94% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (177,748) por busqueda densa sobre el campo de costo: coste 0.201 en escala 0-1",
         "headline: contraste medido 2.90:1 contra 3.0 exigido, scrim con alpha 0.05",
         "subhead: tipografia invertida a claro, contraste 3.78:1",
@@ -2883,7 +2883,7 @@
       "field_cost": 0.242,
       "reasons": [
         "recorte 2160x997px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (29,29) por busqueda densa sobre el campo de costo: coste 0.242 en escala 0-1",
         "headline: contraste medido 2.31:1 contra 3.0 exigido, scrim con alpha 0.16",
         "subhead: tipografia invertida a claro, contraste 8.67:1",
@@ -2983,7 +2983,7 @@
       "field_cost": 0.1739,
       "reasons": [
         "recorte 2160x660px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (19,19) por busqueda densa sobre el campo de costo: coste 0.174 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.88:1",
         "subhead: tipografia invertida a claro, contraste 5.76:1",
@@ -3080,7 +3080,7 @@
       "field_cost": 0.2014,
       "reasons": [
         "recorte 2160x734px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (22,32) por busqueda densa sobre el campo de costo: coste 0.201 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.64:1",
         "subhead: tipografia invertida a claro, contraste 4.11:1",
@@ -3181,7 +3181,7 @@
       "field_cost": 0.2205,
       "reasons": [
         "recorte 2160x679px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (20,20) por busqueda densa sobre el campo de costo: coste 0.220 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.83:1",
         "subhead: tipografia invertida a claro, contraste 4.06:1",
@@ -3282,7 +3282,7 @@
       "field_cost": 0.1495,
       "reasons": [
         "recorte 2160x2160px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (122,367) por busqueda densa sobre el campo de costo: coste 0.149 en escala 0-1",
         "headline: contraste medido 2.89:1 contra 3.0 exigido, scrim con alpha 0.06",
         "subhead: tipografia invertida a claro, contraste 5.59:1",
@@ -3383,7 +3383,7 @@
       "field_cost": 0.1664,
       "reasons": [
         "recorte 1519x2700px de la fuente (70% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (178,65) por busqueda densa sobre el campo de costo: coste 0.166 en escala 0-1",
         "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
       ],
@@ -3471,7 +3471,7 @@
       "field_cost": 0.1641,
       "reasons": [
         "recorte 2160x608px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (19,19) por busqueda densa sobre el campo de costo: coste 0.164 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.00:1",
         "subhead: tipografia invertida a claro, contraste 6.58:1",
@@ -3568,7 +3568,7 @@
       "field_cost": 0.1948,
       "reasons": [
         "recorte 2160x1130px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (94,38) por busqueda densa sobre el campo de costo: coste 0.195 en escala 0-1",
         "headline: contraste medido 1.49:1 contra 3.0 exigido, scrim con alpha 0.32",
         "subhead: tipografia invertida a claro, contraste 6.38:1",
@@ -3670,7 +3670,7 @@
       "field_cost": 0.15,
       "reasons": [
         "recorte 2160x2160px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (72,405) por busqueda densa sobre el campo de costo: coste 0.150 en escala 0-1",
         "headline: contraste medido 2.98:1 contra 3.0 exigido, scrim con alpha 0.04",
         "subhead: tipografia invertida a claro, contraste 5.03:1",
@@ -3770,7 +3770,7 @@
       "field_cost": 0.2219,
       "reasons": [
         "recorte 2160x572px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (78,19) por busqueda densa sobre el campo de costo: coste 0.222 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.81:1",
         "subhead: contraste medido 1.46:1 contra 3.0 exigido, scrim con alpha 0.33",
@@ -3870,7 +3870,7 @@
       "field_cost": 0.2135,
       "reasons": [
         "recorte 2160x554px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (19,19) por busqueda densa sobre el campo de costo: coste 0.213 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.77:1",
         "subhead: contraste medido 1.48:1 contra 3.0 exigido, scrim con alpha 0.32",
@@ -3970,7 +3970,7 @@
       "field_cost": 0.2205,
       "reasons": [
         "recorte 2160x555px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (81,19) por busqueda densa sobre el campo de costo: coste 0.221 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 5.07:1",
         "subhead: contraste medido 1.45:1 contra 3.0 exigido, scrim con alpha 0.33",
@@ -4071,7 +4071,7 @@
       "reasons": [
         "recorte 1102x2484px de la fuente (51% del ancho); region focal contenida",
         "PPI efectivo 63 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (567,76) por busqueda densa sobre el campo de costo: coste 0.089 en escala 0-1",
         "legal: contraste medido 3.40:1 contra 4.5 exigido, scrim con alpha 0.18",
         "lockup a escala uniforme 0.91x, 202px de ancho, clear-space 15px, esquina de menor coste"
@@ -4164,7 +4164,7 @@
       "field_cost": 0.2284,
       "reasons": [
         "recorte 2160x572px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (145,23) por busqueda densa sobre el campo de costo: coste 0.228 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.71:1",
         "subhead: contraste medido 1.44:1 contra 3.0 exigido, scrim con alpha 0.33",
@@ -4264,7 +4264,7 @@
       "field_cost": 0.184,
       "reasons": [
         "recorte 2160x1083px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (182,47) por busqueda densa sobre el campo de costo: coste 0.184 en escala 0-1",
         "headline: contraste medido 1.48:1 contra 3.0 exigido, scrim con alpha 0.32",
         "subhead: tipografia invertida a claro, contraste 3.79:1",
@@ -4367,7 +4367,7 @@
       "field_cost": 0.2338,
       "reasons": [
         "recorte 2160x648px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (23,54) por busqueda densa sobre el campo de costo: coste 0.234 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.50:1",
         "subhead: contraste medido 2.46:1 contra 3.0 exigido, scrim con alpha 0.12",
@@ -4467,7 +4467,7 @@
       "field_cost": 0.1924,
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (116,43) por busqueda densa sobre el campo de costo: coste 0.192 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.41:1",
         "subhead: contraste medido 1.80:1 contra 3.0 exigido, scrim con alpha 0.26",
@@ -4569,7 +4569,7 @@
       "field_cost": 0.1556,
       "reasons": [
         "recorte 2160x545px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (19,19) por busqueda densa sobre el campo de costo: coste 0.156 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.43:1",
         "subhead: tipografia invertida a claro, contraste 6.80:1",
@@ -4666,7 +4666,7 @@
       "field_cost": 0.2007,
       "reasons": [
         "recorte 2160x524px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (256,19) por busqueda densa sobre el campo de costo: coste 0.201 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.67:1",
         "subhead: contraste medido 3.81:1 contra 4.5 exigido, scrim con alpha 0.13",
@@ -4771,7 +4771,7 @@
       "field_cost": 0.3703,
       "reasons": [
         "recorte 2160x694px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (259,34) por busqueda densa sobre el campo de costo: coste 0.370 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.16:1",
         "subhead: tipografia invertida a claro, contraste 3.75:1",
@@ -4867,7 +4867,7 @@
       "field_cost": 0.244,
       "reasons": [
         "recorte 2160x1214px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (46,46) por busqueda densa sobre el campo de costo: coste 0.244 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.17:1",
         "subhead: tipografia invertida a claro, contraste 4.69:1",
@@ -4963,7 +4963,7 @@
       "field_cost": 0.1562,
       "reasons": [
         "recorte 2160x1350px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (208,258) por busqueda densa sobre el campo de costo: coste 0.156 en escala 0-1",
         "headline: contraste medido 2.83:1 contra 3.0 exigido, scrim con alpha 0.07",
         "subhead: tipografia invertida a claro, contraste 4.64:1",
@@ -5063,7 +5063,7 @@
       "field_cost": 0.2494,
       "reasons": [
         "recorte 2160x771px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (90,64) por busqueda densa sobre el campo de costo: coste 0.249 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.30:1",
         "subhead: tipografia invertida a claro, contraste 4.08:1",
@@ -5164,7 +5164,7 @@
       "field_cost": 0.1789,
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (54,54) por busqueda densa sobre el campo de costo: coste 0.179 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.44:1",
         "subhead: tipografia invertida a claro, contraste 7.44:1",
@@ -5260,7 +5260,7 @@
       "field_cost": 0.2375,
       "reasons": [
         "recorte 2160x508px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (348,49) por busqueda densa sobre el campo de costo: coste 0.238 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.15:1",
         "legal: contraste medido 1.58:1 contra 4.5 exigido, scrim con alpha 0.45",
@@ -5355,7 +5355,7 @@
       "field_cost": 0.2193,
       "reasons": [
         "recorte 2160x512px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (368,27) por busqueda densa sobre el campo de costo: coste 0.219 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.51:1",
         "subhead: tipografia invertida a claro, contraste 3.85:1",
@@ -5451,7 +5451,7 @@
       "field_cost": 0.1637,
       "reasons": [
         "recorte 2160x675px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (36,36) por busqueda densa sobre el campo de costo: coste 0.164 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.76:1",
         "subhead: tipografia invertida a claro, contraste 5.76:1",
@@ -5548,7 +5548,7 @@
       "field_cost": 0.1546,
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (65,65) por busqueda densa sobre el campo de costo: coste 0.155 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.09:1",
         "subhead: tipografia invertida a claro, contraste 6.01:1",
@@ -5645,7 +5645,7 @@
       "field_cost": 0.1674,
       "reasons": [
         "recorte 2160x1080px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (159,60) por busqueda densa sobre el campo de costo: coste 0.167 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.60:1",
         "subhead: tipografia invertida a claro, contraste 4.90:1",
@@ -5741,7 +5741,7 @@
       "field_cost": 0.1548,
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (69,69) por busqueda densa sobre el campo de costo: coste 0.155 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.05:1",
         "subhead: tipografia invertida a claro, contraste 6.14:1",
@@ -5838,7 +5838,7 @@
       "field_cost": 0.0069,
       "reasons": [
         "a 8.2:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 440px de alto, o 3618px de ancho, y la fuente tiene 2160px. La foto degrada a panel de 756x252 (3.0:1) y se promueve el campo de marca",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (137,18) por busqueda densa sobre el campo de costo: coste 0.007 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 15.24:1",
         "subhead: tipografia invertida a claro, contraste 15.24:1",
@@ -5934,7 +5934,7 @@
       "reasons": [
         "recorte 1519x2700px de la fuente (70% del ancho); region focal contenida",
         "PPI efectivo 51 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (232,130) por busqueda densa sobre el campo de costo: coste 0.040 en escala 0-1",
         "lockup a escala uniforme 1.55x, 346px de ancho, clear-space 26px, esquina de menor coste"
       ],
@@ -6021,7 +6021,7 @@
       "reasons": [
         "recorte 2160x1080px de la fuente (100% del ancho); region focal contenida",
         "PPI efectivo 65 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (210,141) por busqueda densa sobre el campo de costo: coste 0.169 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.01:1",
         "subhead: tipografia invertida a claro, contraste 5.20:1",
@@ -6118,7 +6118,7 @@
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
         "PPI efectivo 61 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (86,86) por busqueda densa sobre el campo de costo: coste 0.149 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.89:1",
         "subhead: tipografia invertida a claro, contraste 4.46:1",
@@ -6215,7 +6215,7 @@
       "reasons": [
         "recorte 2160x607px de la fuente (100% del ancho); region focal contenida",
         "PPI efectivo 57 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (46,77) por busqueda densa sobre el campo de costo: coste 0.156 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.29:1",
         "subhead: tipografia invertida a claro, contraste 6.74:1",
@@ -6312,7 +6312,7 @@
       "reasons": [
         "recorte 2160x865px de la fuente (100% del ancho); region focal contenida",
         "PPI efectivo 51 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (73,636) por busqueda densa sobre el campo de costo: coste 0.144 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 5.00:1",
         "subhead: tipografia invertida a claro, contraste 6.80:1",
@@ -6409,7 +6409,7 @@
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
         "PPI efectivo 40 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (571,628) por busqueda densa sobre el campo de costo: coste 0.197 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.70:1",
         "subhead: tipografia invertida a claro, contraste 4.74:1",
@@ -6505,7 +6505,7 @@
       "reasons": [
         "recorte 2160x535px de la fuente (100% del ancho); region focal contenida",
         "PPI efectivo 40 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
         "texto emplazado en (545,120) por busqueda densa sobre el campo de costo: coste 0.167 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 5.24:1",
         "subhead: tipografia invertida a claro, contraste 5.92:1",

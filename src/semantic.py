@@ -326,6 +326,46 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
     notes.append(f"escena semantica leida por {provider}: "
                  + ", ".join(f"{t['role']}={t['size']:.0f}px" for t in data["texts"]))
 
+    # GUARDA: EL TEXTO PINTADO DENTRO DE LA FOTO NO ES COPY DE CAMPANA.
+    #
+    # `lleva_copy` decide por donde entra la pieza, y cuando se equivoca el dano es
+    # DESTRUCTIVO: `_plate()` borra por inpainting lo que crea copy sobrepuesto, y eso
+    # no se deshace. Medido sobre un anuncio con "DRINK Coca-Cola / Delicious and
+    # Refreshing" PINTADO en el costado de una camioneta: el modelo lo leyo como
+    # titular, el inpainting dejo manchones borrosos sobre el vehiculo en los cinco
+    # formatos, y luego lo re-escribio como texto vivo encima, asi que en el MPU se lee
+    # dos veces.
+    #
+    # `prompts/scene_from_image.txt` ya lo dice -"un cartel de una tienda que aparece
+    # DENTRO de la fotografia no es copy de campana"-. Afinar el prompt con este caso
+    # seria ajustarlo a la foto que tengo delante. Lo que se puede hacer sin inventar un
+    # criterio es CORROBORAR con la otra respuesta que el modelo ya dio en la misma
+    # llamada: donde esta el sujeto.
+    #
+    # No es un umbral ajustado, es una pregunta de contencion: el copy sobrepuesto va
+    # FUERA del sujeto -es lo que lo hace legible-, y el texto fotografiado esta DENTRO.
+    # Si el titular cae mayormente dentro de la region focal, esta pintado sobre el
+    # sujeto y la pieza es una fotografia, no una composicion.
+    #
+    # Se falla ruidosamente en lugar de degradar aqui: quien llama tiene una ruta mejor
+    # -aplicar la campana SOBRE la fotografia, dejandola intacta- y es la correcta para
+    # este caso. El demo ya cae a ella cuando la escena no valida.
+    foc = data.get("focal")
+    if foc:
+        cab = next((t for t in data["texts"] if t["role"] == "headline"), None)
+        if cab:
+            hx, hy, hw, hh = cab["rect"]
+            fx, fy, fw, fh = foc
+            ix = max(0.0, min(hx + hw, fx + fw) - max(hx, fx))
+            iy = max(0.0, min(hy + hh, fy + fh) - max(hy, fy))
+            dentro = (ix * iy) / max(hw * hh, 1e-9)
+            if dentro >= 0.60:
+                raise ValueError(
+                    f"el titular cae {dentro:.0%} DENTRO de la region del sujeto "
+                    f"({fw:.0f}x{fh:.0f}px): es texto fotografiado, no copy "
+                    f"sobrepuesto. Borrarlo por inpainting destruiria el sujeto, asi "
+                    f"que la pieza entra como FOTOGRAFIA y no como composicion")
+
     mask = np.zeros(rgb.shape[:2], np.uint8)
     blocks: List[TextBlock] = []
     for t in data["texts"]:
@@ -389,21 +429,36 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
 SUJETOS = ("persona", "grupo", "producto", "comida", "edificio", "ilustracion",
            "tipografia", "animal", "paisaje", "ninguno")
 
-# SUJETOS QUE SON UNA EXTENSION, NO UN OBJETO ENCUADRABLE.
+# QUE SUJETOS DAN UNA CAJA COMPACTA, Y CUALES UNA EXTENSION.
 #
-# `focal_proxy` conserva el ANCHO de la caja del modelo en todos los casos menos
-# `persona` -es la extension del sujeto, y encogerla deja fuera la gente de los
-# extremos-. Para un objeto compacto eso da una caja que cualquier formato puede
-# contener. Para una extension ancha no: ninguna ventana mas estrecha que la fuente
-# la contiene al 99.5%, la guarda del recorte declara insatisfacible y la foto degrada
-# a panel en casi todos los formatos. Medido sobre tres fotos de grupo antes de esto:
-# panel en 5 de 5, 4 de 5 y 2 de 5.
+# Se deriva de `focal_proxy`, no de una intuicion sobre que sujetos "son anchos".
+# Mirando sus tres ramas: `persona` devuelve un CUADRADO de la cabeza -compacto, y
+# cualquier formato puede contenerlo-. `grupo` y todo lo demas conservan el ANCHO
+# entero de la caja del modelo, porque ese ancho ES la extension del sujeto y
+# encogerlo pierde justo lo que importa. Una caja a ancho completo no cabe en ninguna
+# ventana mas estrecha que la fuente, asi que exigir contenerla al 99.5% declara
+# insatisfacible y degrada la foto a panel en casi todos los formatos.
 #
-# Para estos sujetos la restriccion correcta no es "contener" sino "conservar la mayor
-# parte", que es lo que `crop.choose(face_hard=False)` hace. La distincion es la misma
-# que el vocabulario del plan (`contener` / `preservar`) reducida a lo que se necesita
-# hoy: un booleano derivado de lo que el modelo YA responde en `sujeto`.
-SUJETOS_EXTENSOS = frozenset({"grupo", "edificio", "paisaje", "tipografia"})
+# Por eso la contencion dura solo aplica a `persona`. Para el resto la restriccion
+# correcta es "conservar la mayor parte", que es `crop.choose(face_hard=False)`.
+#
+# LA PRIMERA VERSION DE ESTO ERA UNA LISTA A MANO -grupo, edificio, paisaje,
+# tipografia- y estaba mal. Dejaba fuera `ilustracion`, que cae en la misma rama de
+# ancho completo, y lo dejaba fuera porque la corrida que tenia delante habia salido
+# bien. Salio bien por otra razon: el modelo habia etiquetado esa ilustracion como
+# `persona`. La misma imagen, otra corrida, respondio `ilustracion` -"madera con bate
+# y cara" en lugar de "persona de madera con bate"- y degrado a panel en 3 de 5
+# formatos. Elegir la etiqueta no es determinista y el codigo no puede depender de
+# que caiga del lado bueno.
+#
+# La leccion, que es la del proyecto entero: la lista se deriva del mecanismo, no de
+# los casos que uno vio.
+SUJETOS_COMPACTOS = frozenset({"persona"})
+
+
+def es_extenso(sujeto: str) -> bool:
+    """True si la region del sujeto es una extension y no se puede exigir entera."""
+    return sujeto not in SUJETOS_COMPACTOS
 
 
 def _valida_focal(d, W: float, H: float):

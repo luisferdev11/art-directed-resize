@@ -270,8 +270,8 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
             reasons.append(
                 f"a {fmt.aspect:.1f}:1 el mejor recorte a sangre conserva solo el "
                 f"{cov:.0%} de la region del sujeto, bajo el {cropmod.SOFT_MIN_COVER:.0%} "
-                f"exigido: la region es una extension ancha -un grupo-, no una cara, y "
-                f"no cabe. La foto degrada a panel de {panel[2]:.0f}x{panel[3]:.0f} "
+                f"exigido: la region es una extension y no una cara, asi que no cabe "
+                f"entera. La foto degrada a panel de {panel[2]:.0f}x{panel[3]:.0f} "
                 f"({p_aspect:.1f}:1) y se promueve el campo de marca")
     else:
         # "region focal contenida" solo si de verdad lo esta. Con la region blanda el
@@ -280,7 +280,7 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
         cov = float(cdiag.get("cover", 1.0))
         if cdiag.get("face_soft") and cov < 0.995:
             estado = (f"region del sujeto conservada al {cov:.0%} "
-                      f"(es una extension ancha, no una cara: se maximiza, no se exige)")
+                      f"(es una extension, no una cara: se maximiza, no se exige)")
         else:
             estado = "region focal contenida"
         reasons.append(f"recorte {crect[2]:.0f}x{crect[3]:.0f}px de la fuente "
@@ -344,7 +344,7 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
         elif puestas > 1:
             reasons.append(
                 f"{puestas} regiones de cara vedadas al texto, con 25% de margen cada "
-                f"una: sobre un grupo no basta vedar la region focal")
+                f"una: cuando hay varias cabezas no basta vedar la region focal")
 
     ii = vision.integral(cf)
     gx, gy = grid[0] / W, grid[1] / H
