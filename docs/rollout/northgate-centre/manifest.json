@@ -30,7 +30,7 @@
       "field_cost": 0.2279,
       "reasons": [
         "recorte 2189x2736px de la fuente (60% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 773x773px en (345,459) del lienzo, con 25% de margen",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
         "texto emplazado en (59,59) por busqueda densa sobre el campo de costo: coste 0.228 en escala 0-1",
         "headline: contraste medido 1.08:1 contra 3.0 exigido, scrim con alpha 0.35",
         "subhead: contraste medido 2.27:1 contra 3.0 exigido, scrim con alpha 0.17",
@@ -136,7 +136,7 @@
       "field_cost": 0.2013,
       "reasons": [
         "recorte 1539x2736px de la fuente (42% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 1100x1100px en (130,652) del lienzo, con 25% de margen",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
         "texto emplazado en (65,151) por busqueda densa sobre el campo de costo: coste 0.201 en escala 0-1",
         "headline: contraste medido 2.51:1 contra 3.0 exigido, scrim con alpha 0.12",
         "subhead: contraste medido 2.09:1 contra 3.0 exigido, scrim con alpha 0.18",
@@ -241,7 +241,7 @@
       "field_cost": 0.0075,
       "reasons": [
         "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 2322px de alto, o 18784px de ancho, y la fuente tiene 3648px. La foto degrada a panel de 270x90 (3.0:1) y se promueve el campo de marca; el sujeto sigue apretado incluso en el panel",
-        "region de la cara vedada al texto: 116x116px en (537,13) del lienzo, con 25% de margen",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
         "subhead: el piso de legibilidad redujo el contraste de tamano a 2.29:1 frente a 3.07:1 del master, asi que la jerarquia se re-expresa en peso (400 a 300)",
         "support: el piso de legibilidad redujo el contraste de tamano a 2.91:1 frente a 4.60:1 del master, asi que la jerarquia se re-expresa en peso (900 a 300)",
         "escalera de degradacion aplicada: tighten_leading -> weight_for_size -> drop_legal",
@@ -333,7 +333,7 @@
       "field_cost": 0.4037,
       "reasons": [
         "recorte 3283x2736px de la fuente (90% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 143x143px en (64,85) del lienzo, con 25% de margen",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
         "subhead: contraste de tamano comprimido a 2.15:1 frente a 3.07:1 del master",
         "support: contraste de tamano comprimido a 2.55:1 frente a 4.60:1 del master",
         "texto emplazado en (182,36) por busqueda densa sobre el campo de costo: coste 0.404 en escala 0-1",
@@ -443,7 +443,7 @@
       "field_cost": 0.3083,
       "reasons": [
         "recorte 2736x2736px de la fuente (75% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 619x619px en (60,367) del lienzo, con 25% de margen",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
         "texto emplazado en (633,65) por busqueda densa sobre el campo de costo: coste 0.308 en escala 0-1",
         "headline: contraste medido 1.57:1 contra 3.0 exigido, scrim con alpha 0.31",
         "subhead: contraste medido 2.14:1 contra 3.0 exigido, scrim con alpha 0.19",

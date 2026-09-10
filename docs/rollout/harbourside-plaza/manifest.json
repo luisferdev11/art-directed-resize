@@ -11,8 +11,8 @@
     "roles por rango de cuerpo: headline=92px, subhead=30px, support=20px, legal=13px",
     "el bloque menor (13px) mide < 30% del titular (92px) -> legal",
     "region focal: 2 caras con acuerdo: cual sostiene la composicion, o si el sujeto es el grupo entero, no lo dice la geometria. Se pregunta al modelo",
-    "region focal · deepinfra (Qwen/Qwen3-VL-235B-A22B-Instruct): ok en 12.3s, clave de DEEPINFRA_API_KEY (clave configurada)",
-    "las dos cascadas no coincidieron: la region que no se puede recortar la decidio un modelo. persona — hombre con sombrero, confianza 0.95. el hombre es el sujeto principal y está en primer plano, dominando la composición visual"
+    "region focal · deepinfra (Qwen/Qwen3-VL-235B-A22B-Instruct): ok en 13.8s, clave de DEEPINFRA_API_KEY (clave configurada)",
+    "las dos cascadas no coincidieron: la region que no se puede recortar la decidio un modelo. persona — hombre con sombrero, confianza 0.95. el hombre es el sujeto principal y dominante visualmente, con el Taj Mahal como contexto"
   ],
   "outputs": [
     {
@@ -32,7 +32,7 @@
       "field_cost": 0.0374,
       "reasons": [
         "recorte 2261x2826px de la fuente (55% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 380x380px en (186,628) del lienzo, con 25% de margen",
+        "3 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
         "texto emplazado en (59,59) por busqueda densa sobre el campo de costo: coste 0.037 en escala 0-1",
         "legal: contraste medido 4.16:1 contra 4.5 exigido, scrim con alpha 0.10",
         "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
@@ -124,7 +124,7 @@
       "field_cost": 0.013,
       "reasons": [
         "recorte 1175x2089px de la fuente (29% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 731x731px en (360,906) del lienzo, con 25% de margen",
+        "2 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
         "texto emplazado en (178,151) por busqueda densa sobre el campo de costo: coste 0.013 en escala 0-1",
         "legal: contraste medido 3.29:1 contra 4.5 exigido, scrim con alpha 0.20",
         "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
@@ -217,8 +217,8 @@
       "effective_ppi": 1088.0,
       "field_cost": 0.0067,
       "reasons": [
-        "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 1177px de alto, o 9524px de ancho, y la fuente tiene 4080px. La foto degrada a panel de 270x90 (3.0:1) y se promueve el campo de marca",
-        "region de la cara vedada al texto: 53x53px en (564,40) del lienzo, con 25% de margen",
+        "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 1169px de alto, o 9454px de ancho, y la fuente tiene 4080px. La foto degrada a panel de 270x90 (3.0:1) y se promueve el campo de marca",
+        "3 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
         "subhead: el piso de legibilidad redujo el contraste de tamano a 2.29:1 frente a 3.07:1 del master, asi que la jerarquia se re-expresa en peso (400 a 300)",
         "support: el piso de legibilidad redujo el contraste de tamano a 2.91:1 frente a 4.60:1 del master, asi que la jerarquia se re-expresa en peso (900 a 300)",
         "escalera de degradacion aplicada: tighten_leading -> weight_for_size -> drop_legal",
@@ -310,7 +310,7 @@
       "field_cost": 0.1351,
       "reasons": [
         "recorte 3097x2580px de la fuente (76% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 77x77px en (60,127) del lienzo, con 25% de margen",
+        "3 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
         "subhead: contraste de tamano comprimido a 2.15:1 frente a 3.07:1 del master",
         "support: contraste de tamano comprimido a 2.55:1 frente a 4.60:1 del master",
         "texto emplazado en (149,15) por busqueda densa sobre el campo de costo: coste 0.135 en escala 0-1",
@@ -418,7 +418,7 @@
       "field_cost": 0.1015,
       "reasons": [
         "recorte 2826x2826px de la fuente (69% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 304x304px en (213,502) del lienzo, con 25% de margen",
+        "3 regiones de cara vedadas al texto, con 25% de margen cada una: sobre un grupo no basta vedar la region focal",
         "texto emplazado en (519,65) por busqueda densa sobre el campo de costo: coste 0.102 en escala 0-1",
         "legal: contraste medido 4.08:1 contra 4.5 exigido, scrim con alpha 0.11",
         "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
