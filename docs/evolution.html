@@ -1,0 +1,180 @@
+<!doctype html><meta charset="utf-8">
+<title>How it changed &middot; art-directed-resize</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+ :root{--ink:#0E2A26;--pap:#F4F1EA;--acc:#E4572E;--line:#d8d3c8;--mut:#5d6b66}
+ *{box-sizing:border-box}
+ body{margin:0;background:var(--pap);color:var(--ink);
+   font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+ .wrap{max-width:860px;margin:0 auto;padding:40px 22px 90px}
+ h1{font-size:32px;line-height:1.15;margin:0 0 6px;letter-spacing:-.02em}
+ .sub{color:var(--mut);margin:0 0 30px;font-size:15.5px}
+ .lede{border-left:3px solid var(--acc);padding:2px 0 2px 16px;margin:0 0 34px;
+   font-size:15px;color:#3b4a45}
+ .stage{border-top:1px solid var(--line);padding:26px 0 4px}
+ .stage-h{display:flex;gap:14px;align-items:baseline}
+ .n{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--acc);
+   padding-top:6px}
+ h2{font-size:20.5px;line-height:1.25;margin:0;letter-spacing:-.01em}
+ .meta{margin:4px 0 0;color:var(--mut);font-size:12.5px}
+ dl{margin:16px 0 0;padding:0 0 0 34px}
+ dt{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;
+   color:var(--mut);margin:14px 0 4px}
+ dt:first-child{margin-top:0}
+ dd{margin:0;font-size:14.5px}
+ dt.m{color:var(--acc)}
+ dd.m{background:#fff;border:1px solid var(--line);border-radius:6px;
+   padding:10px 13px;font-size:14px}
+ code{font:12.5px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;
+   background:#fff;border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);
+   color:var(--mut);font-size:12.5px}
+ @media(max-width:560px){dl{padding-left:0} h1{font-size:26px}}
+
+ .nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;padding:0 0 18px;
+   border-bottom:1px solid var(--line)}
+ .nav a,.nav span{font-size:12.5px;padding:6px 12px;border-radius:99px;
+   border:1px solid var(--line);background:#fff;text-decoration:none;line-height:1.2}
+ .nav span{background:var(--ink);color:var(--pap);border-color:var(--ink);font-weight:600}
+ .nav a:hover{border-color:var(--ink)}
+</style>
+<div class="wrap">
+<nav class="nav"><a href="index.html">&larr; indice</a><a href="how-it-works.html">Como funciona y como escala</a><span>Como cambio</span><a href="writeup.html">El writeup</a><a href="meridian-quarter/face-off.html">Cara a cara</a><a href="meridian-quarter/index.html">Campana · desde el arte</a><a href="meridian-quarter/constraints/index.html">Campana · constraints</a><a href="meridian-flat/index.html">Desde un JPEG plano</a><a href="swap/index.html">La prueba de las fotos</a><a href="rollout/index.html">Un archivo por centre</a><a href="generic66/spec.html">Los 66 tamanos</a><a href="generic66/index.html">Los 66 · hoja de contactos</a></nav>
+<h1>How it changed</h1>
+<p class="sub">Eight steps, each one a failure that was measured first.</p>
+
+<p class="lede">Every other page here shows what the engine does now. This one shows
+ that each decision came out of a concrete failure, and that more than once the first
+ version was wrong &mdash; twice for the same reason, which is that I generalised from
+ the cases in front of me. Every stage carries the SHA of the commit that introduced
+ it, and the generator refuses to build this page if a commit is missing from the
+ history.<br><br>
+ One thing is deliberately not tidied up: <strong>the multimodal did not arrive after
+ the face detector.</strong> It was in the first commit, reading the scene of a flat
+ JPEG by communicative function. What evolved is where <em>else</em> it is used.
+ Telling it the other way round would read better and would be false.</p>
+
+<section class="stage">
+ <div class="stage-h">
+  <span class="n">01</span>
+  <div>
+   <h2>The deterministic engine, and the largest box wins</h2>
+   <p class="meta"><code>d0ec4b7</code> &middot; day 1</p>
+  </div>
+ </div>
+ <dl>
+  <dt>Before</dt><dd>Nothing. This is the floor: dense search over a cost field derived from the pixels, type fitted in closed form, contrast measured per line, and an editable SVG out. The multimodal path for a flat JPEG is already here, reading the scene by communicative function.</dd>
+  <dt>What broke it</dt><dd>The focal region was <em>the largest detection</em> from either of two Haar cascades, taken as a union. The code's own docstring already admitted a false positive on the reflecting pool.</dd>
+  <dt>What changed</dt><dd>Shipped as the baseline. Everything below is a failure found afterwards.</dd>
+  <dt class="m">Measured</dt><dd class="m">Role assignment: ranking by font size 9/12, reading the piece 12/12, N=3 declared.</dd>
+ </dl>
+</section>
+<section class="stage">
+ <div class="stage-h">
+  <span class="n">02</span>
+  <div>
+   <h2>Two cascades have to agree, and the model answers when they do not</h2>
+   <p class="meta"><code>ac88b8a</code> &middot; day 2 · 10:20</p>
+  </div>
+ </div>
+ <dl>
+  <dt>Before</dt><dd>One box, the biggest, treated as certainty.</dd>
+  <dt>What broke it</dt><dd>A subject in a cap and sunglasses in front of a building: the two cascades returned <strong>eight detections and not one was a face</strong> — a wristwatch, windows in the facade, poles on grass. The largest sat at 94% of the width, and because the focal region is a <em>hard</em> crop constraint, every format cut the subject in half.</dd>
+  <dt>What changed</dt><dd>A face counts only when both cascades agree — an ensemble of two independently trained detectors, not a threshold fitted to the cases at hand. When they do not agree the question goes to a model, asked as <em>what must not be cropped, and what is it</em> rather than <em>where is the face</em>.</dd>
+  <dt class="m">Measured</dt><dd class="m">Over four photographs, the three with a real subject agree at IoU 0.79 to 0.93; the failing one produces no agreement at all.</dd>
+ </dl>
+</section>
+<section class="stage">
+ <div class="stage-h">
+  <span class="n">03</span>
+  <div>
+   <h2>Doubt escalates: zero agreements, or several, is not an answer</h2>
+   <p class="meta"><code>f206a8b</code> &middot; day 2 · 11:08</p>
+  </div>
+ </div>
+ <dl>
+  <dt>Before</dt><dd>Agreement fixed the false positive. Several agreements did not.</dd>
+  <dt>What broke it</dt><dd>A group photograph produced <strong>eleven corroborated faces spanning 31% to 69% of the width</strong>. Taking the largest pins the crop to one person and cuts the rest of the team out of frame. Which face carries the composition, or whether the subject is the group itself, is a compositional judgement.</dd>
+  <dt>What changed</dt><dd>The cheap path answers only when there is no doubt: exactly one agreed face. Zero, or several, is a declaration that this detector cannot say, and the question escalates. The temptation was a clusterer with its own thresholds — that would have been my judgement dressed as measurement.</dd>
+  <dt class="m">Measured</dt><dd class="m">The schema was too narrow and the model said so: it answered <code>sujeto="grupo"</code>, the value was not on the list, and the chain spent fourteen seconds falling through to the next provider. The answer was correct.</dd>
+ </dl>
+</section>
+<section class="stage">
+ <div class="stage-h">
+  <span class="n">04</span>
+  <div>
+   <h2>A group's region is preserved, not required</h2>
+   <p class="meta"><code>bc3a0f1</code> &middot; day 2 · 12:57</p>
+  </div>
+ </div>
+ <dl>
+  <dt>Before</dt><dd>Escalation worked. What came back was then fed to a guard calibrated on a single face.</dd>
+  <dt>What broke it</dt><dd>A group's region keeps the subject's full width — shrinking it drops the people at the edges — and the crop guard demands containment at 99.5%. No window narrower than the source can satisfy that, so the constraint was unsatisfiable <em>by geometry</em> and the photograph degraded to a side panel almost everywhere.</dd>
+  <dt>What changed</dt><dd>For a wide extent the right constraint is not <em>contain</em> but <em>keep most of</em>: coverage leaves the filter and enters the score with a weight above saliency mass. The panel still appears when even the best crop keeps too little, which at 8:1 is exactly what should happen.</dd>
+  <dt class="m">Measured</dt><dd class="m">Measured on three group photographs before: panel in <strong>5 of 5, 4 of 5 and 2 of 5</strong> formats. After: <strong>4 of 5, 1 of 5 and 2 of 5</strong>.</dd>
+ </dl>
+</section>
+<section class="stage">
+ <div class="stage-h">
+  <span class="n">05</span>
+  <div>
+   <h2>The list was wrong, and for the worst reason</h2>
+   <p class="meta"><code>aa128ec</code> &middot; day 2 · 13:54</p>
+  </div>
+ </div>
+ <dl>
+  <dt>Before</dt><dd>Which subjects get the soft treatment was a hand-written list: group, building, landscape, typography.</dd>
+  <dt>What broke it</dt><dd>It left out <code>ilustracion</code>, which falls in the same full-width branch — and it left it out because the run in front of me had come out fine. It came out fine for another reason: the model had labelled that illustration <code>persona</code>. Same image, another run, answered <code>ilustracion</code> and it degraded to a panel in 3 of 5 formats. <strong>Picking the label is not deterministic and the code cannot depend on it landing on the good side.</strong></dd>
+  <dt>What changed</dt><dd>The rule is now derived from the mechanism, not from the cases I had seen: of the three branches that reshape the model's box, only <code>persona</code> returns something compact. Hard containment applies to that and nothing else.</dd>
+  <dt class="m">Measured</dt><dd class="m">With the label that broke it: 4:5 goes from panel to bleed at 73% coverage, 1:1 at 91%, and 9:16 and 8:1 stay on the panel. With <code>persona</code> the result is byte-identical either way — which is why the 8 formats and the 66 sizes did not move.</dd>
+ </dl>
+</section>
+<section class="stage">
+ <div class="stage-h">
+  <span class="n">06</span>
+  <div>
+   <h2>Text painted inside the photograph is not campaign copy</h2>
+   <p class="meta"><code>aa128ec</code> &middot; day 2 · 13:54</p>
+  </div>
+ </div>
+ <dl>
+  <dt>Before</dt><dd>A composed piece is routed by asking the model whether copy is overlaid.</dd>
+  <dt>What broke it</dt><dd>An advertisement with <em>DRINK Coca-Cola / Delicious and Refreshing</em> <strong>painted on the side of a truck</strong>: the model read it as the headline, the inpainting left blurred smears across the vehicle in all five formats, and then wrote it back as live text on top — so the MPU read it twice.</dd>
+  <dt>What changed</dt><dd>The prompt already states the rule, so sharpening it with this photograph would be fitting it to the case in front of me. Instead the claim is corroborated against the other answer the model gives in the same call: where the subject is. Overlaid copy sits <em>outside</em> the subject — that is what makes it legible. Photographed text sits <em>inside</em>. It matters that this is a guard and not a better prompt, because the failure is destructive: inpainting does not undo.</dd>
+  <dt class="m">Measured</dt><dd class="m">On the truck the headline falls <strong>100% inside</strong> the subject region, so the piece enters as a photograph and survives intact. The regression that had to pass: the legitimate flat master, where copy really is overlaid, still reads its four roles and inpaints as before.</dd>
+ </dl>
+</section>
+<section class="stage">
+ <div class="stage-h">
+  <span class="n">07</span>
+  <div>
+   <h2>A bare photograph carries no copy, so the model writes it</h2>
+   <p class="meta"><code>1652e7a</code> &middot; day 2 · 14:30</p>
+  </div>
+ </div>
+ <dl>
+  <dt>Before</dt><dd>A loose photograph got the reference master's headline pasted onto it.</dd>
+  <dt>What broke it</dt><dd>It was the only thing in the demo that did not come from the input. On the truck advertisement <em>SPRING STYLE IS HERE</em> landed on top of the vehicle's own lettering: two messages competing.</dd>
+  <dt>What changed</dt><dd>With <code>--photo</code> only — where there is no one's copy to overwrite — the model writes headline, subhead and support from the image. Words and nothing else: role, master body size, weight, case and hierarchy stay the master's, so the layout moves because of the photograph and the length of the text, not because the piece was quietly rearranged. The legal line is not generated: it is fixed brand text. Word limits per role are a <em>layout</em> constraint, not a style one, and the validator enforces them.</dd>
+  <dt class="m">Measured</dt><dd class="m">On the truck the 4:5 cost drops from <strong>0.85 to 0.40</strong> — a headline that fits finds somewhere to go. On the Taj Mahal photograph it wrote <em>“Your escape begins here”</em>, with costs from 0.007 to 0.11.</dd>
+ </dl>
+</section>
+<section class="stage">
+ <div class="stage-h">
+  <span class="n">08</span>
+  <div>
+   <h2>The output is an input: the real use case</h2>
+   <p class="meta"><code>1652e7a</code> &middot; day 2 · 14:30</p>
+  </div>
+ </div>
+ <dl>
+  <dt>Before</dt><dd>Two entry points: an SVG master, or a flat raster.</dd>
+  <dt>What broke it</dt><dd>The real job is not <em>image → formats</em>. It is <em>campaign component → rollout</em>, and the demo had drifted away from it.</dd>
+  <dt>What changed</dt><dd>An SVG carries its own structure — text nodes, a raster, a vector lockup — which is exactly what the parser consumes, so it enters as a master with no question asked of any model. The SVGs this engine emits work as input: the pipeline pointed at its own output. The Figma component becomes a third adapter in front of the same <code>Scene</code>, not a new pipeline.</dd>
+  <dt class="m">Measured</dt><dd class="m">Verified end to end through the browser demo: 5 formats, validator green, and the focal region resolved by the cascades with no model call. One honest cost: each round trip re-crops and re-embeds the raster, so resolution decays per generation — on a 640×360 illustration it falls to 14 effective ppi, and the engine says so.</dd>
+ </dl>
+</section>
+<footer>Generated by <code>tools/evolution.py</code> from the repository history.
+ Brand, type and photography declared in <code>assets/LICENSES.md</code>.
+ MERIDIAN QUARTER is an invented name.</footer>
+</div>
