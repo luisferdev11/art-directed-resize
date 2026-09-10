@@ -1,0 +1,250 @@
+<!doctype html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Where the model stops &middot; notes on building with models</title>
+<meta name="description" content="Five architectural decisions from building systems
+ that use language and vision models: the split between model and deterministic code,
+ routing by file structure, adapters that degrade without going quiet, configuration
+ that is not code, and what a golden set of 29 images can and cannot tell you.">
+<style>
+ :root{--ink:#0E2A26;--pap:#F4F1EA;--acc:#E4572E;--line:#d8d3c8;--mut:#61756f}
+ *{box-sizing:border-box}
+ body{margin:0;background:var(--pap);color:var(--ink);
+   font:17px/1.68 Charter,"Iowan Old Style",Georgia,"Times New Roman",serif}
+ .wrap{max-width:720px;margin:0 auto;padding:0 24px 100px}
+ .nav{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+   margin-top:26px}
+ header.top{padding:60px 0 6px}
+ h1{font-size:clamp(30px,5vw,42px);line-height:1.14;margin:0 0 16px;
+   letter-spacing:-.02em;font-weight:600}
+ .standfirst{font-size:20px;line-height:1.55;color:var(--mut);margin:0 0 10px}
+ .byline{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+   font-size:13px;color:var(--mut);margin:22px 0 0;padding-top:16px;
+   border-top:1px solid var(--line)}
+ h2{font-size:25px;line-height:1.24;margin:52px 0 4px;letter-spacing:-.015em;
+   font-weight:600}
+ h2 .num{display:block;font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+   font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);
+   margin-bottom:9px;font-weight:700}
+ p{margin:17px 0}
+ p.lead{font-size:18.5px}
+ blockquote{margin:26px 0;padding:0 0 0 20px;border-left:3px solid var(--acc);
+   font-size:19px;line-height:1.5;color:var(--ink)}
+ .aside{background:#fff;border:1px solid var(--line);border-radius:11px;
+   padding:18px 22px;margin:26px 0;font-size:15.5px;line-height:1.6;
+   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+ .aside b{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;
+   color:var(--acc);margin-bottom:7px}
+ em.t{font-style:normal;border-bottom:2px solid rgba(228,87,46,.35)}
+ hr{border:0;border-top:1px solid var(--line);margin:52px 0}
+ footer{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+   font-size:14px;color:var(--mut);margin-top:14px}
+ a{color:inherit}
+
+ .nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;padding:0 0 18px;
+   border-bottom:1px solid var(--line)}
+ .nav a,.nav span{font-size:12.5px;padding:6px 12px;border-radius:99px;
+   border:1px solid var(--line);background:#fff;text-decoration:none;line-height:1.2}
+ .nav span{background:var(--ink);color:var(--pap);border-color:var(--ink);font-weight:600}
+ .nav a:hover{border-color:var(--ink)}
+</style>
+<div class="wrap">
+<nav class="nav"><a href="index.html">&larr; indice</a><span>El writeup</span><a href="meridian-quarter/face-off.html">Cara a cara</a><a href="meridian-quarter/index.html">Campana · desde el arte</a><a href="meridian-quarter/constraints/index.html">Campana · constraints</a><a href="meridian-flat/index.html">Desde un JPEG plano</a><a href="swap/index.html">La prueba de las fotos</a><a href="rollout/index.html">Un archivo por centre</a><a href="generic66/spec.html">Los 66 tamanos</a><a href="generic66/index.html">Los 66 · hoja de contactos</a></nav>
+<header class="top">
+<h1>Where the model stops</h1>
+<p class="standfirst">Five decisions from building systems that use models. None of
+ them are about the model.</p>
+<p class="byline">An architecture note, written to accompany a working demo. It
+ describes decisions, not code &mdash; there is none here. The demo it refers to is
+ <a href="index.html">public</a>, and so is <a href="https://github.com/luisferdev11/art-directed-resize">its source</a>.</p>
+</header>
+
+<p class="lead">The interesting decisions in a system that uses a language or vision
+ model are almost never about the model. They are about the boundary you draw around
+ it: what you let it decide, what you refuse to let it decide, and what happens on the
+ day it is wrong or unavailable. Draw that boundary badly and no amount of prompt work
+ will save you, because the failure will not look like a model failure. It will look
+ like a quality problem with no cause.</p>
+
+<p>What follows are five decisions I keep making, in a domain where they are unusually
+ easy to see: adapting one piece of campaign artwork into every format a media plan
+ asks for. The demo that accompanies this note takes a single master and resolves
+ <strong>66 banner sizes</strong>, ratios from 8.2:1 to portrait, in one
+ pass. A model is involved in exactly one of those decisions, and it is not the one
+ people expect.</p>
+
+<h2><span class="num">One</span>The split is an economic argument before it is a
+ technical one</h2>
+
+<p>The usual way to decide what a model should do is to ask whether it can. That
+ question almost always answers yes, and it is the wrong question. A model call is a
+ recurring cost, a latency you do not control, a variance you cannot fully bound, and
+ a dependency on somebody else's uptime. Measurement has none of those properties. It
+ is free, it is deterministic, and it gives the same answer next Tuesday.</p>
+
+<p>So the question is not <em class="t">can a model do this</em> but <em class="t">what
+ is the cheapest reliable way to get this answer, and what breaks when it is
+ wrong</em>.</p>
+
+<p>In the layout engine that boundary lands in a specific place. A model reads the
+ artwork and assigns each block of copy its <strong>role</strong> &mdash; headline,
+ offer, operational detail, legal notice &mdash; by what the words are doing. That is
+ a judgement about communicative function, and it is the one thing in the whole
+ pipeline that only a model can make. Everything else is measured: where the ink
+ actually sits, how large the type actually is, what contrast the text actually
+ achieves against the photograph it landed on.</p>
+
+<p>This is not caution about models. It is that each half is better at its half. Ask a
+ vision model for a bounding box and you get an approximation; derive the same box
+ from a colour-distance mask over the region it proposed and you get the pixel. Ask it
+ for a type size and it guesses; solve the size from the measured advance width
+ against the real font metrics and there is nothing left to guess.</p>
+
+<div class="aside"><b>The test that settles it</b>
+ The deterministic path assigns roles by ranking blocks by type size, which is the
+ obvious heuristic and it is usually right. On a small labelled set &mdash;
+ <strong>3 masters, 12 role assignments, and the N is stated because it
+ has to be</strong> &mdash; ranking by size scores 9/12 and reading the piece
+ scores 12/12. The entire gap is one deliberately constructed case: a legal
+ notice set in large type. That is not a contrived edge; it is what regulated
+ promotions look like. Size ranking gets one of four roles right there, by
+ construction, and no amount of tuning fixes it, because the signal it uses is not
+ the signal that carries the answer.</div>
+
+<h2><span class="num">Two</span>Route by the structure of the input, not by a flag</h2>
+
+<p>Systems that accept more than one kind of input tend to grow a parameter that tells
+ them which kind they are looking at. It works until a caller forgets it, and then it
+ fails in a way that looks like corrupted data.</p>
+
+<p>The alternative is to let the input answer the question. A vector file arrives
+ carrying its own tree: elements, positions, type sizes, a hierarchy that can be
+ measured directly. A flattened image arrives carrying nothing &mdash; no text nodes,
+ no roles, no hierarchy, just pixels. Those are not two configurations of one path.
+ They are two different problems, and the file already says which one you have.</p>
+
+<p>So the router looks at the structure and dispatches. Structured input goes to a
+ parser that measures. Unstructured input goes to a model that reads. Both produce the
+ same internal scene, and everything downstream &mdash; the solver, the emitter, the
+ validator &mdash; is identical and unaware of which door the work came through.</p>
+
+<p>I have used the same pattern outside this demo, on a document-processing path where
+ the input's own structure decided the route rather than inferring the answer from
+ content. The economics were the point there too: the cheap signal was sitting in
+ plain sight, and using it changed the cost profile of the whole path.</p>
+
+<blockquote>The seam is worth more than either side of it. Because there is exactly one
+ internal model, a second layout engine could be written against it and compared under
+ identical conditions &mdash; same input, same emitter, same validator &mdash; which
+ turned a claim about a competing mechanism into a measurement.</blockquote>
+
+<h2><span class="num">Three</span>Adapters degrade, and the primary's error survives</h2>
+
+<p>Any serious use of third-party models means more than one provider behind one
+ interface, in a declared order. That part is well understood. Two details are not,
+ and both are where the design earns its keep.</p>
+
+<p><strong>Schema validation belongs inside the chain, not after it.</strong> A
+ provider that returns HTTP 200 with a body that does not validate has failed just as
+ completely as one that returns a 500. If validation runs after the loop, that failure
+ wastes every remaining provider and turns a recoverable situation into an outage. If
+ it runs inside, an invalid response triggers the same fallback as a dead socket. In
+ the demo both paths are exercised deliberately: a model name that does not exist, and
+ a well-formed response carrying a role the schema does not recognise. Both fall
+ through to the next provider.</p>
+
+<p><strong>And the error must survive the recovery.</strong> A fallback that succeeds
+ quietly is a lie told slowly. The system keeps working, the numbers drift, and three
+ weeks later somebody asks why quality changed and there is nothing in the record to
+ answer with. So the chain writes down which provider was tried, why it failed, and
+ which one answered &mdash; and that record is not a log file nobody opens. It travels
+ with the output and is printed on the report page a human actually looks at.</p>
+
+<div class="aside"><b>The same rule, one level down</b>
+ The engine also writes down what it could not do. Eight of the 66 sizes fall below
+ the effective resolution the source can honestly support, because the master does not
+ carry enough pixels for the largest canvases. The system measures that and says so on
+ every affected piece. It does not upscale and hope. Asking for a higher-resolution
+ source is the correct answer, and inventing pixels would be worse than the
+ warning.</div>
+
+<h2><span class="num">Four</span>Configuration is not code, and it is not a file
+ nobody reads</h2>
+
+<p>Two failure modes sit on either side of this. Configuration buried in code cannot
+ be audited by the person whose judgement it encodes. Configuration exiled into a
+ large YAML file is audited by nobody, because reading it requires reconstructing the
+ program in your head.</p>
+
+<p>The useful test is neither of those. It is: <em class="t">can the output show you
+ the configuration that produced it?</em></p>
+
+<p>In the layout engine the rules that matter to a brand &mdash; the type scale, the
+ legibility floor per role, the clear space around a lockup, and above all the
+ degradation ladder that decides what gives way when not everything fits &mdash; live
+ in one ordered list. It is short enough to read in a minute, and every output states
+ which rungs it climbed and what it dropped. The configuration surface and the
+ explanation surface are the same surface. That is the property worth designing for,
+ more than the file format.</p>
+
+<p>The same instinct applies one level up, to how work is organised. A task that lives
+ as a self-contained folder &mdash; its inputs, its rules, its outputs, its record of
+ what happened &mdash; can be handed to somebody, archived, or deleted without a
+ dependency hunt. In the demo this shows up literally: a campaign that goes to several
+ shopping centres produces one self-contained folder per centre, each with its own
+ artwork, its own fonts alongside, and its own record. Not one large document that
+ someone has to take apart before they can send anything.</p>
+
+<h2><span class="num">Five</span>What a golden set of 29 images can and cannot tell
+ you</h2>
+
+<p>On an earlier system I worked with a hand-labelled golden set of 29 images. It was
+ genuinely useful, and it was routinely asked to answer a question it could not
+ answer.</p>
+
+<p>Twenty-nine items is a small denominator. A proportion measured on it carries a
+ confidence interval wide enough to swallow most of the differences anyone actually
+ wants to detect. Two models a few points apart on 29 items are, statistically,
+ indistinguishable &mdash; and the honest response to <em class="t">which model is
+ better</em> is that this set cannot say. Reporting the score without the N invites
+ exactly the conclusion the data does not support, which is why I have never seen a
+ reason to write one without the other.</p>
+
+<p>What a set that size is good for is a different and more valuable list. It catches
+ catastrophic failure immediately. It detects regression on a fixed set of inputs,
+ where the comparison is against yesterday's self and the variance cancels. And it
+ pins down the <strong>class</strong> of input where an approach fails by construction
+ &mdash; which is a structural claim, not a statistical one, and needs only one clean
+ example rather than a large sample.</p>
+
+<p>That is exactly how the small labelled set in this demo is used. It is not there to
+ rank models. It is there to establish that a class of artwork exists where ranking by
+ type size cannot work no matter how it is tuned, and to show one. The N is printed
+ next to the number every time, and the sentence that follows it says what the number
+ does not support.</p>
+
+<hr>
+
+<h2>The thread</h2>
+
+<p>Read together, the five are one idea: <strong>put the uncertainty where you can see
+ it.</strong></p>
+
+<p>Give the model the judgement only it can make, and measure everything measurable,
+ because a measurement cannot drift. Let the input's structure choose the path, so the
+ choice cannot be forgotten. Validate inside the chain and keep the failure in the
+ record, so degradation is visible rather than silent. Put the rules where the output
+ can show them, so the configuration and the explanation are one thing. State the N,
+ so the number cannot be read as more than it is.</p>
+
+<p>None of that is about models. It is about building things whose failures announce
+ themselves &mdash; which matters more, not less, as more of the system's judgement
+ moves inside a component you did not write and cannot fully inspect.</p>
+
+<p>The demo that accompanies this note is a layout engine that adapts one piece of
+ artwork to a whole media schedule by reading the photograph rather than moving boxes
+ by rule. It is <a href="index.html">here</a>, with the reasoning behind every decision
+ printed next to the decision.</p>
+
+<footer>Written September 2026 to accompany a public demo. No client work, client
+ names, internal figures, prompts or system screenshots appear here, by design.</footer>
+</div>
