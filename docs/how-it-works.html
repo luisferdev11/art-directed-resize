@@ -129,8 +129,9 @@
 
 <h2><span class="kicker">Part two</span>Where the model is used, and where it is not</h2>
 
-<p><span class="tag hoy">Today</span> <strong>One model call per master. Not per
- output.</strong> A campaign of 66 sizes makes exactly one.</p>
+<p><span class="tag hoy">Today</span> <strong>Model calls scale with masters, never
+ with outputs.</strong> A campaign of 66 sizes makes one call to read the piece, and
+ at most one more when the cheap path cannot answer. Never 66.</p>
 
 <p>The model does one job: it reads a piece that carries no structure &mdash; a flat
  JPEG, no layers, no text nodes &mdash; and returns the semantic scene, assigning each
@@ -144,10 +145,40 @@
  nothing to guess. This is not caution about models. Each half is simply better at its
  half, and the measured half is free, deterministic and reproducible.</p>
 
+<h3>The second call, and the router that decides whether to make it</h3>
+<p>The crop treats one region as untouchable: whatever must survive every aspect ratio.
+ Two Haar cascades from 2001 agreeing on a face answers that in milliseconds and for
+ free, and on a straightforward portrait they do.</p>
+<p>They also fail, and the failure is instructive. On a photograph of a person wearing a
+ cap and sunglasses in front of a building, the two cascades together returned eight
+ detections and <strong>not one was a face</strong>: a wristwatch, windows in the facade,
+ poles on grass. The largest sat at 94% of the width, the crop is pinned to it as a hard
+ constraint, and every format cut the subject in half.</p>
+<p><span class="tag hoy">Today</span> Two changes, and the second is the architectural
+ one. <strong>A face now counts only when both cascades agree</strong> &mdash; an
+ ensemble of two independently trained detectors, not a threshold fitted to the cases at
+ hand. Measured over four photographs, the three with a real subject agree at IoU 0.79 to
+ 0.93 and the failing one produces no agreement at all.</p>
+<p>And when they do not agree, <strong>the question escalates to a model</strong>: not
+ "where is the face" but "what must not be cropped, and what is it". On that photograph
+ it answered <em>person, man in a shirt, confidence 0.95</em>, with a box on the actual
+ subject, in nine seconds. Every format was usable again.</p>
+<div class="box"><h4>Why this is the interesting half</h4>
+ <p style="margin:0">A cascade can only ever answer one question: is there a frontal
+ human face. A campaign is not always a person. It is a product, a plate of food, an
+ illustration, a piece that is nothing but typography on a colour. For those there is no
+ geometry to consult and the question is semantic, which is exactly the boundary this
+ system draws everywhere else: <strong>the cheap reliable path first, the model where
+ only a model can answer</strong>. The cost argument survives because the escalation is
+ per master and conditional, not per output and unconditional.</p></div>
+
 <table>
 <tr><th>Decision</th><th>Taken by</th><th>Why</th></tr>
 <tr><td>Role of each text block</td><td>the model</td><td>communicative function is not
  recoverable from geometry</td></tr>
+<tr><td>What must not be cropped</td><td>two cascades if they agree,
+ <strong>else the model</strong></td><td>free when geometry suffices; semantic when it
+ does not</td></tr>
 <tr><td>Where the ink sits, how large</td><td>pixels + font metrics</td><td>exact, free,
  and identical next Tuesday</td></tr>
 <tr><td>Crop, placement, contrast, degradation</td><td>deterministic search</td><td>the
@@ -316,11 +347,21 @@
  and which ones failed first. It is printed on the report a human opens, not buried in
  a log nobody reads.</p>
 
-<p><span class="tag prop">Proposed</span> Turn that into instrumentation:</p>
+<p><span class="tag hoy">Today</span> And it is now wired to a tracing backend. Every
+ model call opens a span &mdash; <strong>one per attempt, not one per call</strong>,
+ because the attempt that fails is precisely the one worth counting. Provider, model,
+ latency, whether the schema validated, and every failure that preceded the answer.
+ Verified against a deliberately broken provider: the first attempt lands as an error at
+ 0.9 seconds, the second as a success, and the trace is marked as having fallen back.</p>
+<p>If the tracing SDK is missing, the keys are absent or the server is down, the pipeline
+ runs identically and says so once. Observability that can take the critical path down is
+ worse than none.</p>
+<p><span class="tag prop">Proposed</span> What that substrate then supports:</p>
 <table>
 <tr><th>Signal</th><th>What it catches</th></tr>
-<tr><td>Fallback rate</td><td>the primary provider degrading. Rising fallback is the
- earliest warning you get, and it is invisible unless you record the recovery.</td></tr>
+<tr><td>Fallback rate <span class="tag hoy" style="margin-left:6px">Today</span></td>
+ <td>the primary provider degrading. Rising fallback is the earliest warning you get, and
+ it is invisible unless you record the recovery.</td></tr>
 <tr><td>Schema-invalid rate</td><td>a provider silently changing behaviour behind a
  pinned name.</td></tr>
 <tr><td>Agreement with the deterministic parser</td><td>a free online quality proxy. On

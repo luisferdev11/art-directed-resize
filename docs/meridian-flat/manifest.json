@@ -7,15 +7,17 @@
   ],
   "inference": [
     "entrada RASTER 1080x1350px: sin capas, sin nodos de texto, sin metadatos. El parser de SVG extrae 0 elementos",
-    "proveedor · deepinfra (Qwen/Qwen3-VL-235B-A22B-Instruct): ok en 62.9s, clave de DEEPINFRA_API_KEY (clave configurada)",
-    "escena semantica leida por deepinfra: headline=84px, subhead=28px, support=22px, legal=14px",
-    "headline: el modelo estimo 84px; medido sobre pixeles da 92px a peso 700 (ancho de tinta de 622px)",
-    "subhead: el modelo estimo 28px; medido sobre pixeles da 30px a peso 400 (ancho de tinta de 418px)",
-    "support: el modelo estimo 22px; medido sobre pixeles da 21px a peso 700 (cap-height de 15px)",
+    "proveedor · deepinfra (Qwen/Qwen3-VL-235B-A22B-Instruct): ok en 36.3s, clave de DEEPINFRA_API_KEY (clave configurada)",
+    "observabilidad · trazando a http://localhost:3020",
+    "escena semantica leida por deepinfra: headline=80px, subhead=30px, support=24px, legal=14px",
+    "headline: el modelo estimo 80px; medido sobre pixeles da 92px a peso 700 (ancho de tinta de 622px)",
+    "subhead: el modelo estimo 30px; medido sobre pixeles da 30px a peso 400 (ancho de tinta de 418px)",
+    "support: el modelo estimo 24px; medido sobre pixeles da 21px a peso 700 (cap-height de 15px)",
     "legal: el modelo estimo 14px; medido sobre pixeles da 13px a peso 400 (ancho de tinta de 288px)",
     "lockup recuperado como raster con alpha, 223x36px, en variante oscura y clara. El emisor recolorea vectores, y estos son pixeles, asi que el adaptador entrega las dos hechas",
     "fotografia reconstruida por inpainting bajo el texto y el lockup -> out/_work/plate.jpg. Es una aproximacion, no la placa original",
-    "foto segun el modelo: hombre con camiseta y gafas de sol frente a edificio geométrico"
+    "foto segun el modelo: hombre con camiseta deportiva y gafas de sol, de pie frente a una estructura arquitectónica geométrica",
+    "region focal por acuerdo de las dos cascadas Haar, sin llamar a ningun modelo"
   ],
   "outputs": [
     {
@@ -225,9 +227,9 @@
         "subhead: tipografia invertida a claro, contraste 15.24:1",
         "support: tipografia invertida a claro, contraste 15.24:1",
         "legal retirado por la escalera de degradacion",
-        "lockup escalado a 0.34x en lugar de 0.25x: a la escala anterior el wordmark caia a 5.5px, bajo su piso de 7.5px",
+        "lockup escalado a 0.38x en lugar de 0.25x: a la escala anterior el wordmark caia a 5.0px, bajo su piso de 7.5px",
         "logo en variante clara: sobre este fondo la tinta daba 1.00:1",
-        "lockup a escala uniforme 0.34x, 76px de ancho, clear-space 6px, esquina de menor coste"
+        "lockup a escala uniforme 0.38x, 84px de ancho, clear-space 7px, esquina de menor coste"
       ],
       "dropped": [
         "legal"
@@ -244,8 +246,8 @@
         90.0
       ],
       "logo": {
-        "width": 76.0,
-        "scale": 0.341,
+        "width": 83.6,
+        "scale": 0.375,
         "mark_only": false
       },
       "blocks": [
@@ -316,15 +318,15 @@
         "subhead: tipografia invertida a claro, contraste 5.22:1",
         "support: tipografia invertida a claro, contraste 4.84:1",
         "legal: contraste medido 3.38:1 contra 4.5 exigido, scrim con alpha 0.18",
-        "lockup escalado a 0.34x en lugar de 0.25x: a la escala anterior el wordmark caia a 5.5px, bajo su piso de 7.5px",
-        "lockup a escala uniforme 0.34x, 76px de ancho, clear-space 6px, esquina de menor coste"
+        "lockup escalado a 0.38x en lugar de 0.25x: a la escala anterior el wordmark caia a 5.0px, bajo su piso de 7.5px",
+        "lockup a escala uniforme 0.38x, 84px de ancho, clear-space 7px, esquina de menor coste"
       ],
       "dropped": [],
       "ladder": [],
       "panel": null,
       "logo": {
-        "width": 76.0,
-        "scale": 0.341,
+        "width": 83.6,
+        "scale": 0.375,
         "mark_only": false
       },
       "blocks": [

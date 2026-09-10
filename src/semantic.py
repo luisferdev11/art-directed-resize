@@ -46,8 +46,10 @@ from scene import Lockup, Photo, Scene, TextBlock
 SVG = "http://www.w3.org/2000/svg"
 XLINK = "http://www.w3.org/1999/xlink"
 ROLES = ("headline", "subhead", "support", "legal")
-PROMPT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                      "prompts", "scene_from_image.txt")
+PROMPTS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                       "prompts")
+PROMPT = os.path.join(PROMPTS, "scene_from_image.txt")
+PROMPT_FOCAL = os.path.join(PROMPTS, "focal_region.txt")
 GRID = 1000.0            # rejilla normalizada que se le pide al modelo
 LEADING = 1.16           # interlineado supuesto al resolver el cuerpo desde la altura
 COLOR_TOL = 78.0         # distancia euclidea en RGB para la mascara de tinta
@@ -376,3 +378,109 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
                  photo=Photo(rect=(0.0, 0.0, W, H), src_path=plate,
                              px_w=pim.size[0], px_h=pim.size[1]),
                  texts=blocks, lockup=lockup, notes=notes)
+
+
+# ------------------------------------------------------- la region que no se corta
+SUJETOS = ("persona", "producto", "comida", "edificio", "ilustracion",
+           "tipografia", "animal", "paisaje", "ninguno")
+
+
+def _valida_focal(d, W: float, H: float):
+    """Valida la respuesta del modelo sobre la region focal."""
+    if not isinstance(d, dict):
+        return None, ["no es un objeto JSON"]
+    v = d.get("focal")
+    if not (isinstance(v, (list, tuple)) and len(v) == 4
+            and all(isinstance(x, (int, float)) for x in v)):
+        return None, ["focal mal formada"]
+    suj = str(d.get("sujeto", "")).strip().lower()
+    if suj not in SUJETOS:
+        return None, [f"sujeto desconocido {suj!r}"]
+    try:
+        conf = float(d.get("confianza", 0.0))
+    except (TypeError, ValueError):
+        return None, ["confianza no numerica"]
+    x0, y0, x1, y1 = (float(x) for x in v)
+    x0, x1 = sorted((x0 / GRID * W, x1 / GRID * W))
+    y0, y1 = sorted((y0 / GRID * H, y1 / GRID * H))
+    x0, y0 = max(0.0, x0), max(0.0, y0)
+    x1, y1 = min(W, x1), min(H, y1)
+    w, h = x1 - x0, y1 - y0
+    if w < 8 or h < 8:
+        return None, ["focal degenerada"]
+    # Una caja que cubre casi todo no restringe nada, y como restriccion dura del
+    # recorte es peor que no tener ninguna: obligaria a no recortar.
+    if (w * h) / (W * H) > 0.80:
+        return None, [f"focal cubre el {(w*h)/(W*H):.0%} de la imagen: no restringe"]
+    return {"rect": (x0, y0, w, h), "sujeto": suj, "confianza": conf,
+            "lleva_copy": bool(d.get("lleva_copy", False)),
+            "que_es": str(d.get("que_es", ""))[:70],
+            "por_que": str(d.get("por_que", ""))[:160]}, []
+
+
+def focal_from_model(path: str, min_conf: float = 0.45):
+    """Que parte de la imagen no se puede perder, segun un modelo.
+
+    SE LLAMA SOLO CUANDO EL CAMINO BARATO NO SABE. Las dos cascadas de Haar puestas
+    de acuerdo resuelven una fotografia con una cara de frente en milisegundos y
+    gratis; cuando no coinciden, o cuando la pieza no es una fotografia de una
+    persona -una ilustracion, un producto, un plato, tipografia sobre un fondo-, no
+    hay geometria que consultar y la pregunta pasa a ser semantica.
+
+    Es el mismo patron que decide todo lo demas en este sistema: la via barata y
+    fiable primero, el modelo donde solo un modelo puede responder. Y por eso el
+    coste sigue siendo por master y no por formato.
+
+    Devuelve None si la cadena falla, si el esquema no valida o si el propio modelo
+    declara poca confianza: un paisaje sin foco claro es una respuesta legitima, y
+    entonces manda la saliencia.
+    """
+    im = Image.open(path)
+    W, H = float(im.size[0]), float(im.size[1])
+    prompt = (open(PROMPT_FOCAL).read()
+              .replace("{W}", str(int(W))).replace("{H}", str(int(H))))
+    with TR.Span("region focal", input={"imagen": os.path.basename(path),
+                                        "lienzo": f"{int(W)}x{int(H)}"}) as sp:
+        TR.trace_meta(name="focal-region", tags=["focal", "crop"],
+                      metadata={"imagen": os.path.basename(path)})
+        data, provider, log = providers.complete_vision(
+            prompt, path, accept=lambda raw: _valida_focal(_parse_json(raw), W, H))
+        if data is None:
+            sp.update(level="WARNING", status_message="sin region focal utilizable")
+            return None, log
+        if data["confianza"] < min_conf:
+            sp.update(output=data, level="WARNING",
+                      status_message=f"confianza {data['confianza']:.2f} bajo el minimo")
+            log.append(f"el modelo declara confianza {data['confianza']:.2f}, bajo el "
+                       f"minimo de {min_conf:.2f}: manda la saliencia")
+            return None, log
+        data["proveedor"] = provider
+        sp.update(output=data)
+        sp.score("focal_confianza", data["confianza"], data["que_es"])
+        return data, log
+
+
+def focal_proxy(rect, sujeto: str, W: float, H: float):
+    """Adapta la caja del modelo al tamano que esperan las guardas del recorte.
+
+    `crop.choose` acota la region focal entre el 5.5% y el 45% del alto del recorte,
+    y esa calibracion esta hecha sobre una CARA. La caja que devuelve el modelo es
+    otra cosa: para una persona incluye cara y torso, y a menudo pasa del 45%, lo que
+    dispararia `face_unsatisfiable` en casi todos los formatos y degradaria la foto a
+    panel en todos ellos. El bug que se arregla es de UBICACION, no de tamano, asi
+    que se conserva donde esta y se ajusta cuanto ocupa.
+
+    En una persona, la cabeza esta arriba: el proxy va al tercio superior de la caja.
+    En lo demas -un producto, un plato, una ilustracion- lo que importa es el objeto
+    entero, asi que se encoge hacia su centro.
+    """
+    x, y, w, h = rect
+    tope = 0.40 * min(W, H)
+    if sujeto == "persona":
+        lado = min(w, h * 0.32, tope)
+        return (x + w / 2.0 - lado / 2.0, y + h * 0.02, lado, lado)
+    if max(w, h) <= tope:
+        return rect
+    k = tope / max(w, h)
+    nw, nh = w * k, h * k
+    return (x + (w - nw) / 2.0, y + (h - nh) / 2.0, nw, nh)

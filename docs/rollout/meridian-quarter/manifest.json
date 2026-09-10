@@ -9,7 +9,8 @@
     "foto: raster de mayor area, 2160x2700px sobre 1080x1350 unidades",
     "lockup: grupo con geometria vectorial, area menor, 222x34 en (794,96); marca 34x34 y wordmark a 15px",
     "roles por rango de cuerpo: headline=92px, subhead=30px, support=20px, legal=13px",
-    "el bloque menor (13px) mide < 30% del titular (92px) -> legal"
+    "el bloque menor (13px) mide < 30% del titular (92px) -> legal",
+    "region focal por acuerdo de las dos cascadas Haar, sin llamar a ningun modelo"
   ],
   "outputs": [
     {
@@ -29,7 +30,7 @@
       "field_cost": 0.151,
       "reasons": [
         "recorte 2160x2700px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 153x153px en (636,892) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 148x148px en (641,897) del lienzo, con 25% de margen",
         "texto emplazado en (59,59) por busqueda densa sobre el campo de costo: coste 0.151 en escala 0-1",
         "legal: contraste medido 3.32:1 contra 4.5 exigido, scrim con alpha 0.19",
         "logo en variante clara: sobre este fondo la tinta daba 1.23:1",
@@ -122,7 +123,7 @@
       "field_cost": 0.1703,
       "reasons": [
         "recorte 1519x2700px de la fuente (70% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 218x218px en (601,1269) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 211x211px en (608,1275) del lienzo, con 25% de margen",
         "texto emplazado en (452,151) por busqueda densa sobre el campo de costo: coste 0.170 en escala 0-1",
         "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
       ],
@@ -208,8 +209,8 @@
       "effective_ppi": 576.0,
       "field_cost": 0.0042,
       "reasons": [
-        "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 453px de alto, o 3667px de ancho, y la fuente tiene 2160px. La foto degrada a panel de 270x90 (3.0:1) y se promueve el campo de marca",
-        "region de la cara vedada al texto: 38x38px en (617,17) del lienzo, con 25% de margen",
+        "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 440px de alto, o 3559px de ancho, y la fuente tiene 2160px. La foto degrada a panel de 270x90 (3.0:1) y se promueve el campo de marca",
+        "region de la cara vedada al texto: 37x37px en (618,18) del lienzo, con 25% de margen",
         "subhead: el piso de legibilidad redujo el contraste de tamano a 2.29:1 frente a 3.07:1 del master, asi que la jerarquia se re-expresa en peso (400 a 300)",
         "support: el piso de legibilidad redujo el contraste de tamano a 2.91:1 frente a 4.60:1 del master, asi que la jerarquia se re-expresa en peso (900 a 300)",
         "escalera de degradacion aplicada: tighten_leading -> weight_for_size -> drop_legal",
@@ -301,7 +302,7 @@
       "field_cost": 0.1499,
       "reasons": [
         "recorte 2160x1800px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 42x42px en (177,144) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 41x41px en (178,145) del lienzo, con 25% de margen",
         "subhead: contraste de tamano comprimido a 2.29:1 frente a 3.07:1 del master",
         "support: contraste de tamano comprimido a 2.91:1 frente a 4.60:1 del master",
         "texto emplazado en (29,41) por busqueda densa sobre el campo de costo: coste 0.150 en escala 0-1",
@@ -409,7 +410,7 @@
       "field_cost": 0.1495,
       "reasons": [
         "recorte 2160x2160px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 153x153px en (636,644) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 148x148px en (641,649) del lienzo, con 25% de margen",
         "texto emplazado en (122,367) por busqueda densa sobre el campo de costo: coste 0.149 en escala 0-1",
         "headline: contraste medido 2.89:1 contra 3.0 exigido, scrim con alpha 0.06",
         "subhead: tipografia invertida a claro, contraste 5.59:1",

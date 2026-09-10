@@ -46,28 +46,46 @@ def procesar(jid: str, ruta: str, nombre: str) -> None:
     try:
         # DOS CAMINOS, y cual se toma lo decide la imagen, no un boton.
         #
-        # Si lo que sueltas es una PIEZA ya compuesta -copy, logo, jerarquia- el
-        # modelo la lee y la escena sale de ahi. Si es una FOTOGRAFIA a secas no hay
-        # titular que leer, y rechazarla seria absurdo cuando es lo que cualquiera va
-        # a probar primero: entonces se usa la estructura del master de referencia y
-        # se sustituye la fotografia, que es el mismo camino de `--photo`.
+        # Si lo que sueltas es una PIEZA ya compuesta -copy sobrepuesto, logo,
+        # jerarquia- el modelo la lee y la escena sale de ahi. Si es una FOTOGRAFIA
+        # no hay titular que leer, y rechazarla seria absurdo cuando es lo primero
+        # que cualquiera va a probar: se usa la estructura del master de referencia
+        # con esa foto, que es el camino de `--photo`.
         #
-        # El primer intento fallando no es un error del sistema: es como se averigua
-        # de que tipo de imagen se trata.
-        paso("leyendo la pieza con el modelo")
+        # UNA sola llamada barata decide la ruta. Antes se intentaba leer la escena
+        # y, si fallaba, se caia a la ruta de fotografia: sobre una foto sin copy eso
+        # gastaba tres cuartos de minuto averiguando algo que se pregunta en diez
+        # segundos. La misma llamada devuelve la region que no se puede recortar,
+        # asi que no es una consulta extra: es la que ya haciamos, antes.
+        paso("mirando que tipo de imagen es")
+        sys.path.insert(0, os.path.join(ROOT, "src"))
+        import semantic
+        pista, _log = semantic.focal_from_model(ruta)
         base = [sys.executable, "-B", os.path.join(ROOT, "run.py"),
                 "--formats", FORMATOS, "--out", d]
-        r = subprocess.run(base + ["--master", ruta],
-                           cwd=ROOT, capture_output=True, text=True, timeout=900)
-        via = "la escena se leyo de la propia imagen"
-        if r.returncode != 0:
-            paso("sin copy legible: se aplica la campana sobre la fotografia")
+        pieza = bool(pista and pista.get("lleva_copy"))
+        if pieza:
+            paso("es una pieza compuesta: leyendo su escena")
+            r = subprocess.run(base + ["--master", ruta],
+                               cwd=ROOT, capture_output=True, text=True, timeout=900)
+            via = "lleva copy sobrepuesto: la escena se leyo de la propia imagen"
+        else:
+            que = (f"{pista['sujeto']} — {pista['que_es']}" if pista else "sin foco claro")
+            paso(f"es una fotografia ({que}): se aplica la campana encima")
             r = subprocess.run(
                 base + ["--master", os.path.join(ROOT, "assets", "master.svg"),
                         "--photo", ruta],
                 cwd=ROOT, capture_output=True, text=True, timeout=900)
-            via = ("no se encontro copy en la imagen, asi que se trato como "
-                   "FOTOGRAFIA: estructura del master de referencia, tu foto")
+            via = (f"sin copy sobrepuesto, asi que se trato como FOTOGRAFIA: "
+                   f"estructura del master de referencia, tu foto. El modelo "
+                   f"identifico {que}")
+        if r.returncode != 0 and pieza:
+            paso("la escena no valido: se aplica la campana sobre la fotografia")
+            r = subprocess.run(
+                base + ["--master", os.path.join(ROOT, "assets", "master.svg"),
+                        "--photo", ruta],
+                cwd=ROOT, capture_output=True, text=True, timeout=900)
+            via = "el esquema de la escena no valido: se uso la ruta de fotografia"
         if r.returncode != 0:
             paso("fallo", estado="error",
                  detalle=(r.stderr or r.stdout)[-700:])

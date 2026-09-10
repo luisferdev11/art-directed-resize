@@ -9,7 +9,8 @@
     "foto: raster de mayor area, 2160x2700px sobre 1080x1350 unidades",
     "lockup: grupo con geometria vectorial, area menor, 222x34 en (794,96); marca 34x34 y wordmark a 15px",
     "roles por rango de cuerpo: headline=92px, subhead=30px, support=20px, legal=13px",
-    "el bloque menor (13px) mide < 30% del titular (92px) -> legal"
+    "el bloque menor (13px) mide < 30% del titular (92px) -> legal",
+    "region focal por acuerdo de las dos cascadas Haar, sin llamar a ningun modelo"
   ],
   "outputs": [
     {
@@ -29,7 +30,7 @@
       "field_cost": 0.1518,
       "reasons": [
         "recorte 1350x2700px de la fuente (62% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 68x68px en (163,396) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 66x66px en (165,399) del lienzo, con 25% de margen",
         "support: contraste de tamano comprimido a 3.64:1 frente a 4.60:1 del master",
         "texto emplazado en (123,18) por busqueda densa sobre el campo de costo: coste 0.152 en escala 0-1",
         "subhead: contraste medido 3.49:1 contra 4.5 exigido, scrim con alpha 0.19",
@@ -126,21 +127,21 @@
       "file": "320x480.svg",
       "hypothesis": "bleed",
       "crop_px": [
-        210.0,
+        240.0,
         0.0,
         1800.0,
         2700.0
       ],
       "effective_ppi": 405.0,
-      "field_cost": 0.1627,
+      "field_cost": 0.1656,
       "reasons": [
         "recorte 1800x2700px de la fuente (83% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 54x54px en (189,317) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 53x53px en (185,319) del lienzo, con 25% de margen",
         "support: contraste de tamano comprimido a 3.64:1 frente a 4.60:1 del master",
-        "texto emplazado en (19,194) por busqueda densa sobre el campo de costo: coste 0.163 en escala 0-1",
-        "headline: contraste medido 2.21:1 contra 3.0 exigido, scrim con alpha 0.18",
-        "subhead: tipografia invertida a claro, contraste 5.13:1",
-        "support: tipografia invertida a claro, contraste 4.70:1",
+        "texto emplazado en (19,194) por busqueda densa sobre el campo de costo: coste 0.166 en escala 0-1",
+        "headline: contraste medido 2.20:1 contra 3.0 exigido, scrim con alpha 0.18",
+        "subhead: tipografia invertida a claro, contraste 5.08:1",
+        "support: tipografia invertida a claro, contraste 4.68:1",
         "legal: contraste medido 4.21:1 contra 4.5 exigido, scrim con alpha 0.08",
         "lockup degradado a marca sola: el wordmark habria quedado a 3.8px y no hay ancho para subir la escala. La marca va a 32px",
         "lockup a escala uniforme 0.94x, 32px de ancho, clear-space 16px, esquina de menor coste"
@@ -164,7 +165,7 @@
             "IS HERE"
           ],
           "fill": "#FFFFFF",
-          "contrast": 2.21,
+          "contrast": 2.2,
           "achieved": 3.24,
           "scrimmed": true,
           "required": 3.0
@@ -178,8 +179,8 @@
             "across 120 stores"
           ],
           "fill": "#FFFFFF",
-          "contrast": 5.13,
-          "achieved": 5.13,
+          "contrast": 5.08,
+          "achieved": 5.08,
           "scrimmed": false,
           "required": 4.5
         },
@@ -191,8 +192,8 @@
             "12 - 28 SEPTEMBER"
           ],
           "fill": "#FFFFFF",
-          "contrast": 4.7,
-          "achieved": 4.7,
+          "contrast": 4.68,
+          "achieved": 4.68,
           "scrimmed": false,
           "required": 4.5
         },
@@ -213,7 +214,7 @@
       "scrims": [
         {
           "for": "headline",
-          "alpha": 0.178
+          "alpha": 0.179
         },
         {
           "for": "legal",
@@ -229,21 +230,21 @@
       "file": "320x736.svg",
       "hypothesis": "bleed",
       "crop_px": [
-        986.1,
-        0.0,
-        1173.9,
-        2700.0
+        1080.0,
+        216.0,
+        1080.0,
+        2484.0
       ],
-      "effective_ppi": 264.1,
-      "field_cost": 0.0528,
+      "effective_ppi": 243.0,
+      "field_cost": 0.1602,
       "reasons": [
-        "recorte 1174x2700px de la fuente (54% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 83x83px en (78,486) del lienzo, con 25% de margen",
-        "subhead: contraste de tamano comprimido a 2.15:1 frente a 3.07:1 del master",
-        "support: contraste de tamano comprimido a 2.55:1 frente a 4.60:1 del master",
-        "texto emplazado en (162,19) por busqueda densa sobre el campo de costo: coste 0.053 en escala 0-1",
-        "support: contraste medido 3.19:1 contra 4.5 exigido, scrim con alpha 0.22",
-        "legal: contraste medido 3.95:1 contra 4.5 exigido, scrim con alpha 0.11",
+        "recorte 1080x2484px de la fuente (50% del ancho); region focal contenida",
+        "region de la cara vedada al texto: 88x88px en (60,467) del lienzo, con 25% de margen",
+        "support: contraste de tamano comprimido a 3.64:1 frente a 4.60:1 del master",
+        "texto emplazado en (33,19) por busqueda densa sobre el campo de costo: coste 0.160 en escala 0-1",
+        "subhead: contraste medido 3.41:1 contra 4.5 exigido, scrim con alpha 0.20",
+        "support: contraste medido 3.70:1 contra 4.5 exigido, scrim con alpha 0.16",
+        "legal: contraste medido 3.74:1 contra 4.5 exigido, scrim con alpha 0.14",
         "lockup degradado a marca sola: el wordmark habria quedado a 3.8px y no hay ancho para subir la escala. La marca va a 32px",
         "lockup a escala uniforme 0.94x, 32px de ancho, clear-space 16px, esquina de menor coste"
       ],
@@ -258,7 +259,7 @@
       "blocks": [
         {
           "role": "headline",
-          "size": 28.0,
+          "size": 40.0,
           "weight": 900,
           "lines": [
             "SPRING",
@@ -266,23 +267,23 @@
             "IS HERE"
           ],
           "fill": "#0E2A26",
-          "contrast": 7.9,
-          "achieved": 7.9,
+          "contrast": 3.42,
+          "achieved": 3.42,
           "scrimmed": false,
           "required": 3.0
         },
         {
           "role": "subhead",
-          "size": 13.0,
+          "size": 14.0,
           "weight": 400,
           "lines": [
             "Up to 50% off",
             "across 120 stores"
           ],
           "fill": "#0E2A26",
-          "contrast": 4.93,
-          "achieved": 4.93,
-          "scrimmed": false,
+          "contrast": 3.41,
+          "achieved": 4.86,
+          "scrimmed": true,
           "required": 4.5
         },
         {
@@ -290,12 +291,11 @@
           "size": 11.0,
           "weight": 900,
           "lines": [
-            "12 - 28",
-            "SEPTEMBER"
+            "12 - 28 SEPTEMBER"
           ],
           "fill": "#0E2A26",
-          "contrast": 3.19,
-          "achieved": 4.88,
+          "contrast": 3.7,
+          "achieved": 4.86,
           "scrimmed": true,
           "required": 4.5
         },
@@ -307,20 +307,24 @@
             "Terms and conditions apply. See centre for details."
           ],
           "fill": "#FFFFFF",
-          "contrast": 3.95,
-          "achieved": 4.88,
+          "contrast": 3.74,
+          "achieved": 4.89,
           "scrimmed": true,
           "required": 4.5
         }
       ],
       "scrims": [
         {
+          "for": "subhead",
+          "alpha": 0.196
+        },
+        {
           "for": "support",
-          "alpha": 0.225
+          "alpha": 0.161
         },
         {
           "for": "legal",
-          "alpha": 0.111
+          "alpha": 0.138
         }
       ]
     },
@@ -341,7 +345,7 @@
       "field_cost": 0.1584,
       "reasons": [
         "recorte 1518x2700px de la fuente (70% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 97x97px en (267,564) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 94x94px en (270,567) del lienzo, con 25% de margen",
         "support: contraste de tamano comprimido a 3.64:1 frente a 4.60:1 del master",
         "texto emplazado en (84,29) por busqueda densa sobre el campo de costo: coste 0.158 en escala 0-1",
         "subhead: contraste medido 3.88:1 contra 4.5 exigido, scrim con alpha 0.14",
@@ -447,7 +451,7 @@
       "field_cost": 0.1628,
       "reasons": [
         "recorte 1350x2700px de la fuente (62% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 114x114px en (273,666) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 111x111px en (277,670) del lienzo, con 25% de margen",
         "texto emplazado en (54,30) por busqueda densa sobre el campo de costo: coste 0.163 en escala 0-1",
         "subhead: contraste medido 4.19:1 contra 4.5 exigido, scrim con alpha 0.10",
         "support: contraste medido 3.95:1 contra 4.5 exigido, scrim con alpha 0.13",
@@ -538,21 +542,21 @@
       "file": "512x768.svg",
       "hypothesis": "bleed",
       "crop_px": [
-        210.0,
+        240.0,
         0.0,
         1800.0,
         2700.0
       ],
       "effective_ppi": 253.1,
-      "field_cost": 0.1703,
+      "field_cost": 0.163,
       "reasons": [
         "recorte 1800x2700px de la fuente (83% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 87x87px en (302,507) del lienzo, con 25% de margen",
-        "texto emplazado en (58,373) por busqueda densa sobre el campo de costo: coste 0.170 en escala 0-1",
-        "headline: contraste medido 2.84:1 contra 3.0 exigido, scrim con alpha 0.06",
-        "subhead: tipografia invertida a claro, contraste 4.63:1",
-        "support: tipografia invertida a claro, contraste 4.79:1",
-        "legal: contraste medido 3.88:1 contra 4.5 exigido, scrim con alpha 0.12",
+        "region de la cara vedada al texto: 84x84px en (297,510) del lienzo, con 25% de margen",
+        "texto emplazado en (31,373) por busqueda densa sobre el campo de costo: coste 0.163 en escala 0-1",
+        "headline: contraste medido 2.86:1 contra 3.0 exigido, scrim con alpha 0.06",
+        "subhead: tipografia invertida a claro, contraste 4.86:1",
+        "support: tipografia invertida a claro, contraste 5.32:1",
+        "legal: contraste medido 3.83:1 contra 4.5 exigido, scrim con alpha 0.13",
         "lockup escalado a 0.50x en lugar de 0.37x: a la escala anterior el wordmark caia a 5.5px, bajo su piso de 7.5px",
         "lockup a escala uniforme 0.50x, 111px de ancho, clear-space 8px, esquina de menor coste"
       ],
@@ -575,8 +579,8 @@
             "IS HERE"
           ],
           "fill": "#FFFFFF",
-          "contrast": 2.84,
-          "achieved": 3.25,
+          "contrast": 2.86,
+          "achieved": 3.24,
           "scrimmed": true,
           "required": 3.0
         },
@@ -589,8 +593,8 @@
             "across 120 stores"
           ],
           "fill": "#FFFFFF",
-          "contrast": 4.63,
-          "achieved": 4.63,
+          "contrast": 4.86,
+          "achieved": 4.86,
           "scrimmed": false,
           "required": 4.5
         },
@@ -602,8 +606,8 @@
             "12 - 28 SEPTEMBER"
           ],
           "fill": "#FFFFFF",
-          "contrast": 4.79,
-          "achieved": 4.79,
+          "contrast": 5.32,
+          "achieved": 5.32,
           "scrimmed": false,
           "required": 4.5
         },
@@ -615,7 +619,7 @@
             "Terms and conditions apply. See centre for details."
           ],
           "fill": "#FFFFFF",
-          "contrast": 3.88,
+          "contrast": 3.83,
           "achieved": 4.86,
           "scrimmed": true,
           "required": 4.5
@@ -624,11 +628,11 @@
       "scrims": [
         {
           "for": "headline",
-          "alpha": 0.065
+          "alpha": 0.059
         },
         {
           "for": "legal",
-          "alpha": 0.118
+          "alpha": 0.125
         }
       ]
     },
@@ -649,7 +653,7 @@
       "field_cost": 0.17,
       "reasons": [
         "recorte 1519x2700px de la fuente (70% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 109x109px en (300,634) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 106x106px en (304,638) del lienzo, con 25% de margen",
         "texto emplazado en (32,506) por busqueda densa sobre el campo de costo: coste 0.170 en escala 0-1",
         "headline: contraste medido 2.78:1 contra 3.0 exigido, scrim con alpha 0.07",
         "subhead: tipografia invertida a claro, contraste 4.77:1",
@@ -751,7 +755,7 @@
       "field_cost": 0.1656,
       "reasons": [
         "recorte 2160x2700px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 82x82px en (339,476) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 79x79px en (342,478) del lienzo, con 25% de margen",
         "texto emplazado en (97,349) por busqueda densa sobre el campo de costo: coste 0.166 en escala 0-1",
         "headline: contraste medido 2.90:1 contra 3.0 exigido, scrim con alpha 0.05",
         "subhead: tipografia invertida a claro, contraste 5.81:1",
@@ -852,7 +856,7 @@
       "field_cost": 0.1878,
       "reasons": [
         "recorte 2160x1069px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 84x84px en (350,42) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 82x82px en (353,45) del lienzo, con 25% de margen",
         "texto emplazado en (88,18) por busqueda densa sobre el campo de costo: coste 0.188 en escala 0-1",
         "headline: contraste medido 1.48:1 contra 3.0 exigido, scrim con alpha 0.32",
         "subhead: contraste medido 4.03:1 contra 4.5 exigido, scrim con alpha 0.10",
@@ -963,7 +967,7 @@
       "field_cost": 0.1639,
       "reasons": [
         "recorte 1736x2700px de la fuente (80% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 114x114px en (369,666) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 111x111px en (373,670) del lienzo, con 25% de margen",
         "texto emplazado en (39,513) por busqueda densa sobre el campo de costo: coste 0.164 en escala 0-1",
         "headline: contraste medido 2.72:1 contra 3.0 exigido, scrim con alpha 0.09",
         "subhead: tipografia invertida a claro, contraste 4.89:1",
@@ -1051,19 +1055,19 @@
       "file": "680x1010.svg",
       "hypothesis": "bleed",
       "crop_px": [
-        199.6,
+        228.1,
         0.0,
         1817.8,
         2700.0
       ],
       "effective_ppi": 192.5,
-      "field_cost": 0.1293,
+      "field_cost": 0.1363,
       "reasons": [
         "recorte 1818x2700px de la fuente (84% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 114x114px en (401,667) del lienzo, con 25% de margen",
-        "texto emplazado en (41,41) por busqueda densa sobre el campo de costo: coste 0.129 en escala 0-1",
-        "subhead: contraste medido 3.71:1 contra 4.5 exigido, scrim con alpha 0.16",
-        "support: contraste medido 3.49:1 contra 4.5 exigido, scrim con alpha 0.19",
+        "region de la cara vedada al texto: 111x111px en (394,671) del lienzo, con 25% de margen",
+        "texto emplazado en (41,41) por busqueda densa sobre el campo de costo: coste 0.136 en escala 0-1",
+        "subhead: contraste medido 3.61:1 contra 4.5 exigido, scrim con alpha 0.17",
+        "support: contraste medido 3.50:1 contra 4.5 exigido, scrim con alpha 0.19",
         "lockup escalado a 0.50x en lugar de 0.49x: a la escala anterior el wordmark caia a 7.3px, bajo su piso de 7.5px",
         "lockup a escala uniforme 0.50x, 111px de ancho, clear-space 8px, esquina de menor coste"
       ],
@@ -1086,8 +1090,8 @@
             "IS HERE"
           ],
           "fill": "#0E2A26",
-          "contrast": 4.25,
-          "achieved": 4.25,
+          "contrast": 4.23,
+          "achieved": 4.23,
           "scrimmed": false,
           "required": 3.0
         },
@@ -1100,8 +1104,8 @@
             "across 120 stores"
           ],
           "fill": "#0E2A26",
-          "contrast": 3.71,
-          "achieved": 4.86,
+          "contrast": 3.61,
+          "achieved": 4.87,
           "scrimmed": true,
           "required": 4.5
         },
@@ -1113,8 +1117,8 @@
             "12 - 28 SEPTEMBER"
           ],
           "fill": "#0E2A26",
-          "contrast": 3.49,
-          "achieved": 4.86,
+          "contrast": 3.5,
+          "achieved": 4.87,
           "scrimmed": true,
           "required": 4.5
         },
@@ -1126,8 +1130,8 @@
             "Terms and conditions apply. See centre for details."
           ],
           "fill": "#FFFFFF",
-          "contrast": 4.85,
-          "achieved": 4.85,
+          "contrast": 4.69,
+          "achieved": 4.69,
           "scrimmed": false,
           "required": 4.5
         }
@@ -1135,11 +1139,11 @@
       "scrims": [
         {
           "for": "subhead",
-          "alpha": 0.159
+          "alpha": 0.172
         },
         {
           "for": "support",
-          "alpha": 0.188
+          "alpha": 0.189
         }
       ]
     },
@@ -1160,7 +1164,7 @@
       "field_cost": 0.1467,
       "reasons": [
         "recorte 1505x2700px de la fuente (70% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 138x138px en (377,806) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 134x134px en (382,810) del lienzo, con 25% de margen",
         "texto emplazado en (41,41) por busqueda densa sobre el campo de costo: coste 0.147 en escala 0-1",
         "subhead: contraste medido 4.01:1 contra 4.5 exigido, scrim con alpha 0.12",
         "support: contraste medido 4.23:1 contra 4.5 exigido, scrim con alpha 0.09",
@@ -1259,7 +1263,7 @@
       "field_cost": 0.2091,
       "reasons": [
         "recorte 2160x555px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 99x99px en (412,-1) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 96x96px en (416,2) del lienzo, con 25% de margen",
         "support: contraste de tamano comprimido a 3.64:1 frente a 4.60:1 del master",
         "texto emplazado en (92,15) por busqueda densa sobre el campo de costo: coste 0.209 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 5.21:1",
@@ -1365,7 +1369,7 @@
       "field_cost": 0.1711,
       "reasons": [
         "recorte 1519x2700px de la fuente (70% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 145x145px en (400,846) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 141x141px en (405,850) del lienzo, con 25% de margen",
         "texto emplazado en (43,681) por busqueda densa sobre el campo de costo: coste 0.171 en escala 0-1",
         "headline: contraste medido 2.73:1 contra 3.0 exigido, scrim con alpha 0.08",
         "subhead: tipografia invertida a claro, contraste 4.81:1",
@@ -1458,11 +1462,11 @@
         860.4
       ],
       "effective_ppi": 213.6,
-      "field_cost": 0.2346,
+      "field_cost": 0.22,
       "reasons": [
         "recorte 2160x860px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 103x103px en (429,136) del lienzo, con 25% de margen",
-        "texto emplazado en (17,34) por busqueda densa sobre el campo de costo: coste 0.235 en escala 0-1",
+        "region de la cara vedada al texto: 100x100px en (432,139) del lienzo, con 25% de margen",
+        "texto emplazado en (17,34) por busqueda densa sobre el campo de costo: coste 0.220 en escala 0-1",
         "headline: contraste medido 2.96:1 contra 3.0 exigido, scrim con alpha 0.05",
         "subhead: tipografia invertida a claro, contraste 8.72:1",
         "support: tipografia invertida a claro, contraste 5.98:1",
@@ -1562,7 +1566,7 @@
       "field_cost": 0.1798,
       "reasons": [
         "recorte 2160x1260px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 109x109px en (452,122) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 106x106px en (456,126) del lienzo, con 25% de margen",
         "texto emplazado en (105,32) por busqueda densa sobre el campo de costo: coste 0.180 en escala 0-1",
         "headline: contraste medido 1.48:1 contra 3.0 exigido, scrim con alpha 0.32",
         "subhead: tipografia invertida a claro, contraste 4.20:1",
@@ -1669,7 +1673,7 @@
       "field_cost": 0.1629,
       "reasons": [
         "recorte 2025x2700px de la fuente (94% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 116x116px en (453,677) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 113x113px en (457,680) del lienzo, con 25% de margen",
         "texto emplazado en (46,482) por busqueda densa sobre el campo de costo: coste 0.163 en escala 0-1",
         "headline: contraste medido 2.96:1 contra 3.0 exigido, scrim con alpha 0.05",
         "subhead: tipografia invertida a claro, contraste 6.32:1",
@@ -1756,21 +1760,19 @@
       "file": "768x1152.svg",
       "hypothesis": "bleed",
       "crop_px": [
-        210.0,
+        240.0,
         0.0,
         1800.0,
         2700.0
       ],
       "effective_ppi": 168.8,
-      "field_cost": 0.1607,
+      "field_cost": 0.1361,
       "reasons": [
         "recorte 1800x2700px de la fuente (83% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 131x131px en (453,761) del lienzo, con 25% de margen",
-        "texto emplazado en (46,518) por busqueda densa sobre el campo de costo: coste 0.161 en escala 0-1",
-        "headline: contraste medido 2.75:1 contra 3.0 exigido, scrim con alpha 0.08",
-        "subhead: tipografia invertida a claro, contraste 5.62:1",
-        "support: tipografia invertida a claro, contraste 5.86:1",
-        "legal: contraste medido 4.18:1 contra 4.5 exigido, scrim con alpha 0.08",
+        "region de la cara vedada al texto: 127x127px en (445,765) del lienzo, con 25% de margen",
+        "texto emplazado en (46,46) por busqueda densa sobre el campo de costo: coste 0.136 en escala 0-1",
+        "subhead: contraste medido 3.85:1 contra 4.5 exigido, scrim con alpha 0.15",
+        "support: contraste medido 3.52:1 contra 4.5 exigido, scrim con alpha 0.18",
         "lockup a escala uniforme 0.55x, 123px de ancho, clear-space 9px, esquina de menor coste"
       ],
       "dropped": [],
@@ -1784,68 +1786,68 @@
       "blocks": [
         {
           "role": "headline",
-          "size": 88.0,
+          "size": 72.0,
           "weight": 900,
           "lines": [
             "SPRING",
             "STYLE",
             "IS HERE"
           ],
-          "fill": "#FFFFFF",
-          "contrast": 2.75,
-          "achieved": 3.24,
-          "scrimmed": true,
+          "fill": "#0E2A26",
+          "contrast": 4.24,
+          "achieved": 4.24,
+          "scrimmed": false,
           "required": 3.0
         },
         {
           "role": "subhead",
-          "size": 28.0,
+          "size": 20.0,
           "weight": 400,
           "lines": [
             "Up to 50% off",
             "across 120 stores"
           ],
-          "fill": "#FFFFFF",
-          "contrast": 5.62,
-          "achieved": 5.62,
-          "scrimmed": false,
-          "required": 3.0
+          "fill": "#0E2A26",
+          "contrast": 3.85,
+          "achieved": 4.88,
+          "scrimmed": true,
+          "required": 4.5
         },
         {
           "role": "support",
-          "size": 18.0,
+          "size": 14.0,
           "weight": 900,
           "lines": [
             "12 - 28 SEPTEMBER"
           ],
-          "fill": "#FFFFFF",
-          "contrast": 5.86,
-          "achieved": 5.86,
-          "scrimmed": false,
+          "fill": "#0E2A26",
+          "contrast": 3.52,
+          "achieved": 4.86,
+          "scrimmed": true,
           "required": 4.5
         },
         {
           "role": "legal",
-          "size": 12.0,
+          "size": 10.0,
           "weight": 400,
           "lines": [
             "Terms and conditions apply. See centre for details."
           ],
           "fill": "#FFFFFF",
-          "contrast": 4.18,
-          "achieved": 4.87,
-          "scrimmed": true,
+          "contrast": 4.74,
+          "achieved": 4.74,
+          "scrimmed": false,
           "required": 4.5
         }
       ],
       "scrims": [
         {
-          "for": "headline",
-          "alpha": 0.08
+          "for": "subhead",
+          "alpha": 0.145
         },
         {
-          "for": "legal",
-          "alpha": 0.081
+          "for": "support",
+          "alpha": 0.184
         }
       ]
     },
@@ -1863,11 +1865,11 @@
         589.1
       ],
       "effective_ppi": 196.4,
-      "field_cost": 0.2705,
+      "field_cost": 0.2563,
       "reasons": [
         "recorte 2160x589px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 112x112px en (466,9) del lienzo, con 25% de margen",
-        "texto emplazado en (90,19) por busqueda densa sobre el campo de costo: coste 0.270 en escala 0-1",
+        "region de la cara vedada al texto: 109x109px en (470,13) del lienzo, con 25% de margen",
+        "texto emplazado en (90,19) por busqueda densa sobre el campo de costo: coste 0.256 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.68:1",
         "subhead: contraste medido 1.46:1 contra 4.5 exigido, scrim con alpha 0.43",
         "legal: contraste medido 1.60:1 contra 4.5 exigido, scrim con alpha 0.44",
@@ -1966,7 +1968,7 @@
       "field_cost": 0.2033,
       "reasons": [
         "recorte 2160x1080px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 113x113px en (471,61) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 110x110px en (475,64) del lienzo, con 25% de margen",
         "texto emplazado en (118,24) por busqueda densa sobre el campo de costo: coste 0.203 en escala 0-1",
         "headline: contraste medido 1.48:1 contra 3.0 exigido, scrim con alpha 0.32",
         "subhead: tipografia invertida a claro, contraste 6.98:1",
@@ -2072,7 +2074,7 @@
       "field_cost": 0.1746,
       "reasons": [
         "recorte 2160x1329px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 118x118px en (490,159) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 114x114px en (494,163) del lienzo, con 25% de margen",
         "texto emplazado en (70,34) por busqueda densa sobre el campo de costo: coste 0.175 en escala 0-1",
         "headline: contraste medido 1.50:1 contra 3.0 exigido, scrim con alpha 0.32",
         "subhead: tipografia invertida a claro, contraste 3.98:1",
@@ -2172,11 +2174,11 @@
         675.0
       ],
       "effective_ppi": 173.6,
-      "field_cost": 0.2525,
+      "field_cost": 0.2401,
       "reasons": [
         "recorte 2160x675px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 127x127px en (528,40) del lienzo, con 25% de margen",
-        "texto emplazado en (54,17) por busqueda densa sobre el campo de costo: coste 0.252 en escala 0-1",
+        "region de la cara vedada al texto: 123x123px en (532,44) del lienzo, con 25% de margen",
+        "texto emplazado en (54,17) por busqueda densa sobre el campo de costo: coste 0.240 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.75:1",
         "subhead: contraste medido 4.16:1 contra 4.5 exigido, scrim con alpha 0.09",
         "support: contraste medido 1.46:1 contra 4.5 exigido, scrim con alpha 0.47",
@@ -2280,7 +2282,7 @@
       "field_cost": 0.1877,
       "reasons": [
         "recorte 2160x1234px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 127x127px en (528,132) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 123x123px en (532,136) del lienzo, con 25% de margen",
         "texto emplazado en (133,44) por busqueda densa sobre el campo de costo: coste 0.188 en escala 0-1",
         "headline: contraste medido 1.89:1 contra 3.0 exigido, scrim con alpha 0.24",
         "subhead: tipografia invertida a claro, contraste 3.23:1",
@@ -2387,7 +2389,7 @@
       "field_cost": 0.2239,
       "reasons": [
         "recorte 2160x540px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 136x136px en (565,-7) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 132x132px en (570,-3) del lienzo, con 25% de margen",
         "escalera de degradacion aplicada: tighten_leading -> weight_for_size -> drop_legal",
         "texto emplazado en (58,14) por busqueda densa sobre el campo de costo: coste 0.224 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.71:1",
@@ -2482,7 +2484,7 @@
       "field_cost": 0.224,
       "reasons": [
         "recorte 2160x557px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 137x137px en (571,-1) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 133x133px en (576,3) del lienzo, con 25% de margen",
         "texto emplazado en (60,15) por busqueda densa sobre el campo de costo: coste 0.224 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.97:1",
         "subhead: contraste medido 1.52:1 contra 4.5 exigido, scrim con alpha 0.42",
@@ -2582,7 +2584,7 @@
       "field_cost": 0.1727,
       "reasons": [
         "recorte 2160x679px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 141x141px en (584,46) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 136x136px en (589,50) del lienzo, con 25% de margen",
         "texto emplazado en (19,19) por busqueda densa sobre el campo de costo: coste 0.173 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.90:1",
         "subhead: tipografia invertida a claro, contraste 5.86:1",
@@ -2679,7 +2681,7 @@
       "field_cost": 0.19,
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 145x145px en (603,142) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 141x141px en (608,146) del lienzo, con 25% de margen",
         "texto emplazado en (92,35) por busqueda densa sobre el campo de costo: coste 0.190 en escala 0-1",
         "headline: contraste medido 2.31:1 contra 3.0 exigido, scrim con alpha 0.16",
         "subhead: contraste medido 2.67:1 contra 3.0 exigido, scrim con alpha 0.09",
@@ -2786,7 +2788,7 @@
       "field_cost": 0.2006,
       "reasons": [
         "recorte 2024x2700px de la fuente (94% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 155x155px en (603,903) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 150x150px en (609,907) del lienzo, con 25% de margen",
         "texto emplazado en (177,748) por busqueda densa sobre el campo de costo: coste 0.201 en escala 0-1",
         "headline: contraste medido 2.90:1 contra 3.0 exigido, scrim con alpha 0.05",
         "subhead: tipografia invertida a claro, contraste 3.78:1",
@@ -2878,11 +2880,11 @@
         996.9
       ],
       "effective_ppi": 149.5,
-      "field_cost": 0.2468,
+      "field_cost": 0.242,
       "reasons": [
         "recorte 2160x997px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 147x147px en (612,244) del lienzo, con 25% de margen",
-        "texto emplazado en (29,29) por busqueda densa sobre el campo de costo: coste 0.247 en escala 0-1",
+        "region de la cara vedada al texto: 143x143px en (618,249) del lienzo, con 25% de margen",
+        "texto emplazado en (29,29) por busqueda densa sobre el campo de costo: coste 0.242 en escala 0-1",
         "headline: contraste medido 2.31:1 contra 3.0 exigido, scrim con alpha 0.16",
         "subhead: tipografia invertida a claro, contraste 8.67:1",
         "support: tipografia invertida a claro, contraste 6.05:1",
@@ -2981,7 +2983,7 @@
       "field_cost": 0.1739,
       "reasons": [
         "recorte 2160x660px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 148x148px en (617,41) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 144x144px en (622,45) del lienzo, con 25% de margen",
         "texto emplazado en (19,19) por busqueda densa sobre el campo de costo: coste 0.174 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.88:1",
         "subhead: tipografia invertida a claro, contraste 5.76:1",
@@ -3075,11 +3077,11 @@
         733.6
       ],
       "effective_ppi": 146.7,
-      "field_cost": 0.2122,
+      "field_cost": 0.2014,
       "reasons": [
         "recorte 2160x734px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 150x150px en (624,71) del lienzo, con 25% de margen",
-        "texto emplazado en (22,32) por busqueda densa sobre el campo de costo: coste 0.212 en escala 0-1",
+        "region de la cara vedada al texto: 146x146px en (629,76) del lienzo, con 25% de margen",
+        "texto emplazado en (22,32) por busqueda densa sobre el campo de costo: coste 0.201 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.64:1",
         "subhead: tipografia invertida a claro, contraste 4.11:1",
         "support: contraste medido 1.46:1 contra 4.5 exigido, scrim con alpha 0.47",
@@ -3176,11 +3178,11 @@
         678.8
       ],
       "effective_ppi": 145.9,
-      "field_cost": 0.2314,
+      "field_cost": 0.2205,
       "reasons": [
         "recorte 2160x679px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 151x151px en (628,49) del lienzo, con 25% de margen",
-        "texto emplazado en (20,20) por busqueda densa sobre el campo de costo: coste 0.231 en escala 0-1",
+        "region de la cara vedada al texto: 147x147px en (633,54) del lienzo, con 25% de margen",
+        "texto emplazado en (20,20) por busqueda densa sobre el campo de costo: coste 0.220 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.83:1",
         "subhead: tipografia invertida a claro, contraste 4.06:1",
         "support: contraste medido 2.61:1 contra 4.5 exigido, scrim con alpha 0.30",
@@ -3280,7 +3282,7 @@
       "field_cost": 0.1495,
       "reasons": [
         "recorte 2160x2160px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 153x153px en (636,644) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 148x148px en (641,649) del lienzo, con 25% de margen",
         "texto emplazado en (122,367) por busqueda densa sobre el campo de costo: coste 0.149 en escala 0-1",
         "headline: contraste medido 2.89:1 contra 3.0 exigido, scrim con alpha 0.06",
         "subhead: tipografia invertida a claro, contraste 5.59:1",
@@ -3381,7 +3383,7 @@
       "field_cost": 0.1664,
       "reasons": [
         "recorte 1519x2700px de la fuente (70% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 218x218px en (601,1269) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 211x211px en (608,1275) del lienzo, con 25% de margen",
         "texto emplazado en (178,65) por busqueda densa sobre el campo de costo: coste 0.166 en escala 0-1",
         "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
       ],
@@ -3469,7 +3471,7 @@
       "field_cost": 0.1641,
       "reasons": [
         "recorte 2160x608px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 163x163px en (678,21) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 158x158px en (684,27) del lienzo, con 25% de margen",
         "texto emplazado en (19,19) por busqueda densa sobre el campo de costo: coste 0.164 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.00:1",
         "subhead: tipografia invertida a claro, contraste 6.58:1",
@@ -3566,7 +3568,7 @@
       "field_cost": 0.1948,
       "reasons": [
         "recorte 2160x1130px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 170x170px en (707,119) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 165x165px en (712,124) del lienzo, con 25% de margen",
         "texto emplazado en (94,38) por busqueda densa sobre el campo de costo: coste 0.195 en escala 0-1",
         "headline: contraste medido 1.49:1 contra 3.0 exigido, scrim con alpha 0.32",
         "subhead: tipografia invertida a claro, contraste 6.38:1",
@@ -3668,7 +3670,7 @@
       "field_cost": 0.15,
       "reasons": [
         "recorte 2160x2160px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 170x170px en (707,716) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 165x165px en (712,721) del lienzo, con 25% de margen",
         "texto emplazado en (72,405) por busqueda densa sobre el campo de costo: coste 0.150 en escala 0-1",
         "headline: contraste medido 2.98:1 contra 3.0 exigido, scrim con alpha 0.04",
         "subhead: tipografia invertida a claro, contraste 5.03:1",
@@ -3768,7 +3770,7 @@
       "field_cost": 0.2219,
       "reasons": [
         "recorte 2160x572px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 173x173px en (721,6) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 168x168px en (727,11) del lienzo, con 25% de margen",
         "texto emplazado en (78,19) por busqueda densa sobre el campo de costo: coste 0.222 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.81:1",
         "subhead: contraste medido 1.46:1 contra 3.0 exigido, scrim con alpha 0.33",
@@ -3868,7 +3870,7 @@
       "field_cost": 0.2135,
       "reasons": [
         "recorte 2160x554px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 177x177px en (735,-3) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 172x172px en (741,3) del lienzo, con 25% de margen",
         "texto emplazado en (19,19) por busqueda densa sobre el campo de costo: coste 0.213 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.77:1",
         "subhead: contraste medido 1.48:1 contra 3.0 exigido, scrim con alpha 0.32",
@@ -3968,7 +3970,7 @@
       "field_cost": 0.2205,
       "reasons": [
         "recorte 2160x555px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 178x178px en (738,-2) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 172x172px en (744,4) del lienzo, con 25% de margen",
         "texto emplazado en (81,19) por busqueda densa sobre el campo de costo: coste 0.221 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 5.07:1",
         "subhead: contraste medido 1.45:1 contra 3.0 exigido, scrim con alpha 0.33",
@@ -4069,7 +4071,7 @@
       "reasons": [
         "recorte 1102x2484px de la fuente (51% del ancho); region focal contenida",
         "PPI efectivo 63 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "region de la cara vedada al texto: 350x350px en (245,1793) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 340x340px en (257,1804) del lienzo, con 25% de margen",
         "texto emplazado en (567,76) por busqueda densa sobre el campo de costo: coste 0.089 en escala 0-1",
         "legal: contraste medido 3.40:1 contra 4.5 exigido, scrim con alpha 0.18",
         "lockup a escala uniforme 0.91x, 202px de ancho, clear-space 15px, esquina de menor coste"
@@ -4159,11 +4161,11 @@
         571.6
       ],
       "effective_ppi": 122.8,
-      "field_cost": 0.2436,
+      "field_cost": 0.2284,
       "reasons": [
         "recorte 2160x572px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 179x179px en (746,6) del lienzo, con 25% de margen",
-        "texto emplazado en (145,23) por busqueda densa sobre el campo de costo: coste 0.244 en escala 0-1",
+        "region de la cara vedada al texto: 174x174px en (752,12) del lienzo, con 25% de margen",
+        "texto emplazado en (145,23) por busqueda densa sobre el campo de costo: coste 0.228 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.71:1",
         "subhead: contraste medido 1.44:1 contra 3.0 exigido, scrim con alpha 0.33",
         "legal: contraste medido 1.55:1 contra 4.5 exigido, scrim con alpha 0.45",
@@ -4262,7 +4264,7 @@
       "field_cost": 0.184,
       "reasons": [
         "recorte 2160x1083px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 179x179px en (746,98) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 174x174px en (752,104) del lienzo, con 25% de margen",
         "texto emplazado en (182,47) por busqueda densa sobre el campo de costo: coste 0.184 en escala 0-1",
         "headline: contraste medido 1.48:1 contra 3.0 exigido, scrim con alpha 0.32",
         "subhead: tipografia invertida a claro, contraste 3.79:1",
@@ -4365,7 +4367,7 @@
       "field_cost": 0.2338,
       "reasons": [
         "recorte 2160x648px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 181x181px en (754,44) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 176x176px en (760,49) del lienzo, con 25% de margen",
         "texto emplazado en (23,54) por busqueda densa sobre el campo de costo: coste 0.234 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.50:1",
         "subhead: contraste medido 2.46:1 contra 3.0 exigido, scrim con alpha 0.12",
@@ -4465,7 +4467,7 @@
       "field_cost": 0.1924,
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 181x181px en (754,177) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 176x176px en (760,183) del lienzo, con 25% de margen",
         "texto emplazado en (116,43) por busqueda densa sobre el campo de costo: coste 0.192 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.41:1",
         "subhead: contraste medido 1.80:1 contra 3.0 exigido, scrim con alpha 0.26",
@@ -4567,7 +4569,7 @@
       "field_cost": 0.1556,
       "reasons": [
         "recorte 2160x545px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 182x182px en (756,-7) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 177x177px en (762,-1) del lienzo, con 25% de margen",
         "texto emplazado en (19,19) por busqueda densa sobre el campo de costo: coste 0.156 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.43:1",
         "subhead: tipografia invertida a claro, contraste 6.80:1",
@@ -4664,7 +4666,7 @@
       "field_cost": 0.2007,
       "reasons": [
         "recorte 2160x524px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 187x187px en (777,-18) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 182x182px en (784,-12) del lienzo, con 25% de margen",
         "texto emplazado en (256,19) por busqueda densa sobre el campo de costo: coste 0.201 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.67:1",
         "subhead: contraste medido 3.81:1 contra 4.5 exigido, scrim con alpha 0.13",
@@ -4766,11 +4768,11 @@
         694.3
       ],
       "effective_ppi": 115.7,
-      "field_cost": 0.3822,
+      "field_cost": 0.3703,
       "reasons": [
         "recorte 2160x694px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 190x190px en (791,70) del lienzo, con 25% de margen",
-        "texto emplazado en (259,34) por busqueda densa sobre el campo de costo: coste 0.382 en escala 0-1",
+        "region de la cara vedada al texto: 185x185px en (798,76) del lienzo, con 25% de margen",
+        "texto emplazado en (259,34) por busqueda densa sobre el campo de costo: coste 0.370 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.16:1",
         "subhead: tipografia invertida a claro, contraste 3.75:1",
         "legal: contraste medido 1.67:1 contra 4.5 exigido, scrim con alpha 0.43",
@@ -4862,16 +4864,16 @@
         1214.4
       ],
       "effective_ppi": 113.9,
-      "field_cost": 0.1939,
+      "field_cost": 0.244,
       "reasons": [
         "recorte 2160x1214px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 194x194px en (804,189) del lienzo, con 25% de margen",
-        "texto emplazado en (46,85) por busqueda densa sobre el campo de costo: coste 0.194 en escala 0-1",
-        "headline: contraste medido 1.64:1 contra 3.0 exigido, scrim con alpha 0.29",
-        "subhead: tipografia invertida a claro, contraste 3.23:1",
-        "support: tipografia invertida a claro, contraste 3.74:1",
+        "region de la cara vedada al texto: 188x188px en (811,195) del lienzo, con 25% de margen",
+        "texto emplazado en (46,46) por busqueda densa sobre el campo de costo: coste 0.244 en escala 0-1",
+        "headline: tipografia invertida a claro, contraste 3.17:1",
+        "subhead: tipografia invertida a claro, contraste 4.69:1",
+        "support: tipografia invertida a claro, contraste 6.41:1",
         "legal: contraste medido 1.96:1 contra 4.5 exigido, scrim con alpha 0.39",
-        "logo en variante clara: sobre este fondo la tinta daba 1.07:1",
+        "logo en variante clara: sobre este fondo la tinta daba 1.20:1",
         "lockup a escala uniforme 0.55x, 123px de ancho, clear-space 9px, esquina de menor coste"
       ],
       "dropped": [],
@@ -4888,14 +4890,13 @@
           "size": 128.0,
           "weight": 900,
           "lines": [
-            "SPRING",
-            "STYLE",
+            "SPRING STYLE",
             "IS HERE"
           ],
           "fill": "#FFFFFF",
-          "contrast": 1.64,
-          "achieved": 3.24,
-          "scrimmed": true,
+          "contrast": 3.17,
+          "achieved": 3.17,
+          "scrimmed": false,
           "required": 3.0
         },
         {
@@ -4903,12 +4904,11 @@
           "size": 40.0,
           "weight": 400,
           "lines": [
-            "Up to 50% off",
-            "across 120 stores"
+            "Up to 50% off across 120 stores"
           ],
           "fill": "#FFFFFF",
-          "contrast": 3.23,
-          "achieved": 3.23,
+          "contrast": 4.69,
+          "achieved": 4.69,
           "scrimmed": false,
           "required": 3.0
         },
@@ -4920,8 +4920,8 @@
             "12 - 28 SEPTEMBER"
           ],
           "fill": "#FFFFFF",
-          "contrast": 3.74,
-          "achieved": 3.74,
+          "contrast": 6.41,
+          "achieved": 6.41,
           "scrimmed": false,
           "required": 3.0
         },
@@ -4940,10 +4940,6 @@
         }
       ],
       "scrims": [
-        {
-          "for": "headline",
-          "alpha": 0.29
-        },
         {
           "for": "legal",
           "alpha": 0.386
@@ -4967,7 +4963,7 @@
       "field_cost": 0.1562,
       "reasons": [
         "recorte 2160x1350px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 204x204px en (848,514) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 198x198px en (855,521) del lienzo, con 25% de margen",
         "texto emplazado en (208,258) por busqueda densa sobre el campo de costo: coste 0.156 en escala 0-1",
         "headline: contraste medido 2.83:1 contra 3.0 exigido, scrim con alpha 0.07",
         "subhead: tipografia invertida a claro, contraste 4.64:1",
@@ -5064,11 +5060,11 @@
         771.4
       ],
       "effective_ppi": 102.9,
-      "field_cost": 0.2601,
+      "field_cost": 0.2494,
       "reasons": [
         "recorte 2160x771px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 214x214px en (890,124) del lienzo, con 25% de margen",
-        "texto emplazado en (90,64) por busqueda densa sobre el campo de costo: coste 0.260 en escala 0-1",
+        "region de la cara vedada al texto: 208x208px en (898,130) del lienzo, con 25% de margen",
+        "texto emplazado en (90,64) por busqueda densa sobre el campo de costo: coste 0.249 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.30:1",
         "subhead: tipografia invertida a claro, contraste 4.08:1",
         "support: contraste medido 1.45:1 contra 3.0 exigido, scrim con alpha 0.28",
@@ -5165,11 +5161,11 @@
         1215.0
       ],
       "effective_ppi": 97.2,
-      "field_cost": 0.189,
+      "field_cost": 0.1789,
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 227x227px en (942,221) del lienzo, con 25% de margen",
-        "texto emplazado en (54,54) por busqueda densa sobre el campo de costo: coste 0.189 en escala 0-1",
+        "region de la cara vedada al texto: 220x220px en (950,229) del lienzo, con 25% de margen",
+        "texto emplazado en (54,54) por busqueda densa sobre el campo de costo: coste 0.179 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.44:1",
         "subhead: tipografia invertida a claro, contraste 7.44:1",
         "support: tipografia invertida a claro, contraste 7.83:1",
@@ -5264,7 +5260,7 @@
       "field_cost": 0.2375,
       "reasons": [
         "recorte 2160x508px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 260x260px en (1081,-36) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 252x252px en (1090,-28) del lienzo, con 25% de margen",
         "texto emplazado en (348,49) por busqueda densa sobre el campo de costo: coste 0.238 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.15:1",
         "legal: contraste medido 1.58:1 contra 4.5 exigido, scrim con alpha 0.45",
@@ -5359,7 +5355,7 @@
       "field_cost": 0.2193,
       "reasons": [
         "recorte 2160x512px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 269x269px en (1118,-35) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 261x261px en (1128,-26) del lienzo, con 25% de margen",
         "texto emplazado en (368,27) por busqueda densa sobre el campo de costo: coste 0.219 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.51:1",
         "subhead: tipografia invertida a claro, contraste 3.85:1",
@@ -5455,7 +5451,7 @@
       "field_cost": 0.1637,
       "reasons": [
         "recorte 2160x675px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 272x272px en (1131,86) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 264x264px en (1140,94) del lienzo, con 25% de margen",
         "texto emplazado en (36,36) por busqueda densa sobre el campo de costo: coste 0.164 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.76:1",
         "subhead: tipografia invertida a claro, contraste 5.76:1",
@@ -5552,7 +5548,7 @@
       "field_cost": 0.1546,
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 272x272px en (1131,266) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 264x264px en (1140,274) del lienzo, con 25% de margen",
         "texto emplazado en (65,65) por busqueda densa sobre el campo de costo: coste 0.155 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.09:1",
         "subhead: tipografia invertida a claro, contraste 6.01:1",
@@ -5649,7 +5645,7 @@
       "field_cost": 0.1674,
       "reasons": [
         "recorte 2160x1080px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 281x281px en (1168,151) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 273x273px en (1178,159) del lienzo, con 25% de margen",
         "texto emplazado en (159,60) por busqueda densa sobre el campo de costo: coste 0.167 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.60:1",
         "subhead: tipografia invertida a claro, contraste 4.90:1",
@@ -5745,7 +5741,7 @@
       "field_cost": 0.1548,
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
-        "region de la cara vedada al texto: 290x290px en (1206,283) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 282x282px en (1216,293) del lienzo, con 25% de margen",
         "texto emplazado en (69,69) por busqueda densa sobre el campo de costo: coste 0.155 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.05:1",
         "subhead: tipografia invertida a claro, contraste 6.14:1",
@@ -5841,8 +5837,8 @@
       "effective_ppi": 205.7,
       "field_cost": 0.0069,
       "reasons": [
-        "a 8.2:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 453px de alto, o 3727px de ancho, y la fuente tiene 2160px. La foto degrada a panel de 756x252 (3.0:1) y se promueve el campo de marca",
-        "region de la cara vedada al texto: 107x107px en (1761,47) del lienzo, con 25% de margen",
+        "a 8.2:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 440px de alto, o 3618px de ancho, y la fuente tiene 2160px. La foto degrada a panel de 756x252 (3.0:1) y se promueve el campo de marca",
+        "region de la cara vedada al texto: 104x104px en (1765,50) del lienzo, con 25% de margen",
         "texto emplazado en (137,18) por busqueda densa sobre el campo de costo: coste 0.007 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 15.24:1",
         "subhead: tipografia invertida a claro, contraste 15.24:1",
@@ -5938,7 +5934,7 @@
       "reasons": [
         "recorte 1519x2700px de la fuente (70% del ancho); region focal contenida",
         "PPI efectivo 51 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "region de la cara vedada al texto: 435x435px en (1201,2537) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 422x422px en (1216,2551) del lienzo, con 25% de margen",
         "texto emplazado en (232,130) por busqueda densa sobre el campo de costo: coste 0.040 en escala 0-1",
         "lockup a escala uniforme 1.55x, 346px de ancho, clear-space 26px, esquina de menor coste"
       ],
@@ -6025,7 +6021,7 @@
       "reasons": [
         "recorte 2160x1080px de la fuente (100% del ancho); region focal contenida",
         "PPI efectivo 65 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "region de la cara vedada al texto: 340x340px en (1413,182) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 330x330px en (1425,193) del lienzo, con 25% de margen",
         "texto emplazado en (210,141) por busqueda densa sobre el campo de costo: coste 0.169 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.01:1",
         "subhead: tipografia invertida a claro, contraste 5.20:1",
@@ -6122,7 +6118,7 @@
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
         "PPI efectivo 61 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "region de la cara vedada al texto: 363x363px en (1508,354) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 352x352px en (1520,366) del lienzo, con 25% de margen",
         "texto emplazado en (86,86) por busqueda densa sobre el campo de costo: coste 0.149 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 3.89:1",
         "subhead: tipografia invertida a claro, contraste 4.46:1",
@@ -6219,7 +6215,7 @@
       "reasons": [
         "recorte 2160x607px de la fuente (100% del ancho); region focal contenida",
         "PPI efectivo 57 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "region de la cara vedada al texto: 387x387px en (1609,51) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 376x376px en (1622,63) del lienzo, con 25% de margen",
         "texto emplazado en (46,77) por busqueda densa sobre el campo de costo: coste 0.156 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.29:1",
         "subhead: tipografia invertida a claro, contraste 6.74:1",
@@ -6316,7 +6312,7 @@
       "reasons": [
         "recorte 2160x865px de la fuente (100% del ancho); region focal contenida",
         "PPI efectivo 51 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "region de la cara vedada al texto: 432x432px en (1795,575) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 419x419px en (1810,588) del lienzo, con 25% de margen",
         "texto emplazado en (73,636) por busqueda densa sobre el campo de costo: coste 0.144 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 5.00:1",
         "subhead: tipografia invertida a claro, contraste 6.80:1",
@@ -6413,7 +6409,7 @@
       "reasons": [
         "recorte 2160x1215px de la fuente (100% del ancho); region focal contenida",
         "PPI efectivo 40 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "region de la cara vedada al texto: 544x544px en (2261,532) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 528x528px en (2280,548) del lienzo, con 25% de margen",
         "texto emplazado en (571,628) por busqueda densa sobre el campo de costo: coste 0.197 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 4.70:1",
         "subhead: tipografia invertida a claro, contraste 4.74:1",
@@ -6509,7 +6505,7 @@
       "reasons": [
         "recorte 2160x535px de la fuente (100% del ancho); region focal contenida",
         "PPI efectivo 40 bajo 72 nominal: suministrar fuente de mayor resolucion",
-        "region de la cara vedada al texto: 556x556px en (2311,-37) del lienzo, con 25% de margen",
+        "region de la cara vedada al texto: 540x540px en (2330,-19) del lienzo, con 25% de margen",
         "texto emplazado en (545,120) por busqueda densa sobre el campo de costo: coste 0.167 en escala 0-1",
         "headline: tipografia invertida a claro, contraste 5.24:1",
         "subhead: tipografia invertida a claro, contraste 5.92:1",

@@ -9,7 +9,8 @@
     "foto: raster de mayor area, 2160x2700px sobre 1080x1350 unidades",
     "lockup: grupo con geometria vectorial, area menor, 222x34 en (794,96); marca 34x34 y wordmark a 15px",
     "roles por rango de cuerpo: headline=92px, subhead=30px, support=20px, legal=13px",
-    "el bloque menor (13px) mide < 30% del titular (92px) -> legal"
+    "el bloque menor (13px) mide < 30% del titular (92px) -> legal",
+    "region focal por acuerdo de las dos cascadas Haar, sin llamar a ningun modelo"
   ],
   "outputs": [
     {

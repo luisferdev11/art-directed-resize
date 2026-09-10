@@ -147,6 +147,9 @@ def main() -> int:
                     help="sustituye la fotografia del master conservando su estructura. "
                          "Es la prueba de que el layout se DERIVA del arte: mismo "
                          "master, otra foto, otro layout")
+    ap.add_argument("--no-model-focal", action="store_true",
+                    help="no preguntar a un modelo por la region focal aunque las "
+                         "cascadas no coincidan; se cae a saliencia")
     ap.add_argument("--backend", default="art", choices=["art", "constraints", "both"],
                     help="'art' decide desde los pixeles; 'constraints' es el "
                          "mecanismo rival; 'both' emite los dos para el cara a cara")
@@ -191,6 +194,49 @@ def main() -> int:
               f"{scene.photo.px_w}x{scene.photo.px_h}px")
 
     prep = cropmod.prepare(scene.photo.src_path)
+
+    # LA VIA BARATA PRIMERO, EL MODELO CUANDO NO SABE.
+    #
+    # Dos cascadas de Haar puestas de acuerdo resuelven una fotografia con una cara
+    # de frente en milisegundos y gratis. Cuando no coinciden -gorra y gafas, perfil,
+    # o simplemente no hay ninguna cara porque la pieza es una ilustracion, un
+    # producto o tipografia sobre un fondo- no hay geometria que consultar: la
+    # pregunta "que no se puede recortar" pasa a ser semantica, y ahi si vale pagar
+    # una llamada.
+    #
+    # Es el mismo router que decide todo lo demas en este sistema, y por eso el coste
+    # sigue siendo por master y no por formato.
+    if prep.get("face") is None and not a.no_model_focal:
+        try:
+            import semantic
+            hint, flog = semantic.focal_from_model(scene.photo.src_path)
+            for l in flog:
+                scene.notes.append("region focal · " + l)
+            if hint:
+                prep["face"] = semantic.focal_proxy(
+                    hint["rect"], hint["sujeto"], float(prep["px_w"]),
+                    float(prep["px_h"]))
+                prep["focal_via"] = "modelo"
+                scene.notes.append(
+                    f"las dos cascadas no coincidieron: la region que no se puede "
+                    f"recortar la decidio un modelo. {hint['sujeto']} — "
+                    f"{hint['que_es']}, confianza {hint['confianza']:.2f}. "
+                    f"{hint['por_que']}")
+                print(f"  · region focal por modelo: {hint['sujeto']} "
+                      f"({hint['confianza']:.2f})")
+            else:
+                prep["focal_via"] = "saliencia"
+                scene.notes.append("ni las cascadas ni el modelo dieron una region "
+                                   "focal utilizable: manda la saliencia")
+        except Exception as e:
+            prep["focal_via"] = "saliencia"
+            scene.notes.append(f"region focal por saliencia: {type(e).__name__}")
+    else:
+        prep["focal_via"] = "cascadas" if prep.get("face") else "saliencia"
+        if prep.get("face"):
+            scene.notes.append("region focal por acuerdo de las dos cascadas Haar, "
+                               "sin llamar a ningun modelo")
+
     names = ["art", "constraints"] if a.backend == "both" else [a.backend]
     total = 0
     for name in names:
