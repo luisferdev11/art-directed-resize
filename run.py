@@ -149,6 +149,10 @@ def main() -> int:
     ap.add_argument("--copy-from-photo", action="store_true",
                     help="with --photo: the model writes the copy from the image. "
                          "Roles, body sizes and geometry stay the master's")
+    ap.add_argument("--focal-json", default=None,
+                    help="region focal YA resuelta, en JSON. Quien llama -el demo- "
+                         "puede haberla pedido para otra cosa; volver a preguntarla "
+                         "es pagar dos veces la misma respuesta")
     ap.add_argument("--no-model-focal", action="store_true",
                     help="do not ask a model for the focal region even if the "
                          "cascades disagree; fall back to saliency")
@@ -254,7 +258,40 @@ def main() -> int:
     # Es el mismo router que decide todo lo demas en este sistema, y por eso el coste
     # sigue siendo por master y no por formato.
     caras = prep.get("faces") or []
-    if prep.get("face") is None and not a.no_model_focal:
+
+    # LA REGION FOCAL YA RESUELTA POR QUIEN LLAMA.
+    #
+    # El demo pregunta al modelo una vez para decidir por que puerta entra el archivo
+    # -si lleva copy sobrepuesto o es una fotografia-, y esa MISMA respuesta trae la
+    # region focal. Volver a preguntarla aqui era pagar dos veces por lo mismo: nueve
+    # segundos medidos, sobre un total de setenta y dos.
+    hint_pre = None
+    if a.focal_json and os.path.exists(a.focal_json):
+        try:
+            with open(a.focal_json) as fh:
+                hint_pre = json.load(fh)
+            if not (isinstance(hint_pre, dict) and hint_pre.get("rect")):
+                hint_pre = None
+        except Exception:
+            hint_pre = None
+
+    if prep.get("face") is None and hint_pre:
+        import semantic
+        prep["face"] = semantic.focal_proxy(
+            hint_pre["rect"], hint_pre["sujeto"], float(prep["px_w"]),
+            float(prep["px_h"]))
+        prep["focal_via"] = "modelo"
+        prep["face_hard"] = not semantic.es_extenso(hint_pre["sujeto"])
+        scene.notes.append(
+            f"region focal reutilizada de la llamada que decidio la ruta: "
+            f"{hint_pre['sujeto']} — {hint_pre.get('que_es','')}, confianza "
+            f"{float(hint_pre.get('confianza',0)):.2f}. No se vuelve a preguntar")
+        if not prep["face_hard"]:
+            scene.notes.append(
+                f"the subject is a wide EXTENT ({hint_pre['sujeto']}), not a face: "
+                f"the region is maximised instead of required")
+        print(f"  · region focal reutilizada: {hint_pre['sujeto']} (sin 2a llamada)")
+    elif prep.get("face") is None and not a.no_model_focal:
         try:
             import semantic
             porque = ("no face agreed on by the two cascades"

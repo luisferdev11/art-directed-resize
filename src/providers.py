@@ -59,21 +59,29 @@ def _data_uri(path: str) -> Tuple[str, str]:
         return mime, base64.b64encode(fh.read()).decode("ascii")
 
 
-def _call_openai(p: Dict[str, Any], key: str, prompt: str, path: str) -> str:
-    mime, b64 = _data_uri(path)
+def _mensajes(prompt: str, mime: str, b64: str):
+    """El payload de chat, en la forma de OpenAI.
+
+    Se construye UNA vez y sirve para dos cosas: es lo que se manda al proveedor, y
+    es lo que se manda a la traza. Que sean el mismo objeto no es elegancia: es la
+    unica forma de que la traza documente lo que de verdad se pregunto, en lugar de
+    una descripcion de lo que se pregunto.
+    """
+    return [{"role": "user", "content": [
+        {"type": "text", "text": prompt},
+        {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}}]}]
+
+
+def _call_openai(p: Dict[str, Any], key: str, prompt: str, mime: str, b64: str) -> str:
     body = {"model": p["model"], "temperature": 0.0, "max_tokens": 2048,
-            "messages": [{"role": "user", "content": [
-                {"type": "text", "text": prompt},
-                {"type": "image_url",
-                 "image_url": {"url": f"data:{mime};base64,{b64}"}}]}]}
+            "messages": _mensajes(prompt, mime, b64)}
     r = requests.post(p["url"], headers={"Authorization": f"Bearer {key}"},
                       json=body, timeout=TIMEOUT)
     r.raise_for_status()
     return r.json()["choices"][0]["message"]["content"]
 
 
-def _call_gemini(p: Dict[str, Any], key: str, prompt: str, path: str) -> str:
-    mime, b64 = _data_uri(path)
+def _call_gemini(p: Dict[str, Any], key: str, prompt: str, mime: str, b64: str) -> str:
     body = {"contents": [{"parts": [{"text": prompt},
                                     {"inline_data": {"mime_type": mime, "data": b64}}]}],
             "generationConfig": {"temperature": 0.0, "maxOutputTokens": 2048}}
@@ -113,6 +121,9 @@ def complete_vision(prompt: str, image_path: str,
     Resultado None significa que la cadena entera se agoto.
     """
     log = log if log is not None else []
+    # Una sola codificacion para toda la cadena. Antes cada transporte leia y
+    # codificaba el archivo otra vez, asi que un fallback pagaba el base64 dos veces.
+    mime, b64 = _data_uri(image_path)
     intento = 0
     for p in CHAIN:
         intento += 1
@@ -126,15 +137,23 @@ def complete_vision(prompt: str, image_path: str,
         # Un span por INTENTO, no por llamada. El intento que falla es justo el que
         # hay que poder contar: la tasa de fallback es la senal mas temprana de que
         # el proveedor principal se degrada, y no existe si el fallo no se registra.
+        # LA TRAZA LLEVA LA PREGUNTA ENTERA: el prompt y la imagen.
+        #
+        # Antes llevaba `prompt_chars` y el nombre del archivo, que es una descripcion
+        # de la pregunta y no la pregunta. Para depurar una decision del modelo hace
+        # falta lo que se le mando, y el SDK de Langfuse reconoce la data URI y sube la
+        # imagen a su media store en lugar de guardar el base64 en el registro.
         with T.Span(f"vision:{p['name']}", kind="generation",
                     model=p["model"],
-                    input={"prompt_chars": len(prompt),
-                           "image": os.path.basename(image_path)},
+                    input=_mensajes(prompt, mime, b64),
                     metadata={"provider": p["name"], "url": p["url"],
-                              "intento": intento}) as sp:
+                              "intento": intento,
+                              "imagen": os.path.basename(image_path),
+                              "prompt_chars": len(prompt),
+                              "imagen_kb": round(len(b64) * 3 / 4 / 1024)}) as sp:
             try:
                 fn = _call_openai if p["kind"] == "openai" else _call_gemini
-                out = fn(p, key, prompt, image_path)
+                out = fn(p, key, prompt, mime, b64)
                 if not (out or "").strip():
                     raise ValueError("respuesta vacia")
                 if accept is not None:

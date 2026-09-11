@@ -37,3 +37,6 @@ presentacion.html
 
 # el guion de la presentacion: nombra al empleador y al competidor
 guion-presentacion.md
+
+# vista para grabar del lab del empleador: no se publica
+demo-percepthor.sh

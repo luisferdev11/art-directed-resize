@@ -71,6 +71,15 @@ def procesar(jid: str, ruta: str, nombre: str) -> None:
         # como entrada, y por eso "componente de campana -> rollout" no es una
         # feature que falte sino la que ya esta. El componente de Figma sera un
         # adaptador mas delante del mismo `Scene`.
+        # LA REGION FOCAL YA LA TENEMOS.
+        #
+        # La llamada que decide la ruta -si el archivo lleva copy sobrepuesto- trae
+        # en la MISMA respuesta la region que no se puede recortar. Dejar que run.py
+        # la vuelva a pedir es pagar dos veces por lo mismo: nueve segundos medidos
+        # sobre los setenta y dos que tardaba el demo entero. Se serializa aqui, una
+        # vez, y la usan las dos ramas de fotografia.
+        extra = []
+
         es_svg = ruta.lower().endswith(".svg")
         if es_svg:
             paso("es un SVG de campana: leyendo su estructura")
@@ -84,6 +93,11 @@ def procesar(jid: str, ruta: str, nombre: str) -> None:
             paso("mirando que tipo de imagen es")
             pista, _log = semantic.focal_from_model(ruta)
             pieza = bool(pista and pista.get("lleva_copy"))
+            if pista and pista.get("rect"):
+                fj = os.path.join(d, "_focal.json")
+                with open(fj, "w") as fh:
+                    json.dump(pista, fh)
+                extra = ["--focal-json", fj]
             if pieza:
                 paso("es una pieza compuesta: leyendo su escena")
                 r = subprocess.run(base + ["--master", ruta],
@@ -104,7 +118,7 @@ def procesar(jid: str, ruta: str, nombre: str) -> None:
                 # encuentra donde ponerse.
                 r = subprocess.run(
                     base + ["--master", os.path.join(ROOT, "assets", "master.svg"),
-                            "--photo", ruta, "--copy-from-photo"],
+                            "--photo", ruta, "--copy-from-photo"] + extra,
                     cwd=ROOT, capture_output=True, text=True, timeout=900)
                 via = (f"sin copy sobrepuesto, asi que se trato como FOTOGRAFIA: "
                        f"estructura y jerarquia del master de referencia, tu foto, y "
@@ -114,7 +128,7 @@ def procesar(jid: str, ruta: str, nombre: str) -> None:
             paso("la escena no valido: se aplica la campana sobre la fotografia")
             r = subprocess.run(
                 base + ["--master", os.path.join(ROOT, "assets", "master.svg"),
-                        "--photo", ruta, "--copy-from-photo"],
+                        "--photo", ruta, "--copy-from-photo"] + extra,
                 cwd=ROOT, capture_output=True, text=True, timeout=900)
             via = ("la pieza no entro como composicion: se uso la ruta de "
                    "fotografia, con la copy escrita desde la imagen")
