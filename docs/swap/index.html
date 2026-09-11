@@ -44,51 +44,53 @@
 
 </style>
 <div class="wrap">
-<nav class="nav"><a href="../index.html">&larr; indice</a><a href="../how-it-works.html">Como funciona y como escala</a><a href="../evolution.html">Como cambio</a><a href="../whats-next.html">Que sigue</a><a href="../writeup.html">El writeup</a><a href="../meridian-quarter/face-off.html">Cara a cara</a><a href="../meridian-quarter/index.html">Campana · desde el arte</a><a href="../meridian-quarter/constraints/index.html">Campana · constraints</a><a href="../meridian-flat/index.html">Desde un JPEG plano</a><span>La prueba de las fotos</span><a href="../rollout/index.html">Un archivo por centre</a><a href="../generic66/spec.html">Los 66 tamanos</a><a href="../generic66/index.html">Los 66 · hoja de contactos</a></nav>
-<h1>La prueba de las fotos</h1>
-<p class="sub">Mismo master, mismos formatos, mismos constraints. Lo unico que cambia
- es el pixel. Si el layout se decide mirando la fotografia, tiene que moverse; si sale
- de una regla geometrica sobre una caja, no puede.</p>
+<nav class="nav"><a href="../index.html">&larr; index</a><a href="../how-it-works.html">How it works, how it scales</a><a href="../evolution.html">How it changed</a><a href="../whats-next.html">What's next</a><a href="../writeup.html">The write-up</a><a href="../meridian-quarter/face-off.html">Head to head</a><a href="../meridian-quarter/index.html">Campaign · art-directed</a><a href="../meridian-quarter/constraints/index.html">Campaign · constraints</a><a href="../meridian-flat/index.html">From a flat JPEG</a><span>The photograph swap</span><a href="../rollout/index.html">One folder per centre</a><a href="../generic66/spec.html">The 66 sizes</a><a href="../generic66/index.html">The 66 · contact sheet</a></nav>
+<h1>The photograph swap</h1>
+<p class="sub">Same master, same formats, same constraints. The only thing that changes
+ is the pixel. If the layout is decided by looking at the photograph, it has to move; if
+ it comes out of a geometric rule on a box, it cannot.</p>
 
-<div class="box">Las tres fotografias son propias. La <strong>A</strong> es la del
- master. La <strong>B</strong> es otro sujeto en formato apaisado. La <strong>C</strong>
- lleva el sujeto muy cerca, con una cara de 1045px, para forzar al recorte.
- <br><br>Con solo la foto B el criterio no se habria cumplido: un unico formato pasaba
- del umbral. Hizo falta la tercera, y se dice, porque el numero que importa es el que
- se midio, no el que convenia.</div>
+<div class="box">All three photographs are my own. <strong>A</strong> is the master's.
+ <strong>B</strong> is a different subject in landscape. <strong>C</strong> puts the
+ subject very close, with a 1045px face, to push the crop.
+ <br><br>With photograph B alone the criterion would not have been met: a single format
+ crossed the threshold. A third was needed, and that is stated, because the number that
+ counts is the one that was measured, not the one that suited.</div>
 
 <h2>Instagram feed 1:1 &middot; 1080&times;1080</h2>
-<table class="grid"><tr><th>Foto A<span>la del master</span></th><th>Foto B<span>otro sujeto, apaisada</span></th><th>Foto C<span>sujeto muy cercano, cara de 1045px</span></th></tr>
-<tr class="lab"><th colspan="3"><strong>Template + constraints</strong> <span>el texto no se mueve</span></th></tr><tr class="ims"><td><img src="thumbs/constraints_A.jpg" alt="constraints A" loading="lazy"></td><td><img src="thumbs/constraints_B.jpg" alt="constraints B" loading="lazy"></td><td><img src="thumbs/constraints_C.jpg" alt="constraints C" loading="lazy"></td></tr>
-<tr class="lab"><th colspan="3"><strong>Decision desde el arte</strong> <span>el texto sigue a la fotografia</span></th></tr><tr class="ims"><td><img src="thumbs/art_A.jpg" alt="art A" loading="lazy"></td><td><img src="thumbs/art_B.jpg" alt="art B" loading="lazy"></td><td><img src="thumbs/art_C.jpg" alt="art C" loading="lazy"></td></tr>
+<table class="grid"><tr><th>Foto A<span>the master's own</span></th><th>Foto B<span>another subject, landscape</span></th><th>Foto C<span>very close subject, 1045px face</span></th></tr>
+<tr class="lab"><th colspan="3"><strong>Template + constraints</strong> <span>the text does not move</span></th></tr><tr class="ims"><td><img src="thumbs/constraints_A.jpg" alt="constraints A" loading="lazy"></td><td><img src="thumbs/constraints_B.jpg" alt="constraints B" loading="lazy"></td><td><img src="thumbs/constraints_C.jpg" alt="constraints C" loading="lazy"></td></tr>
+<tr class="lab"><th colspan="3"><strong>Art-directed decision</strong> <span>the text follows the photograph</span></th></tr><tr class="ims"><td><img src="thumbs/art_A.jpg" alt="art A" loading="lazy"></td><td><img src="thumbs/art_B.jpg" alt="art B" loading="lazy"></td><td><img src="thumbs/art_C.jpg" alt="art C" loading="lazy"></td></tr>
 </table>
 
-<h2>Desplazamiento medido, los 5 formatos del video</h2>
-<p class="sub">Distancia que recorre la esquina del bloque de texto respecto de la foto
- A, en pixeles de lienzo, tomada del SVG entregado. Se muestra el mayor de los dos
- cambios de foto. Umbral declarado de movimiento visible: 100px.</p>
-<table class="num"><tr><th>Formato</th><th>Lienzo</th><th>Desde el arte</th>
+<h2>Measured displacement, the 5 formats in the video</h2>
+<p class="sub">How far the corner of the text block travels relative to photograph A, in
+ canvas pixels, taken from the delivered SVG. The larger of the two photograph changes is
+ shown. Declared threshold for visible movement: 100px.</p>
+<table class="num"><tr><th>Format</th><th>Canvas</th><th>Art-directed</th>
 <th>Constraints</th></tr><tr><td>Instagram 4:5</td><td class="n">1080&times;1350</td><td class="n ">19 px</td><td class="n">0 px</td></tr><tr><td>Story / Reel 9:16</td><td class="n">1080&times;1920</td><td class="n ">19 px</td><td class="n">0 px</td></tr><tr><td>Leaderboard 728x90</td><td class="n">728&times;90</td><td class="n ">0 px</td><td class="n">0 px</td></tr><tr><td>MPU 300x250</td><td class="n">300&times;250</td><td class="n ">29 px</td><td class="n">0 px</td></tr><tr><td>Instagram feed 1:1</td><td class="n">1080&times;1080</td><td class="n mv">302 px</td><td class="n">0 px</td></tr></table>
 
-<div class="verdict"><strong>1 de 5</strong> formatos mueven el
- bloque de texto mas de 100px por la via del arte.
- <strong>0 de 5</strong> por la via de constraints, con
- un desplazamiento maximo medido de <strong>0 px</strong>.</div>
+<div class="verdict"><strong>1 of 5</strong> formats move the text
+ block more than 100px by the art route.
+ <strong>0 of 5</strong> by the constraints route, with a
+ maximum measured displacement of <strong>0 px</strong>.</div>
 
-<div class="box" style="margin-top:22px"><strong>El desplazamiento resulto mal
- instrumento, y se deja a la vista en lugar de cambiarlo por el que salio bien.</strong>
- Se fijo el umbral en 100px antes de medir, y por la via del arte solo
- 1 de 5 formatos lo superan. La razon es de diseno: el motor
- tira de la composicion del master a proposito, asi que cuando la fotografia no
- obliga a mover el texto, no lo mueve. Moverlo porque si seria peor.
- <br><br>Lo que si separa a los dos mecanismos es <strong>cuantas decisiones se
- rehacen</strong>.</div>
+<div class="box" style="margin-top:22px"><strong>Displacement turned out to be a poor
+ instrument, and it is left in view rather than swapped for the one that came out
+ well.</strong> The threshold was fixed at 100px before measuring, and by the
+ art route only 1 of 5 formats cross it. The reason is by design:
+ the engine pulls towards the master's composition on purpose, so when the photograph
+ does not force the text to move, it does not move it. Moving it for the sake of moving
+ would be worse.
+ <br><br>What does separate the two mechanisms is <strong>how many decisions are
+ redone</strong>.</div>
 
-<h2>Decisiones de layout que se rehacen al cambiar la fotografia</h2>
-<table class="num"><tr><th>Decision</th><th>Desde el arte</th><th>Constraints</th></tr>
-<tr><td>recorte</td><td class="n mv">5 de 5</td><td class="n">5 de 5</td></tr><tr><td>colores</td><td class="n mv">3 de 5</td><td class="n">0 de 5</td></tr><tr><td>cuerpos</td><td class="n mv">3 de 5</td><td class="n">0 de 5</td></tr><tr><td>scrims</td><td class="n mv">4 de 5</td><td class="n">0 de 5</td></tr></table>
-<div class="verdict" style="margin-top:14px">Por la via de constraints, lo unico que
- cambia al cambiar la fotografia es <strong>que pixeles se recortan</strong>. Cuerpos,
- colores, scrims, elementos retirados y variante del logo son identicos en los
- 5 formatos. Un constraint no mira la fotografia: no tiene con que.</div>
+<h2>Layout decisions redone when the photograph changes</h2>
+<table class="num"><tr><th>Decision</th><th>Art-directed</th><th>Constraints</th></tr>
+<tr><td>crop</td><td class="n mv">5 de 5</td><td class="n">5 de 5</td></tr><tr><td>colours</td><td class="n mv">3 de 5</td><td class="n">0 de 5</td></tr><tr><td>body sizes</td><td class="n mv">3 de 5</td><td class="n">0 de 5</td></tr><tr><td>scrims</td><td class="n mv">4 de 5</td><td class="n">0 de 5</td></tr></table>
+<div class="verdict" style="margin-top:14px">By the constraints route, the only thing
+ that changes when the photograph changes is <strong>which pixels get cropped</strong>.
+ Body sizes, colours, scrims, dropped elements and logo variant are identical across all
+ 5 formats. A constraint does not look at the photograph: it has nothing to
+ look with.</div>
 </div>

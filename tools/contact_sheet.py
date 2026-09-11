@@ -51,18 +51,18 @@ def review(o):
                  if sc["alpha"] * SCRIM_ROLE_W.get(sc["for"], 0.6) >= SEV_REVIEW]
         if heavy:
             flags.append(", ".join(
-                f"scrim de {sc['alpha']:.0%} detras de {sc['for']}" for sc in heavy)
-                + ": tapa la fotografia mas de lo deseable")
+                f"scrim of {sc['alpha']:.0%} behind {sc['for']}" for sc in heavy)
+                + ": covers more of the photograph than one would like")
         elif o["scrims"]:
             mx = max(o["scrims"], key=lambda s: s["alpha"])
-            flags.append(f"{len(o['scrims'])} scrim(s), el mayor de {mx['alpha']:.0%} "
-                         f"detras de {mx['for']}: dentro de lo normal para ese rol")
+            flags.append(f"{len(o['scrims'])} scrim(s), the largest at {mx['alpha']:.0%} "
+                         f"behind {mx['for']}: within the normal range for that role")
 
     # 2. la foto no cabe en este aspecto
     if o.get("hypothesis") == "panel":
         sev = max(sev, 0.95)
-        flags.append("la fotografia no puede ir a sangre en este aspecto sin cortar "
-                     "el sujeto: degradada a panel")
+        flags.append("the photograph cannot bleed at this aspect without cutting "
+                     "the subject: degraded to a panel")
 
     # 3. resolucion insuficiente de la fuente
     if o.get("effective_ppi", 999) < 72:
@@ -76,7 +76,7 @@ def review(o):
              and b.get("achieved", 9) / max(b["required"], 1e-9) < 1.05]
     if tight:
         sev = max(sev, 0.32)
-        flags.append(f"{len(tight)} bloque(s) con menos del 5% de margen de contraste")
+        flags.append(f"{len(tight)} block(s) with under 5% contrast headroom")
 
     label = "ATENCION" if sev >= SEV_ATTN else ("REVISAR" if sev >= SEV_REVIEW else "OK")
     return label, flags
@@ -132,7 +132,7 @@ def build(d: str) -> None:
             f"{' <em>+scrim</em>' if b.get('scrimmed') else ''}</td></tr>"
             for b in o["blocks"])
         reasons = "".join(f"<li>{html.escape(r)}</li>" for r in o["reasons"])
-        note = "".join(f"<li>{html.escape(w)}</li>" for w in why) or "<li>sin banderas</li>"
+        note = "".join(f"<li>{html.escape(w)}</li>" for w in why) or "<li>no flags</li>"
         rows.append(f"""
 <article class="card {label.lower()}">
   <header>
@@ -216,9 +216,9 @@ def build(d: str) -> None:
 <h1>Spring Style Is Here</h1>
 <p class="sub">Meridian Quarter &middot; {label} &middot; {len(cards)} formatos desde un master, en una pasada</p>
 <p class="lede"><strong>{n_att} de {len(cards)} formatos necesitan tu atencion.</strong>
- El resto paso las restricciones de marca sin ayuda. Es un primer pase rough: lo
- marcado es lo que hay que revisar, no todo el lote.</p>
-<div class="infer"><strong>Lo que el sistema dedujo del master</strong> (sin leer nombres de capa):
+ The rest cleared the brand constraints unaided. It is a rough first pass: what is
+ flagged is what needs review, not the whole batch.</p>
+<div class="infer"><strong>What the system inferred from the master</strong> (without reading layer names):
 <ul>{inf}</ul></div>
 <div class="grid">{''.join(rows)}</div>
 </div>

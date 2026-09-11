@@ -118,17 +118,17 @@ TS = ('font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="9.2"
 def fig_topologia() -> str:
     """Diagrama 1: la forma del sistema."""
     return f'''
-<svg viewBox="0 0 900 420" role="img" aria-label="Topologia propuesta: portal y
- conectores entran por una API, el trabajo se parte en una cola, un pool de workers
- corre el motor, y las salidas van a almacenamiento y de ahi a entrega.">
+<svg viewBox="0 0 900 420" role="img" aria-label="Proposed topology: the portal and the connectors enter through one API,
+ the work is split across a queue, a pool of workers runs the engine, and the outputs
+ go to storage and from there to delivery.">
 {DEF_ARROW}
- <text x="4" y="12" {TS} fill="#7a5cc4">PROPUESTO &#183; NADA DE ESTO EXISTE HOY</text>
+ <text x="4" y="12" {TS} fill="#7a5cc4">PROPOSED &#183; NONE OF THIS EXISTS TODAY</text>
 
- <text x="4" y="42" {TS} fill="#5d6b66">ENTRADA</text>
+ <text x="4" y="42" {TS} fill="#5d6b66">INPUT</text>
  <rect x="4" y="52" width="150" height="34" {S_BOX}/>
- <text x="16" y="73" {TB} fill="#0E2A26">Portal web</text>
+ <text x="16" y="73" {TB} fill="#0E2A26">Web portal</text>
  <rect x="4" y="94" width="150" height="34" {S_BOX}/>
- <text x="16" y="115" {TB} fill="#0E2A26">Plugin de Figma</text>
+ <text x="16" y="115" {TB} fill="#0E2A26">Figma plugin</text>
  <rect x="4" y="136" width="150" height="34" {S_BOX}/>
  <text x="16" y="157" {TB} fill="#0E2A26">Deliverables .xlsx</text>
  <rect x="4" y="178" width="150" height="34" {S_BOX}/>
@@ -141,18 +141,18 @@ def fig_topologia() -> str:
 
  <rect x="210" y="104" width="118" height="60" {S_INK}/>
  <text x="224" y="128" {TB} fill="#fff">API + Auth</text>
- <text x="224" y="146" {T} fill="#a8bdb7">un job por campana</text>
+ <text x="224" y="146" {T} fill="#a8bdb7">one job per campaign</text>
 
  <rect x="210" y="196" width="118" height="52" {S_PRO}/>
- <text x="224" y="217" {TB} fill="#0E2A26">Agente</text>
- <text x="224" y="234" {T} fill="#5d6b66">planifica y pregunta</text>
+ <text x="224" y="217" {TB} fill="#0E2A26">Agent</text>
+ <text x="224" y="234" {T} fill="#5d6b66">plans, and asks</text>
  <path d="M269 196 L269 168" stroke="#E4572E" fill="none" marker-end="url(#ao)"/>
 
  <path d="M328 134 L378 134" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <rect x="382" y="100" width="104" height="68" {S_BOX}/>
- <text x="394" y="122" {TB} fill="#0E2A26">Cola</text>
- <text x="394" y="139" {T} fill="#5d6b66">1 tarea =</text>
- <text x="394" y="154" {T} fill="#5d6b66">1 formato</text>
+ <text x="394" y="122" {TB} fill="#0E2A26">Queue</text>
+ <text x="394" y="139" {T} fill="#5d6b66">1 task =</text>
+ <text x="394" y="154" {T} fill="#5d6b66">1 format</text>
 
  <path d="M486 118 L536 84" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <path d="M486 134 L536 134" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
@@ -167,14 +167,14 @@ def fig_topologia() -> str:
  <rect x="540" y="164" width="150" height="46" {S_BOX}/>
  <text x="552" y="183" {TB} fill="#0E2A26">worker</text>
  <text x="552" y="200" {TS} fill="#5d6b66">solve + emit</text>
- <text x="540" y="228" {TS} fill="#5d6b66">CPU. DETERMINISTA. SIN ESTADO.</text>
+ <text x="540" y="228" {TS} fill="#5d6b66">CPU. DETERMINISTIC. STATELESS.</text>
 
  <rect x="382" y="290" width="308" height="58" {S_PRO}/>
- <text x="396" y="312" {TB} fill="#0E2A26">Escena + region focal &#183; una vez por master</text>
- <text x="396" y="330" {T} fill="#5d6b66">la unica llamada al modelo. No escala con las salidas.</text>
+ <text x="396" y="312" {TB} fill="#0E2A26">Scene + focal region &#183; once per master</text>
+ <text x="396" y="330" {T} fill="#5d6b66">the only model call. It does not scale with the outputs.</text>
  <path d="M615 290 L615 240" stroke="#E4572E" fill="none"
    marker-end="url(#ao)" stroke-dasharray="4 3"/>
- <text x="432" y="272" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="9.2" letter-spacing="0.06em" fill="#E4572E">SE REUTILIZA EN CADA TAREA</text>
+ <text x="432" y="272" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="9.2" letter-spacing="0.06em" fill="#E4572E">REUSED BY EVERY TASK</text>
 
  <path d="M690 134 L740 134" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <rect x="744" y="100" width="152" height="68" {S_INK}/>
@@ -183,33 +183,33 @@ def fig_topologia() -> str:
  <text x="757" y="157" {T} fill="#a8bdb7">+ manifest</text>
 
  <rect x="744" y="196" width="152" height="86" {S_BOX}/>
- <text x="757" y="217" {TB} fill="#0E2A26">Entrega</text>
- <text x="757" y="235" {T} fill="#5d6b66">zip por centre</text>
+ <text x="757" y="217" {TB} fill="#0E2A26">Delivery</text>
+ <text x="757" y="235" {T} fill="#5d6b66">zip per centre</text>
  <text x="757" y="251" {T} fill="#5d6b66">DAM / Drive</text>
- <text x="757" y="267" {T} fill="#5d6b66">vuelta a Figma</text>
+ <text x="757" y="267" {T} fill="#5d6b66">back into Figma</text>
  <path d="M820 168 L820 196" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
 
  <rect x="4" y="290" width="360" height="58" {S_BOX}/>
- <text x="17" y="312" {TB} fill="#0E2A26">Postgres &#183; campanas, overrides, correcciones</text>
- <text x="17" y="330" {T} fill="#5d6b66">lo que el disenador corrige vuelve como dato, no como parche</text>
+ <text x="17" y="312" {TB} fill="#0E2A26">Postgres &#183; campaigns, overrides, corrections</text>
+ <text x="17" y="330" {T} fill="#5d6b66">what the designer corrects comes back as data, not as a patch</text>
 
  <path d="M184 290 L184 260 L269 260 L269 248" stroke="#7d8783" fill="none"
    marker-end="url(#a)" stroke-dasharray="4 3"/>
 
  <rect x="4" y="368" width="892" height="44" {S_BOX}/>
- <text x="17" y="389" {TB} fill="#0E2A26">Trazas &#183; una por intento de modelo</text>
- <text x="17" y="405" {T} fill="#5d6b66">tasa de fallback, latencia, coste por campana, y la respuesta entera para poder depurarla</text>
+ <text x="17" y="389" {TB} fill="#0E2A26">Traces &#183; one per model attempt</text>
+ <text x="17" y="405" {T} fill="#5d6b66">fallback rate, latency, cost per campaign, and the whole response so it can be debugged</text>
 </svg>'''
 
 
 def fig_agente() -> str:
     """Diagrama 2: el flujo agentico desde el portal."""
     return f'''
-<svg viewBox="0 0 900 330" role="img" aria-label="Flujo agentico: el brief entra, el
- agente propone un plan que una persona aprueba, el motor corre, el triage separa lo
- que necesita revision, el disenador corrige y la correccion persiste.">
+<svg viewBox="0 0 900 330" role="img" aria-label="Agentic flow: the brief comes in, the agent proposes a plan that a person
+ approves, the engine runs, triage separates what needs review, the designer corrects it
+ and the correction persists.">
 {DEF_ARROW}
- <text x="4" y="12" {TS} fill="#7a5cc4">PROPUESTO</text>
+ <text x="4" y="12" {TS} fill="#7a5cc4">PROPOSED</text>
 
  <rect x="4" y="34" width="126" height="52" {S_BOX}/>
  <text x="16" y="55" {TB} fill="#0E2A26">1 &#183; Brief</text>
@@ -217,87 +217,86 @@ def fig_agente() -> str:
 
  <path d="M130 60 L172 60" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <rect x="176" y="24" width="150" height="72" {S_PRO}/>
- <text x="188" y="45" {TB} fill="#0E2A26">2 &#183; El agente lee</text>
- <text x="188" y="62" {T} fill="#5d6b66">que formatos, que</text>
- <text x="188" y="77" {T} fill="#5d6b66">centres, que falta</text>
+ <text x="188" y="45" {TB} fill="#0E2A26">2 &#183; The agent reads</text>
+ <text x="188" y="62" {T} fill="#5d6b66">which formats, which</text>
+ <text x="188" y="77" {T} fill="#5d6b66">centres, what is missing</text>
  <text x="188" y="91" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
-   font-size="8.4" letter-spacing="0.04em" fill="#7a5cc4">Y PREGUNTA LO QUE FALTE</text>
+   font-size="8.4" letter-spacing="0.04em" fill="#7a5cc4">AND ASKS FOR WHAT IS NOT THERE</text>
 
  <path d="M326 60 L368 60" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <rect x="372" y="24" width="150" height="72" {S_INK}/>
- <text x="384" y="45" {TB} fill="#fff">3 &#183; El plan</text>
- <text x="384" y="62" {T} fill="#a8bdb7">n salidas, que master,</text>
- <text x="384" y="78" {T} fill="#a8bdb7">coste estimado</text>
+ <text x="384" y="45" {TB} fill="#fff">3 &#183; The plan</text>
+ <text x="384" y="62" {T} fill="#a8bdb7">n outputs, which master,</text>
+ <text x="384" y="78" {T} fill="#a8bdb7">estimated cost</text>
  <text x="384" y="92" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
-   font-size="8.4" letter-spacing="0.04em" fill="#E4572E">APROBADO ANTES DE CORRER</text>
+   font-size="8.4" letter-spacing="0.04em" fill="#E4572E">APPROVED BEFORE IT RUNS</text>
 
  <path d="M522 60 L564 60" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <rect x="568" y="34" width="150" height="52" {S_BOX}/>
- <text x="580" y="55" {TB} fill="#0E2A26">4 &#183; El motor</text>
- <text x="580" y="72" {T} fill="#5d6b66">determinista, en paralelo</text>
+ <text x="580" y="55" {TB} fill="#0E2A26">4 &#183; The engine</text>
+ <text x="580" y="72" {T} fill="#5d6b66">deterministic, in parallel</text>
 
  <path d="M718 60 L760 60" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <rect x="764" y="34" width="132" height="52" {S_BOX}/>
  <text x="776" y="55" {TB} fill="#0E2A26">5 &#183; Triage</text>
- <text x="776" y="72" {T} fill="#5d6b66">que abrir, y por que</text>
+ <text x="776" y="72" {T} fill="#5d6b66">which to open, and why</text>
 
  <path d="M830 86 L830 132" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <rect x="600" y="140" width="296" height="62" {S_BOX}/>
- <text x="613" y="162" {TB} fill="#0E2A26">6 &#183; El disenador ve SOLO lo marcado</text>
- <text x="613" y="180" {T} fill="#5d6b66">no las 66 piezas. Las que el motor no supo resolver,</text>
- <text x="613" y="195" {T} fill="#5d6b66">con la razon medida al lado</text>
+ <text x="613" y="162" {TB} fill="#0E2A26">6 &#183; The designer sees ONLY what is flagged</text>
+ <text x="613" y="180" {T} fill="#5d6b66">not all 66. The ones the engine could not settle,</text>
+ <text x="613" y="195" {T} fill="#5d6b66">with the measured reason beside them</text>
 
  <path d="M600 171 L470 171" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <rect x="290" y="140" width="176" height="62" {S_PRO}/>
- <text x="302" y="162" {TB} fill="#0E2A26">7 &#183; Corrige una vez</text>
- <text x="302" y="180" {T} fill="#5d6b66">mueve la region focal,</text>
- <text x="302" y="195" {T} fill="#5d6b66">reescribe una linea</text>
+ <text x="302" y="162" {TB} fill="#0E2A26">7 &#183; Corrects it once</text>
+ <text x="302" y="180" {T} fill="#5d6b66">moves the focal region,</text>
+ <text x="302" y="195" {T} fill="#5d6b66">rewrites a line</text>
 
  <path d="M290 171 L200 171 L200 246" stroke="#E4572E" fill="none"
    marker-end="url(#ao)"/>
  <rect x="4" y="240" width="470" height="66" {S_INK}/>
- <text x="17" y="262" {TB} fill="#fff">8 &#183; La correccion PERSISTE por master, y entra al golden set</text>
- <text x="17" y="280" {T} fill="#a8bdb7">la misma campana no vuelve a pedir la misma correccion, y el caso</text>
- <text x="17" y="296" {T} fill="#a8bdb7">queda como prueba de regresion. El sistema mejora por datos, no por ramas.</text>
+ <text x="17" y="262" {TB} fill="#fff">8 &#183; The correction PERSISTS per master, and enters the golden set</text>
+ <text x="17" y="280" {T} fill="#a8bdb7">the same campaign never asks for the same correction twice, and the case</text>
+ <text x="17" y="296" {T} fill="#a8bdb7">stays as a regression test. The system improves by data, not by branches.</text>
 
  <path d="M474 273 L560 273 L560 96" stroke="#E4572E" fill="none"
    marker-end="url(#ao)" stroke-dasharray="4 3"/>
- <text x="580" y="262" {TS} fill="#E4572E">REALIMENTA EL PLAN</text>
- <text x="580" y="278" {T} fill="#5d6b66">y el motor de la siguiente</text>
- <text x="580" y="293" {T} fill="#5d6b66">campana de esa marca</text>
+ <text x="580" y="262" {TS} fill="#E4572E">FEEDS BACK INTO THE PLAN</text>
+ <text x="580" y="278" {T} fill="#5d6b66">and into the engine for that</text>
+ <text x="580" y="293" {T} fill="#5d6b66">brand&rsquo;s next campaign</text>
 </svg>'''
 
 
 def fig_adaptadores() -> str:
     """Diagrama 3: por que Scene es el seam, y que se conecta a que."""
     return f'''
-<svg viewBox="0 0 900 340" role="img" aria-label="Adaptadores de entrada y de salida
- contra un unico modelo Scene. Dos entradas existen hoy, la de Figma es la siguiente,
- y las demas son mas adaptadores contra el mismo nucleo.">
+<svg viewBox="0 0 900 340" role="img" aria-label="Input and output adapters against a single Scene model. Three inputs exist
+ today, the Figma one is next, and the rest are further adapters against the same core.">
 {DEF_ARROW}
- <text x="4" y="14" {TS} fill="#5d6b66">ENTRADAS</text>
- <text x="392" y="14" {TS} fill="#5d6b66">NUCLEO</text>
- <text x="700" y="14" {TS} fill="#5d6b66">SALIDAS</text>
+ <text x="4" y="14" {TS} fill="#5d6b66">INPUTS</text>
+ <text x="392" y="14" {TS} fill="#5d6b66">CORE</text>
+ <text x="700" y="14" {TS} fill="#5d6b66">OUTPUTS</text>
 
  <rect x="4" y="28" width="180" height="34" {S_BOX}/>
- <text x="16" y="49" {TB} fill="#0E2A26">SVG con raster</text>
+ <text x="16" y="49" {TB} fill="#0E2A26">SVG with a raster</text>
  <rect x="188" y="34" width="46" height="22" fill="#0E2A26" rx="4"/>
- <text x="196" y="49" {TS} fill="#fff">HOY</text>
+ <text x="196" y="49" {TS} fill="#fff">TODAY</text>
 
  <rect x="4" y="70" width="180" height="34" {S_BOX}/>
- <text x="16" y="91" {TB} fill="#0E2A26">Raster plano</text>
+ <text x="16" y="91" {TB} fill="#0E2A26">Flat raster</text>
  <rect x="188" y="76" width="46" height="22" fill="#0E2A26" rx="4"/>
- <text x="196" y="91" {TS} fill="#fff">HOY</text>
+ <text x="196" y="91" {TS} fill="#fff">TODAY</text>
 
  <rect x="4" y="112" width="180" height="34" {S_BOX}/>
- <text x="16" y="133" {TB} fill="#0E2A26">SVG que emitio el motor</text>
+ <text x="16" y="133" {TB} fill="#0E2A26">SVG this engine emitted</text>
  <rect x="188" y="118" width="46" height="22" fill="#0E2A26" rx="4"/>
- <text x="196" y="133" {TS} fill="#fff">HOY</text>
+ <text x="196" y="133" {TS} fill="#fff">TODAY</text>
 
  <rect x="4" y="154" width="180" height="34" fill="#f6f2ff" stroke="#E4572E" rx="7"/>
- <text x="16" y="175" {TB} fill="#0E2A26">Componente de Figma</text>
+ <text x="16" y="175" {TB} fill="#0E2A26">Figma component</text>
  <rect x="188" y="160" width="86" height="22" fill="#E4572E" rx="4"/>
- <text x="196" y="175" {TS} fill="#fff">EL SIGUIENTE</text>
+ <text x="196" y="175" {TS} fill="#fff">UP NEXT</text>
 
  <rect x="4" y="196" width="180" height="34" {S_PRO}/>
  <text x="16" y="217" {TB} fill="#0E2A26">IDML / InDesign</text>
@@ -319,15 +318,15 @@ def fig_adaptadores() -> str:
 
  <rect x="364" y="120" width="164" height="110" {S_INK}/>
  <text x="378" y="146" {TB} fill="#fff" font-size="14">Scene</text>
- <text x="378" y="167" {T} fill="#a8bdb7">bloques con su rol,</text>
- <text x="378" y="183" {T} fill="#a8bdb7">jerarquia, lockup,</text>
- <text x="378" y="199" {T} fill="#a8bdb7">fotografia</text>
- <text x="378" y="219" {TS} fill="#E4572E">EL UNICO SEAM</text>
+ <text x="378" y="167" {T} fill="#a8bdb7">blocks with their role,</text>
+ <text x="378" y="183" {T} fill="#a8bdb7">hierarchy, lockup,</text>
+ <text x="378" y="199" {T} fill="#a8bdb7">photograph</text>
+ <text x="378" y="219" {TS} fill="#E4572E">THE ONLY SEAM</text>
 
  <path d="M446 230 L446 268" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <rect x="364" y="272" width="164" height="42" {S_BOX}/>
  <text x="378" y="291" {TB} fill="#0E2A26">solve + emit</text>
- <text x="378" y="307" {TS} fill="#5d6b66">DETERMINISTA</text>
+ <text x="378" y="307" {TS} fill="#5d6b66">DETERMINISTIC</text>
 
  <path d="M528 175 L616 78" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <path d="M528 175 L616 133" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
@@ -339,24 +338,24 @@ def fig_adaptadores() -> str:
    stroke-dasharray="4 3"/>
 
  <rect x="620" y="56" width="180" height="34" {S_BOX}/>
- <text x="632" y="77" {TB} fill="#0E2A26">SVG editable</text>
+ <text x="632" y="77" {TB} fill="#0E2A26">Editable SVG</text>
  <rect x="804" y="62" width="46" height="22" fill="#0E2A26" rx="4"/>
- <text x="812" y="77" {TS} fill="#fff">HOY</text>
+ <text x="812" y="77" {TS} fill="#fff">TODAY</text>
 
  <rect x="620" y="112" width="180" height="34" {S_BOX}/>
- <text x="632" y="133" {TB} fill="#0E2A26">Carpeta por centre</text>
+ <text x="632" y="133" {TB} fill="#0E2A26">Folder per centre</text>
  <rect x="804" y="118" width="46" height="22" fill="#0E2A26" rx="4"/>
- <text x="812" y="133" {TS} fill="#fff">HOY</text>
+ <text x="812" y="133" {TS} fill="#fff">TODAY</text>
 
  <rect x="620" y="168" width="180" height="34" {S_PRO}/>
  <text x="632" y="189" {TB} fill="#0E2A26">PNG / JPG / PDF</text>
  <rect x="620" y="224" width="180" height="34" {S_PRO}/>
- <text x="632" y="245" {TB} fill="#0E2A26">Vuelta a Figma</text>
+ <text x="632" y="245" {TB} fill="#0E2A26">Back into Figma</text>
  <rect x="620" y="280" width="180" height="34" {S_PRO}/>
- <text x="632" y="301" {TB} fill="#0E2A26">DAM / plataformas de medios</text>
+ <text x="632" y="301" {TB} fill="#0E2A26">DAM / media platforms</text>
 
- <text x="364" y="30" {T} fill="#5d6b66">Anadir una entrada es un adaptador.</text>
- <text x="364" y="46" {T} fill="#5d6b66">No se toca la logica de decision.</text>
+ <text x="364" y="30" {T} fill="#5d6b66">Adding an input is an adapter.</text>
+ <text x="364" y="46" {T} fill="#5d6b66">The decision logic is not touched.</text>
 </svg>'''
 
 
@@ -364,56 +363,56 @@ def fig_escala(med: dict) -> str:
     """Diagrama 4: donde escala el coste y donde no."""
     n66 = med.get("n66", 66)
     return f'''
-<svg viewBox="0 0 900 250" role="img" aria-label="El coste del modelo escala con los
- masters y no con las salidas: una campana de 66 tamanos hace una llamada, no 66.">
+<svg viewBox="0 0 900 250" role="img" aria-label="Model cost scales with masters and not with outputs: a campaign of 66 sizes
+ makes one call, not 66.">
 {DEF_ARROW}
- <text x="4" y="14" {TS} fill="#0E2A26">MEDIDO HOY</text>
+ <text x="4" y="14" {TS} fill="#0E2A26">MEASURED TODAY</text>
 
  <rect x="4" y="30" width="150" height="46" {S_BOX}/>
  <text x="16" y="50" {TB} fill="#0E2A26">1 master</text>
- <text x="16" y="67" {T} fill="#5d6b66">1 fotografia</text>
+ <text x="16" y="67" {T} fill="#5d6b66">1 photograph</text>
 
  <path d="M154 53 L206 53" stroke="#E4572E" fill="none" marker-end="url(#ao)"/>
  <rect x="210" y="24" width="176" height="58" fill="#fff" stroke="#E4572E" rx="7"/>
- <text x="223" y="45" {TB} fill="#0E2A26">1 a 2 llamadas al modelo</text>
- <text x="223" y="62" {T} fill="#5d6b66">la escena, y la region focal</text>
- <text x="223" y="77" {T} fill="#5d6b66">solo si las cascadas dudan</text>
+ <text x="223" y="45" {TB} fill="#0E2A26">1 to 2 model calls</text>
+ <text x="223" y="62" {T} fill="#5d6b66">the scene, and the focal region</text>
+ <text x="223" y="77" {T} fill="#5d6b66">only if the cascades are unsure</text>
 
  <path d="M386 53 L438 53" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <rect x="442" y="24" width="176" height="58" {S_INK}/>
- <text x="455" y="45" {TB} fill="#fff">Scene, una vez</text>
- <text x="455" y="63" {T} fill="#a8bdb7">se reutiliza para todas</text>
- <text x="455" y="78" {T} fill="#a8bdb7">las salidas</text>
+ <text x="455" y="45" {TB} fill="#fff">Scene, once</text>
+ <text x="455" y="63" {T} fill="#a8bdb7">reused for every</text>
+ <text x="455" y="78" {T} fill="#a8bdb7">one of the outputs</text>
 
  <path d="M618 40 L668 30" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <path d="M618 53 L668 53" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
  <path d="M618 66 L668 76" stroke="#7d8783" fill="none" marker-end="url(#a)"/>
- <text x="674" y="26" {T} fill="#5d6b66">formato 1</text>
- <text x="674" y="46" {T} fill="#5d6b66">formato 2</text>
+ <text x="674" y="26" {T} fill="#5d6b66">format 1</text>
+ <text x="674" y="46" {T} fill="#5d6b66">format 2</text>
  <text x="674" y="60" {T} fill="#5d6b66">&#8230;</text>
- <text x="674" y="80" {T} fill="#5d6b66">formato {n66}</text>
- <text x="674" y="100" {TS} fill="#0E2A26">CERO LLAMADAS MAS</text>
+ <text x="674" y="80" {T} fill="#5d6b66">format {n66}</text>
+ <text x="674" y="100" {TS} fill="#0E2A26">ZERO FURTHER CALLS</text>
 
  <line x1="4" y1="124" x2="896" y2="124" stroke="#d8d3c8"/>
 
- <text x="4" y="148" {TS} fill="#5d6b66">Y POR ESO LA CONCURRENCIA ES BARATA</text>
+ <text x="4" y="148" {TS} fill="#5d6b66">AND THAT IS WHY CONCURRENCY IS CHEAP</text>
  <rect x="4" y="160" width="290" height="76" {S_BOX}/>
- <text x="17" y="181" {TB} fill="#0E2A26">El coste que escala con las salidas</text>
- <text x="17" y="199" {T} fill="#5d6b66">es CPU determinista: busqueda densa,</text>
- <text x="17" y="215" {T} fill="#5d6b66">metricas de fuente, composicion sRGB.</text>
- <text x="17" y="230" {T} fill="#5d6b66">Sin estado, sin red, sin GPU.</text>
+ <text x="17" y="181" {TB} fill="#0E2A26">The cost that scales with outputs</text>
+ <text x="17" y="199" {T} fill="#5d6b66">is deterministic CPU: dense search,</text>
+ <text x="17" y="215" {T} fill="#5d6b66">font metrics, sRGB compositing.</text>
+ <text x="17" y="230" {T} fill="#5d6b66">Stateless, no network, no GPU.</text>
 
  <rect x="304" y="160" width="290" height="76" {S_PRO}/>
- <text x="317" y="181" {TB} fill="#0E2A26">Asi que se parte por formato</text>
- <text x="317" y="199" {T} fill="#5d6b66">1 tarea = 1 formato. Un pool de N</text>
- <text x="317" y="215" {T} fill="#5d6b66">workers divide el tiempo por N sin</text>
- <text x="317" y="230" {T} fill="#5d6b66">tocar el gasto de modelo.</text>
+ <text x="317" y="181" {TB} fill="#0E2A26">So the work splits by format</text>
+ <text x="317" y="199" {T} fill="#5d6b66">1 task = 1 format. A pool of N</text>
+ <text x="317" y="215" {T} fill="#5d6b66">workers divides wall-clock by N without</text>
+ <text x="317" y="230" {T} fill="#5d6b66">touching model spend.</text>
 
  <rect x="604" y="160" width="292" height="76" fill="#fff" stroke="#E4572E" rx="7"/>
- <text x="617" y="181" {TB} fill="#0E2A26">Lo que hay que vigilar</text>
- <text x="617" y="199" {T} fill="#5d6b66">no es el modelo: es la MEMORIA. Un</text>
- <text x="617" y="215" {T} fill="#5d6b66">raster de 3840x2160 descomprimido son</text>
- <text x="617" y="230" {T} fill="#5d6b66">cientos de MB por worker.</text>
+ <text x="617" y="181" {TB} fill="#0E2A26">What to actually watch</text>
+ <text x="617" y="199" {T} fill="#5d6b66">is not the model: it is MEMORY. A</text>
+ <text x="617" y="215" {T} fill="#5d6b66">3840x2160 raster decompressed is</text>
+ <text x="617" y="230" {T} fill="#5d6b66">hundreds of MB per worker.</text>
 </svg>'''
 
 

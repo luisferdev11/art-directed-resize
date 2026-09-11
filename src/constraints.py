@@ -94,7 +94,7 @@ TEMPLATES: List[Dict[str, Any]] = [
         ],
         "scrims": [
             {"rect": (0.0, 0.0, 1120.0, 600.0), "h": LEFT, "v": TOP,
-             "fill": "#000000", "alpha": 0.42, "for": "pila"},
+             "fill": "#000000", "alpha": 0.42, "for": "stack"},
             {"rect": (0.0, 976.0, 1920.0, 104.0), "h": LEFT_RIGHT, "v": BOTTOM,
              "fill": "#000000", "alpha": 0.35, "for": "legal"},
         ],
@@ -115,7 +115,7 @@ TEMPLATES: List[Dict[str, Any]] = [
         ],
         "scrims": [
             {"rect": (0.0, 0.0, 790.0, 470.0), "h": LEFT, "v": TOP,
-             "fill": "#000000", "alpha": 0.42, "for": "pila"},
+             "fill": "#000000", "alpha": 0.42, "for": "stack"},
             {"rect": (0.0, 992.0, 1080.0, 88.0), "h": LEFT_RIGHT, "v": BOTTOM,
              "fill": "#000000", "alpha": 0.35, "for": "legal"},
         ],
@@ -155,11 +155,11 @@ def pick_template(fmt: Format) -> Tuple[Dict[str, Any], str]:
     scored.sort(key=lambda s: s[0])
     d, tpl = scored[0]
     tw, th = tpl["canvas"]
-    why = (f"template '{tpl['name']}' ({tw:.0f}x{th:.0f}) elegido por proximidad de "
+    why = (f"template '{tpl['name']}' ({tw:.0f}x{th:.0f}) chosen by size proximity: "
            f"tamano: distancia {d:.2f} frente a "
            + ", ".join(f"{t['name']} {dd:.2f}" for dd, t in scored[1:]) + ".")
     if d < 1e-9:
-        why += " El objetivo coincide con el template: este es su mejor caso."
+        why += " The target matches the template: this is its best case."
     return tpl, why
 
 
@@ -242,9 +242,9 @@ def _breaches_natively(tpl: Dict[str, Any], el: Dict[str, Any], edge: str) -> bo
     nx, ny, nw, nh = nat.safe_box()
     fit = _lay_text(el, el["rect"])
     r = (el["rect"][0], el["rect"][1], fit["width"], fit["height"])
-    return {"izquierda": r[0] - nx, "arriba": r[1] - ny,
-            "derecha": (nx + nw) - (r[0] + r[2]),
-            "abajo": (ny + nh) - (r[1] + r[3])}[edge] < -TOL
+    return {"left": r[0] - nx, "top": r[1] - ny,
+            "right": (nx + nw) - (r[0] + r[2]),
+            "bottom": (ny + nh) - (r[1] + r[3])}[edge] < -TOL
 
 
 # ------------------------------------------------------------------ el backend
@@ -267,8 +267,8 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
         cw, ch = src_w, src_w / (W / H)
     crect = ((src_w - cw) / 2.0, (src_h - ch) / 2.0, cw, ch)
     reasons.append(
-        f"foto: recorte al CENTRO de {cw:.0f}x{ch:.0f}px para llenar el marco. "
-        f"El constraint no sabe donde esta el sujeto: recorta por geometria")
+        f"photo: CENTRE crop of {cw:.0f}x{ch:.0f}px to fill the frame. "
+        f"The constraint does not know where the subject is: it crops by geometry")
     ppi = vision.effective_ppi(src_w, cw / src_w, W)
     if ppi < 72.0:
         reasons.append(f"PPI efectivo {ppi:.0f} bajo 72 nominal")
@@ -332,37 +332,37 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
                        "scrimmed": False, "achieved": got if inside else 0.0,
                        "measurable": inside})
         if el["size"] < brand.MIN_SIZE.get(el["role"], 0.0) - 1e-9:
-            violations.append(f"{el['role']}: {el['size']:g}px, bajo su piso de "
+            violations.append(f"{el['role']}: {el['size']:g}px, under its floor of "
                               f"legibilidad de {brand.MIN_SIZE[el['role']]:g}px")
         if not inside:
             violations.append(
-                f"{el['role']}: se sale del lienzo. La caja quedo en "
+                f"{el['role']}: it falls outside the canvas. The box landed at "
                 f"({ink[0]:.0f},{ink[1]:.0f}) {ink[2]:.0f}x{ink[3]:.0f} sobre "
-                f"{W:.0f}x{H:.0f}. El constraint reposiciona; no reajusta el cuerpo")
+                f"{W:.0f}x{H:.0f}. The constraint repositions; it does not refit the body size")
         # Area segura del formato. Un constraint de offset fijo conserva el margen
         # que tenia en el template y NUNCA lo confronta con los insets declarados
         # del objetivo. En 9:16 eso mete el legal bajo la UI de la plataforma.
         else:
-            m = {"izquierda": ink[0] - sbx, "arriba": ink[1] - sby,
-                 "derecha": (sbx + sbw) - (ink[0] + ink[2]),
-                 "abajo": (sby + sbh) - (ink[1] + ink[3])}
+            m = {"left": ink[0] - sbx, "top": ink[1] - sby,
+                 "right": (sbx + sbw) - (ink[0] + ink[2]),
+                 "bottom": (sby + sbh) - (ink[1] + ink[3])}
             worst = min(m, key=m.get)
             if m[worst] < -TOL:
-                inset = {"izquierda": sbx, "arriba": sby,
-                         "derecha": W - sbx - sbw, "abajo": H - sby - sbh}[worst]
+                inset = {"left": sbx, "top": sby,
+                         "right": W - sbx - sbw, "bottom": H - sby - sbh}[worst]
                 have = inset + m[worst]
-                txt = (f"{el['role']}: invade el area segura por {worst}. Queda a "
-                       f"{have:.0f}px del borde y el formato declara {inset:.0f}px")
+                txt = (f"{el['role']}: it invades the safe area by {worst}. It sits "
+                       f"{have:.0f}px from the edge and the format declares {inset:.0f}px")
                 if _breaches_natively(tpl, el, worst):
-                    inherited.append(txt + ". Ya ocurria en el lienzo del propio "
+                    inherited.append(txt + ". It already happened on the template's own "
                                      "template: viene del autorado del master, no del resize")
                 else:
-                    violations.append(txt + ". El margen se hereda del template y no se "
+                    violations.append(txt + ". The margin is inherited from the template and is not "
                                       "vuelve a comprobar contra los insets del objetivo")
         if inside and got < need - 1e-9:
             violations.append(
                 f"{el['role']}: contraste medido {got:.2f}:1 contra {need:.1f} exigido. "
-                f"El color viene autoreado en el template y no se remide contra la "
+                f"The colour is authored into the template and is not re-measured against the "
                 f"fotografia nueva")
 
     for i in range(len(blocks)):
@@ -384,12 +384,12 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
         reasons.append(f"lockup por constraint {lg['h']}+{lg['v']}: {lr[2]:.0f}px de "
                        f"ancho en ({lr[0]:.0f},{lr[1]:.0f})")
         if lr[0] < -0.5 or lr[0] + lr[2] > W + 0.5 or lr[1] + lr[3] > H + 0.5:
-            violations.append(f"lockup: se sale del lienzo a {lr[2]:.0f}px de ancho "
-                              f"sobre {W:.0f}px. RIGHT+TOP no reescala")
+            violations.append(f"lockup: it falls outside the canvas at {lr[2]:.0f}px wide "
+                              f"against {W:.0f}px. RIGHT+TOP does not rescale")
         wm = scene.lockup.wordmark_size * k
         if scene.lockup.wordmark_size and wm < brand.LOGO_WORDMARK_MIN:
-            violations.append(f"lockup: el wordmark queda a {wm:.1f}px, bajo su piso de "
-                              f"{brand.LOGO_WORDMARK_MIN:g}px. No hay degradacion a marca sola")
+            violations.append(f"lockup: the wordmark lands at {wm:.1f}px, under its floor of "
+                              f"{brand.LOGO_WORDMARK_MIN:g}px. There is no degradation to mark-only")
 
     stack = [b["rect"] for b in blocks]
     if stack:
@@ -400,12 +400,12 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
                         min(bb[2], W), min(bb[3], H)))
     else:
         cost = 0.0
-    reasons.append(f"coste del emplazamiento sobre el MISMO campo de costo: "
-                   f"{cost:.3f} en escala 0-1. No se busco: es donde cayo la caja")
+    reasons.append(f"placement cost over the SAME cost field: "
+                   f"{cost:.3f} on a 0-1 scale. It was not searched for: it is where the box landed")
     for v in violations:
         reasons.append("violacion -> " + v)
     for v in inherited:
-        reasons.append("heredado del master -> " + v)
+        reasons.append("inherited from the master -> " + v)
 
     return {"format": fmt, "failed": False, "crop_px": crect, "crop_diag": {},
             "ppi": ppi, "blocks": blocks, "scrims": scrims, "lockup": lock,

@@ -12,30 +12,30 @@ from typing import List, Tuple
 # Cada entrega, relativa a out/spring-campaign/. El orden es el del argumento:
 # primero el cara a cara, que es la pieza central.
 SHEETS: List[Tuple[str, str, str]] = [
-    ("how-it-works.html", "Como funciona y como escala",
-     "arquitectura: hoy y a produccion, con lo propuesto marcado"),
-    ("evolution.html", "Como cambio",
-     "ocho pasos, cada uno una falla que se midio primero"),
-    ("whats-next.html", "Que sigue",
-     "el plan a producto: infra, agente, escala, datos y despliegue"),
-    ("writeup.html", "El writeup",
-     "notas de arquitectura sobre construir con modelos"),
-    ("meridian-quarter/face-off.html", "Cara a cara",
-     "constraints contra decision desde el arte, 8 pares"),
-    ("meridian-quarter/index.html", "Campana · desde el arte",
-     "nuestro motor sobre el master SVG, 8 formatos"),
-    ("meridian-quarter/constraints/index.html", "Campana · constraints",
-     "el mecanismo rival, en solitario"),
-    ("meridian-flat/index.html", "Desde un JPEG plano",
-     "sin capas ni nodos: la escena la lee un modelo"),
-    ("swap/index.html", "La prueba de las fotos",
-     "mismo master, tres fotos: quien mueve el layout y quien no"),
-    ("rollout/index.html", "Un archivo por centre",
-     "tres centres, tres carpetas autocontenidas"),
-    ("generic66/spec.html", "Los 66 tamanos",
-     "un set de medios entero, sin autorear plantillas"),
-    ("generic66/index.html", "Los 66 · hoja de contactos",
-     "las 66 piezas con su triage"),
+    ("how-it-works.html", "How it works, how it scales",
+     "architecture: today and in production, with the proposed parts marked"),
+    ("evolution.html", "How it changed",
+     "eight steps, each one a failure that was measured first"),
+    ("whats-next.html", "What's next",
+     "the plan to a product: infra, agent, scale, data and deployment"),
+    ("writeup.html", "The write-up",
+     "architecture notes on building with models"),
+    ("meridian-quarter/face-off.html", "Head to head",
+     "constraints against art-directed decisions, 8 pairs"),
+    ("meridian-quarter/index.html", "Campaign · art-directed",
+     "this engine on the SVG master, 8 formats"),
+    ("meridian-quarter/constraints/index.html", "Campaign · constraints",
+     "the rival mechanism, on its own"),
+    ("meridian-flat/index.html", "From a flat JPEG",
+     "no layers, no nodes: a model reads the scene"),
+    ("swap/index.html", "The photograph swap",
+     "same master, three photographs: which mechanism moves, and which does not"),
+    ("rollout/index.html", "One folder per centre",
+     "three centres, three self-contained folders"),
+    ("generic66/spec.html", "The 66 sizes",
+     "a whole media spec, with no templates authored"),
+    ("generic66/index.html", "The 66 · contact sheet",
+     "all 66 pieces with their triage"),
 ]
 
 CSS = """
@@ -61,7 +61,7 @@ def render(d: str, current: str) -> str:
     root = _root(d)
     here = os.path.abspath(d)
     out = [f'<a href="{os.path.relpath(os.path.join(root, "index.html"), here)}">'
-           f'&larr; indice</a>']
+           f'&larr; index</a>']
     for rel, label, _ in SHEETS:
         p = os.path.join(root, rel)
         if not os.path.exists(p) and rel != current:

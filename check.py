@@ -144,8 +144,8 @@ def check_dir(d: str) -> int:
     with open(os.path.join(d, "manifest.json")) as fh:
         man = json.load(fh)
     fails = 0
-    print(f"{'formato':16} {'lineas':>6} {'solape':>7} {'area segura':>12} "
-          f"{'piso':>6} {'logo':>6} {'aspecto img':>12} {'contraste':>10}")
+    print(f"{'format':16} {'lines':>6} {'overlap':>8} {'safe area':>11} "
+          f"{'floor':>6} {'logo':>6} {'img aspect':>11} {'contrast':>10}")
     for o in man["outputs"]:
         if o.get("failed"):
             continue
@@ -163,7 +163,7 @@ def check_dir(d: str) -> int:
         ov = sum(1 for i in range(len(boxes)) for j in range(i + 1, len(boxes))
                  if _ovl(boxes[i], boxes[j]))
         if ov:
-            bad.append(f"{ov} solapes")
+            bad.append(f"{ov} overlaps")
 
         # 2. todo dentro del area segura
         out_safe = [b for b in boxes
@@ -180,7 +180,7 @@ def check_dir(d: str) -> int:
             if role and b["size"] < brand.MIN_SIZE[role] - 0.01:
                 floor_bad.append(f"{role}@{b['size']:g}")
         if floor_bad:
-            bad.append("bajo el piso: " + ",".join(floor_bad))
+            bad.append("under the floor: " + ",".join(floor_bad))
 
         # 4. el logo escala uniformemente
         logo_ok = True
@@ -192,7 +192,7 @@ def check_dir(d: str) -> int:
                     if len(parts) == 2 and abs(float(parts[0]) - float(parts[1])) > 1e-6:
                         logo_ok = False
         if not logo_ok:
-            bad.append("logo con escala no uniforme")
+            bad.append("logo scaled non-uniformly")
 
         # 5. la caja de la imagen preserva el aspecto de la fuente
         img = root.find(".//{%s}image" % SVG)
@@ -208,7 +208,7 @@ def check_dir(d: str) -> int:
                 box = iw / max(ih, 1e-9)
                 asp_ok = abs(src - box) / src < 0.005
         if not asp_ok:
-            bad.append("la caja de la imagen no conserva el aspecto")
+            bad.append("the image box does not preserve the aspect ratio")
 
         # 6. contraste REAL de cada linea contra el fondo que se entrega
         lum = vision.luminance(_backdrop(root, float(fmt.w), float(fmt.h)))
@@ -220,7 +220,7 @@ def check_dir(d: str) -> int:
             if got < need - 0.05:
                 low.append(f"{b['role']}@{got:.2f}<{need:.1f}")
         if low:
-            bad.append("contraste bajo: " + ",".join(low))
+            bad.append("low contrast: " + ",".join(low))
 
         ok = not bad
         fails += 0 if ok else 1
@@ -233,9 +233,9 @@ def check_dir(d: str) -> int:
 
     print()
     if fails:
-        print(f"FALLA: {fails} de {len(man['outputs'])} formatos con problemas")
+        print(f"FAIL: {fails} of {len(man['outputs'])} formats with problems")
     else:
-        print(f"VERDE: {len(man['outputs'])} formatos pasan el re-parseo")
+        print(f"GREEN: {len(man['outputs'])} formats pass the re-parse")
     return 1 if fails else 0
 
 

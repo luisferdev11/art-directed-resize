@@ -26,12 +26,12 @@ from formats import BY_KEY, VIDEO_ORDER
 # Lo que hacen mejor que nosotros. Va arriba y sin adornos: reconocerlo es lo que
 # hace creible el resto. Cada linea con su fuente, competencia.md §3.
 DO_BETTER = [
-    ("Round-trip real con Figma via plugin, con estado de conexion visible", "ui"),
-    ("Ingesta de deliverables list en .xlsx y .csv, con mapeo reutilizado entre trabajos", "ui"),
-    ("El plan se aprueba antes de ejecutar, con mapeo y conteo de salidas a la vista", "ui"),
-    ("Lote de 1340 assets con nomenclatura y agrupacion por vendor", "ui"),
+    ("A real round trip with Figma through a plugin, with the connection state visible", "ui"),
+    ("Ingests a deliverables list in .xlsx and .csv, with the mapping reused between jobs", "ui"),
+    ("The plan is approved before it runs, with the mapping and the output count in view", "ui"),
+    ("A batch of 1,340 assets with naming and grouping by vendor", "ui"),
     ("Export a PNG, JPG, PDF, MP4 y GIF, mas animados via Figma Motion", "sitio"),
-    ("Salida editable en capas dentro de Figma", "sitio / ui"),
+    ("Output editable in layers inside Figma", "sitio / ui"),
 ]
 
 # Las dos unicas afirmaciones sobre su mecanismo que sostiene esta pagina, ambas
@@ -96,18 +96,18 @@ def _cell(o, base, is_c):
     """Una columna. Para constraints, las violaciones medidas; para el nuestro, el
     triage de la hoja de contactos. Los dos con sus numeros a la vista."""
     if o is None:
-        return '<div class="col"><div class="body">sin salida</div></div>'
+        return '<div class="col"><div class="body">no output</div></div>'
     if is_c:
         vs = o.get("violations") or []
         inh = o.get("inherited") or []
         head = (f'<span class="v">{len(vs)} violacion(es)</span>' if vs
-                else '<span class="ok">sin violaciones</span>')
+                else '<span class="ok">no violations</span>')
         detail = ("".join(f"<li>{html.escape(v)}</li>" for v in vs)
-                  if vs else "<li>el resize por constraints resuelve este formato</li>")
+                  if vs else "<li>the constraints resize handles this format</li>")
         # Lo heredado se lista aparte y NO cuenta: es un defecto del autorado del
         # master, no del mecanismo. Mezclarlo seria inflar el marcador.
         detail += "".join(
-            f'<li style="opacity:.6">heredado del master, no del mecanismo: '
+            f'<li style="opacity:.6">inherited from the master, not from the mechanism: '
             f'{html.escape(v)}</li>' for v in inh)
         title = f"Template + constraints &middot; <em>{html.escape(o.get('template',''))}</em>"
     else:
@@ -115,14 +115,14 @@ def _cell(o, base, is_c):
         head = (f'<span class="ok">{label}</span>' if label == "OK"
                 else f'<span class="v">{label}</span>')
         detail = ("".join(f"<li>{html.escape(w)}</li>" for w in why)
-                  or "<li>sin banderas</li>")
-        title = "Decision desde el arte"
+                  or "<li>no flags</li>")
+        title = "Art-directed decision"
     # Un bloque que quedo fuera del lienzo no tiene contraste que medir. Escribir
     # 0.00 ahi seria reportar una medicion que no se hizo.
     rows = "".join(
         f"<tr><td>{html.escape(b['role'])}</td><td>{b['size']:g}px</td>"
         f"<td>{len(b['lines'])} ln</td><td>"
-        + ("<span class='dim'>n/d, fuera del lienzo</span>"
+        + ("<span class='dim'>n/a, outside the canvas</span>"
            if b.get("measurable") is False else
            f"{b['achieved']:.2f} / {b['required']:.1f}"
            f"{' +scrim' if b.get('scrimmed') else ''}")
@@ -171,7 +171,7 @@ def build(d: str) -> None:
     <span class="dim">{fmt.w}&times;{fmt.h}</span></header>
   <div class="cols">{_cell(c, "constraints/", True)}{_cell(a, "", False)}</div>
   <div class="score">
-    <span>coste del emplazamiento sobre el mismo campo:
+    <span>placement cost over the same field:
       constraints <strong>{cc:.3f}</strong> &middot; arte <strong>{ac:.3f}</strong></span>
     <span>ppi: {c['effective_ppi']:.0f} &middot; {a['effective_ppi']:.0f}</span>
   </div>
@@ -185,58 +185,59 @@ def build(d: str) -> None:
                      for q, s in QUOTES)
     doc = f"""<!doctype html>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cara a cara &middot; constraints contra decision desde el arte</title>
+<title>Head to head &middot; constraints against an art-directed decision</title>
 <style>{CSS}</style>
 <div class="wrap">
 {nav.render(d, "meridian-quarter/face-off.html")}
-<h1>Constraints contra decision desde el arte</h1>
-<p class="sub">Mismo master, mismos tamanos, mismo emisor, mismo validador.
- Lo unico que cambia es el backend de layout.</p>
+<h1>Constraints against an art-directed decision</h1>
+<p class="sub">Same master, same sizes, same emitter, same validator.
+ The only thing that changes is the layout backend.</p>
 
 <div class="box warn">
- <h3>Que es esto, y que no</h3>
- <p style="margin:0">La columna izquierda <strong>no es Unicorn corriendo</strong>. Es una
- implementacion propia de un resize por template mas constraints, escrita para ser
- comparable bajo condiciones identicas. Lo que se compara es el <strong>mecanismo</strong>,
- y las dos unicas afirmaciones que esta pagina hace sobre el salen de su propia interfaz:</p>
+ <h3>What this is, and what it is not</h3>
+ <p style="margin:0">The left-hand column <strong>is not Unicorn running</strong>. It is my
+ own implementation of a template-plus-constraints resize, written to be comparable under
+ identical conditions. What is being compared is the <strong>mechanism</strong>, and the
+ only two claims this page makes about theirs come from their own interface:</p>
  {quotes}
- <p style="margin:8px 0 0">Ninguna cifra de rendimiento suya aparece aqui. El analisis
- completo, con fuente por linea, esta en <code>competencia.md</code>.</p>
+ <p style="margin:8px 0 0">None of their performance figures appear here. The full
+ analysis, sourced line by line, lives in <code>competencia.md</code>.</p>
 </div>
 
 <div class="box">
- <h3>Lo que su producto hace mejor que este prototipo</h3>
+ <h3>What their product does better than this prototype</h3>
  <ul>{better}</ul>
- <p style="margin:8px 0 0;opacity:.75">Este prototipo no es un producto: es un motor de
- layout. No orquesta, no agrupa, no nombra, no exporta a video y no vuelve a Figma por
- plugin. La tesis no es que ellos sobren, es que <strong>la decision de layout la toma
- hoy un constraint, y un constraint no mira la fotografia</strong>.</p>
+ <p style="margin:8px 0 0;opacity:.75">This prototype is not a product: it is a layout
+ engine. It does not orchestrate, group, name, export video or round-trip into Figma
+ through a plugin. The thesis is not that they are redundant; it is that
+ <strong>the layout decision is taken today by a constraint, and a constraint does not
+ look at the photograph</strong>.</p>
 </div>
 
 <div class="box">
- <h3>Como se autorearon los templates, para que se auditen</h3>
+ <h3>How the templates were authored, so they can be audited</h3>
  <ul>
-  <li><strong>Tres</strong> templates, la familia que su interfaz nombra: landscape,
-      portrait y square. La plantilla portrait <strong>es el master</strong>, sin degradar.</li>
-  <li>Constraints razonables, los que el propio brief nombra: titular <code>LEFT+TOP</code>,
-      lockup <code>RIGHT+TOP</code>, legal <code>LEFT+BOTTOM</code>, foto <code>SCALE</code>.</li>
-  <li>Seleccion de template <strong>por proximidad de tamano</strong>, que es su regla
-      declarada. La distancia es logaritmica en las dos dimensiones, que es la lectura
-      mas favorable para ese mecanismo.</li>
-  <li>Donde ningun color de la paleta alcanzaba el contraste exigido sobre el recorte de
-      un template, se le autoreo un <strong>scrim</strong> detras de la pila y se le
-      cambio la tipografia a claro. Es lo que haria un disenador competente, y se le da.</li>
-  <li>Los constraints aplicados a cada formato estan desplegables al pie de cada fila.</li>
+  <li><strong>Three</strong> templates, the family their interface names: landscape,
+      portrait and square. The portrait template <strong>is the master</strong>, undegraded.</li>
+  <li>Reasonable constraints, the ones the brief itself names: headline <code>LEFT+TOP</code>,
+      lockup <code>RIGHT+TOP</code>, legal <code>LEFT+BOTTOM</code>, photo <code>SCALE</code>.</li>
+  <li>Template selection <strong>by size proximity</strong>, which is their declared rule.
+      The distance is logarithmic in both dimensions, which is the most favourable reading
+      for that mechanism.</li>
+  <li>Where no palette colour reached the required contrast over a template's crop, a
+      <strong>scrim</strong> was authored behind the stack and the type was switched to
+      light. It is what a competent designer would do, and it is granted.</li>
+  <li>The constraints applied to each format are expandable at the foot of every row.</li>
  </ul>
 </div>
 
-<h2>Los {len(keys)} formatos, empezando por donde el mecanismo por constraints resuelve bien</h2>
-<p class="sub"><strong>{clean} de {len(keys)}</strong> salen sin una sola violacion
- atribuible al mecanismo, y son exactamente los tres cuyo tamano coincide con un template
- mas el que casi coincide. En esos, la diferencia esta en el coste del emplazamiento y en
- el recorte, no en si la pieza es utilizable. La distancia aparece donde el delta de aspecto contra el template
- es grande, y ese es el argumento honesto: funciona mientras el objetivo se parezca a un
- template, y una campana no se parece a tres templates.</p>
+<h2>The {len(keys)} formats, starting where the constraints mechanism does well</h2>
+<p class="sub"><strong>{clean} of {len(keys)}</strong> come out without a single violation
+ attributable to the mechanism, and they are exactly the ones whose size matches a
+ template, plus the one that nearly matches. On those, the difference is in placement cost
+ and in the crop, not in whether the piece is usable. The gap opens where the aspect delta
+ against the template is large, and that is the honest claim: it works while the target
+ resembles a template, and a campaign does not resemble three templates.</p>
 {''.join(pairs)}
 </div>
 """

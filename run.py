@@ -136,26 +136,25 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--master", default="assets/master.svg")
     ap.add_argument("--formats", default="all",
-                    help="'all', 'video', o claves separadas por coma")
+                    help="'all', 'video', or comma-separated keys")
     ap.add_argument("--out", default="out/spring-campaign/meridian-quarter")
     ap.add_argument("--sizes", default=None,
-                    help="set de tamanos externo, 'AxB,CxD,...' o la ruta de un "
-                         "archivo con uno por linea. Sustituye a --formats: sirve "
-                         "para correr una hoja de especificaciones ajena sin tocar "
-                         "la tabla de formatos")
+                    help="external size set, 'AxB,CxD,...' or the path to a file "
+                         "with one per line. Replaces --formats: it runs somebody "
+                         "else's spec sheet without touching the format table")
     ap.add_argument("--photo", default=None,
-                    help="sustituye la fotografia del master conservando su estructura. "
-                         "Es la prueba de que el layout se DERIVA del arte: mismo "
-                         "master, otra foto, otro layout")
+                    help="swap the master's photograph, keeping its structure. It is "
+                         "the proof that the layout is DERIVED from the art: same "
+                         "master, another photograph, another layout")
     ap.add_argument("--copy-from-photo", action="store_true",
-                    help="con --photo: el modelo escribe la copy desde la imagen. "
-                         "Los roles, cuerpos y geometria siguen siendo del master")
+                    help="with --photo: the model writes the copy from the image. "
+                         "Roles, body sizes and geometry stay the master's")
     ap.add_argument("--no-model-focal", action="store_true",
-                    help="no preguntar a un modelo por la region focal aunque las "
-                         "cascadas no coincidan; se cae a saliencia")
+                    help="do not ask a model for the focal region even if the "
+                         "cascades disagree; fall back to saliency")
     ap.add_argument("--backend", default="art", choices=["art", "constraints", "both"],
-                    help="'art' decide desde los pixeles; 'constraints' es el "
-                         "mecanismo rival; 'both' emite los dos para el cara a cara")
+                    help="'art' decides from the pixels; 'constraints' is the rival "
+                         "mechanism; 'both' emits the pair for the head to head")
     a = ap.parse_args()
 
     if a.sizes:
@@ -223,23 +222,23 @@ def main() -> int:
                             b.words = nuevo.split()
                             cambiados.append(f"{b.role}=\u201c{nuevo}\u201d")
                     scene.notes.append(
-                        "copy escrita por el modelo desde la fotografia: "
+                        "copy written by the model from the photograph: "
                         + "; ".join(cambiados))
                     if cd.get("por_que"):
-                        scene.notes.append("por que esa linea: " + cd["por_que"])
+                        scene.notes.append("why that line: " + cd["por_que"])
                     scene.notes.append(
-                        "el aviso legal no se genera: es texto fijo de marca. Los "
-                        "roles, los cuerpos y la geometria son los del master")
+                        "the legal line is not generated: it is fixed brand text. The "
+                        "roles, the body sizes and the geometry are the master's")
                     print(f"  · copy desde la foto: "
                           f"{cd['copy'].get('headline','')!r}")
                 else:
                     scene.notes.append(
-                        "no se pudo escribir copy utilizable desde la fotografia: se "
-                        "conserva la del master de referencia")
+                        "no usable copy could be written from the photograph: the "
+                        "reference master's copy is kept")
             except Exception as e:
                 scene.notes.append(
-                    f"copy desde la fotografia no disponible ({type(e).__name__}): se "
-                    f"conserva la del master")
+                    f"copy from the photograph unavailable ({type(e).__name__}): the "
+                    f"master's copy is kept")
 
     prep = cropmod.prepare(scene.photo.src_path)
 
@@ -258,11 +257,11 @@ def main() -> int:
     if prep.get("face") is None and not a.no_model_focal:
         try:
             import semantic
-            porque = ("ninguna cara con acuerdo entre las dos cascadas"
+            porque = ("no face agreed on by the two cascades"
                       if not caras else
-                      f"{len(caras)} caras con acuerdo: cual sostiene la composicion, "
-                      f"o si el sujeto es el grupo entero, no lo dice la geometria")
-            scene.notes.append("region focal: " + porque + ". Se pregunta al modelo")
+                      f"{len(caras)} agreed faces: which one carries the composition, "
+                      f"or whether the subject is the group itself, geometry cannot say")
+            scene.notes.append("focal region: " + porque + ". The model is asked")
             hint, flog = semantic.focal_from_model(scene.photo.src_path)
             for l in flog:
                 scene.notes.append("region focal · " + l)
@@ -287,16 +286,16 @@ def main() -> int:
                 # justo lo que debe pasar.
                 prep["face_hard"] = not semantic.es_extenso(hint["sujeto"])
                 scene.notes.append(
-                    f"las dos cascadas no coincidieron: la region que no se puede "
-                    f"recortar la decidio un modelo. {hint['sujeto']} — "
-                    f"{hint['que_es']}, confianza {hint['confianza']:.2f}. "
+                    f"the two cascades did not agree: the region that must not be "
+                    f"cropped was decided by a model. {hint['sujeto']} — "
+                    f"{hint['que_es']}, confidence {hint['confianza']:.2f}. "
                     f"{hint['por_que']}")
                 if not prep["face_hard"]:
                     scene.notes.append(
-                        f"el sujeto es una EXTENSION ancha ({hint['sujeto']}), no una "
-                        f"cara: la region se maximiza en lugar de exigirse, y la foto "
-                        f"solo degrada a panel si el mejor encuadre conserva menos del "
-                        f"{cropmod.SOFT_MIN_COVER:.0%}")
+                        f"the subject is a wide EXTENT ({hint['sujeto']}), not a face: "
+                        f"the region is maximised instead of required, and the "
+                        f"photograph only degrades to a panel if the best crop keeps "
+                        f"less than {cropmod.SOFT_MIN_COVER:.0%} of it")
                 print(f"  · region focal por modelo: {hint['sujeto']} "
                       f"({hint['confianza']:.2f})"
                       f"{'' if prep['face_hard'] else ' [region blanda]'}")
@@ -317,23 +316,23 @@ def main() -> int:
                 # mas seria al reves.
                 prep["face_hard"] = len(caras) <= 1
                 scene.notes.append(
-                    f"el modelo no respondio: se usa la envolvente de las {len(caras)} "
-                    f"caras detectadas. Conserva a todo el mundo, pero no sabe quien "
-                    f"sostiene la pieza"
+                    f"the model did not answer: the envelope of the {len(caras)} detected "
+                    f"faces is used instead. It keeps everybody, but it does not know "
+                    f"who carries the piece"
                     + ("" if prep["face_hard"] else
-                       "; entra como region blanda, no como restriccion dura"))
+                       "; it enters as a soft region, not as a hard constraint"))
             else:
                 prep["focal_via"] = "saliencia"
-                scene.notes.append("ni las cascadas ni el modelo dieron una region "
-                                   "focal utilizable: manda la saliencia")
+                scene.notes.append("neither the cascades nor the model produced a "
+                                   "usable focal region: saliency decides")
         except Exception as e:
             prep["focal_via"] = "saliencia"
-            scene.notes.append(f"region focal por saliencia: {type(e).__name__}")
+            scene.notes.append(f"focal region by saliency: {type(e).__name__}")
     else:
         prep["focal_via"] = "cascadas" if prep.get("face") else "saliencia"
         if prep.get("face"):
-            scene.notes.append("una sola cara, y las dos cascadas coinciden: region "
-                               "focal resuelta sin llamar a ningun modelo")
+            scene.notes.append("exactly one face, and the two cascades agree: the "
+                               "focal region is settled without calling any model")
 
     names = ["art", "constraints"] if a.backend == "both" else [a.backend]
     total = 0

@@ -38,9 +38,9 @@ class Format:
 # comparacion se sostiene cuando llega el leaderboard.
 FORMATS: List[Format] = [
     Format("portrait_4x5", "Instagram 4:5",      1080, 1350, (.055, .055, .055, .055),
-           note="constraints resuelve bien; sobrevive el recorte a 1:1 del perfil"),
+           note="constraints do well here; it survives the 1:1 crop of the profile"),
     Format("story_9x16", "Story / Reel 9:16",    1080, 1920, (.140, .060, .200, .060),
-           note="la UI de la plataforma tapa arriba y abajo"),
+           note="the platform UI covers the top and the bottom"),
     Format("leader_728", "Leaderboard 728x90",    728,   90, (.100, .040, .100, .040),
            note="8:1; ningun recorte a sangre contiene la region focal"),
     Format("mpu_300",    "MPU 300x250",           300,  250, (.060, .060, .060, .060),
@@ -52,7 +52,7 @@ FORMATS: List[Format] = [
     Format("half_300x600", "Half page 300x600",   300,  600, (.060, .060, .060, .060),
            in_video=False, note="vertical angosto"),
     Format("screen_hd",  "Pantalla de centro",   1920, 1080, (.050, .050, .050, .050),
-           in_video=False, note="el blanco se recalcula, no se estira"),
+           in_video=False, note="the white is recomputed, not stretched"),
     Format("print_dl",   "Print DL vertical",     991, 2098, (.070, .070, .070, .070),
            in_video=False, note="lienzo arbitrario; fuera del video"),
 ]
@@ -91,5 +91,5 @@ def from_sizes(spec: str) -> List[Format]:
         seen.add(key)
         i = GENERIC_INSET
         out.append(Format(key, f"{w}x{h}", w, h, (i, i, i, i), in_video=False,
-                          note="tamano de un set de especificaciones externo"))
+                          note="size from an external spec sheet"))
     return out

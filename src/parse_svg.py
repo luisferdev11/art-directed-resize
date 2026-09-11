@@ -98,8 +98,8 @@ def parse(svg_path: str, work_dir: str = "out/_work") -> Scene:
         sc.photo = Photo(rect=(_f(big, "x"), _f(big, "y"),
                                _f(big, "width") or W, _f(big, "height") or H),
                          src_path=path, px_w=pw, px_h=ph)
-        sc.notes.append(f"foto: raster de mayor area, {pw}x{ph}px sobre "
-                        f"{sc.photo.rect[2]:.0f}x{sc.photo.rect[3]:.0f} unidades")
+        sc.notes.append(f"photo: largest-area raster, {pw}x{ph}px over "
+                        f"{sc.photo.rect[2]:.0f}x{sc.photo.rect[3]:.0f} units")
 
     # --- 2. lockup: grupo con geometria vectorial ----------------------------
     bound_texts: set = set()
@@ -211,11 +211,11 @@ def parse(svg_path: str, work_dir: str = "out/_work") -> Scene:
                 roles.append("legal")
             else:
                 roles.append(mid[min(len(roles) - 1, len(mid) - 1)] if len(roles) - 1 < len(mid) else "support")
-        sc.notes.append("roles por rango de cuerpo: " + ", ".join(
+        sc.notes.append("roles by body-size rank: " + ", ".join(
             f"{r}={b['size']:g}px" for r, b in zip(roles, blocks)))
         if legal_last:
-            sc.notes.append(f"el bloque menor ({blocks[-1]['size']:g}px) mide "
-                            f"< {LEGAL_RATIO:.0%} del titular ({head:g}px) -> legal")
+            sc.notes.append(f"the smallest block ({blocks[-1]['size']:g}px) measures "
+                            f"< {LEGAL_RATIO:.0%} of the headline ({head:g}px) -> legal")
 
     for role, b in zip(roles, blocks):
         h_total = b["h"] * b["n"]

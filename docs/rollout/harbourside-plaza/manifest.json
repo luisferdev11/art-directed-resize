@@ -6,13 +6,13 @@
     1350.0
   ],
   "inference": [
-    "foto: raster de mayor area, 2160x2700px sobre 1080x1350 unidades",
+    "photo: largest-area raster, 2160x2700px over 1080x1350 units",
     "lockup: grupo con geometria vectorial, area menor, 222x34 en (794,96); marca 34x34 y wordmark a 15px",
-    "roles por rango de cuerpo: headline=92px, subhead=30px, support=20px, legal=13px",
-    "el bloque menor (13px) mide < 30% del titular (92px) -> legal",
-    "region focal: 2 caras con acuerdo: cual sostiene la composicion, o si el sujeto es el grupo entero, no lo dice la geometria. Se pregunta al modelo",
-    "region focal · deepinfra (Qwen/Qwen3-VL-235B-A22B-Instruct): ok en 14.2s, clave de DEEPINFRA_API_KEY (clave configurada)",
-    "las dos cascadas no coincidieron: la region que no se puede recortar la decidio un modelo. persona — hombre con sombrero, confianza 0.95. el hombre es el sujeto principal y está en primer plano, mirando a cámara"
+    "roles by body-size rank: headline=92px, subhead=30px, support=20px, legal=13px",
+    "the smallest block (13px) measures < 30% of the headline (92px) -> legal",
+    "focal region: 2 agreed faces: which one carries the composition, or whether the subject is the group itself, geometry cannot say. The model is asked",
+    "region focal · deepinfra (Qwen/Qwen3-VL-235B-A22B-Instruct): ok en 7.4s, clave de DEEPINFRA_API_KEY (clave configurada)",
+    "the two cascades did not agree: the region that must not be cropped was decided by a model. persona — man in cowboy hat, confidence 0.95. the man is centered and clearly the main subject, with Taj Mahal as background context"
   ],
   "outputs": [
     {
@@ -31,11 +31,11 @@
       "effective_ppi": 150.7,
       "field_cost": 0.0374,
       "reasons": [
-        "recorte 2261x2826px de la fuente (55% del ancho); region focal contenida",
-        "3 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
-        "texto emplazado en (59,59) por busqueda densa sobre el campo de costo: coste 0.037 en escala 0-1",
-        "legal: contraste medido 4.16:1 contra 4.5 exigido, scrim con alpha 0.10",
-        "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
+        "crop 2261x2826px of the source (55% of the width); focal region contained",
+        "3 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
+        "text placed at (59,59) by dense search over the cost field: cost 0.037 on a 0-1 scale",
+        "legal: contraste medido 4.16:1 contra 4.5 required, scrim at alpha 0.10",
+        "lockup at a uniform 0.78x scale, 173px wide, clear-space 13px, lowest-cost corner"
       ],
       "dropped": [],
       "ladder": [],
@@ -123,11 +123,11 @@
       "effective_ppi": 78.3,
       "field_cost": 0.013,
       "reasons": [
-        "recorte 1175x2089px de la fuente (29% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
-        "texto emplazado en (178,151) por busqueda densa sobre el campo de costo: coste 0.013 en escala 0-1",
-        "legal: contraste medido 3.29:1 contra 4.5 exigido, scrim con alpha 0.20",
-        "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
+        "crop 1175x2089px of the source (29% of the width); focal region contained",
+        "2 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
+        "text placed at (178,151) by dense search over the cost field: cost 0.013 on a 0-1 scale",
+        "legal: contraste medido 3.29:1 contra 4.5 required, scrim at alpha 0.20",
+        "lockup at a uniform 0.78x scale, 173px wide, clear-space 13px, lowest-cost corner"
       ],
       "dropped": [],
       "ladder": [],
@@ -217,19 +217,19 @@
       "effective_ppi": 1088.0,
       "field_cost": 0.0067,
       "reasons": [
-        "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 1177px de alto, o 9524px de ancho, y la fuente tiene 4080px. La foto degrada a panel lateral de 270x90 (3.0:1) y se promueve el campo de marca",
-        "3 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
-        "subhead: el piso de legibilidad redujo el contraste de tamano a 2.29:1 frente a 3.07:1 del master, asi que la jerarquia se re-expresa en peso (400 a 300)",
-        "support: el piso de legibilidad redujo el contraste de tamano a 2.91:1 frente a 4.60:1 del master, asi que la jerarquia se re-expresa en peso (900 a 300)",
-        "escalera de degradacion aplicada: tighten_leading -> weight_for_size -> drop_legal",
-        "texto emplazado en (68,9) por busqueda densa sobre el campo de costo: coste 0.007 en escala 0-1",
+        "at 8.1:1 no bleed crop contains the focal region above the minimum subject scale: it would need 1169px of height, or 9454px of width, and the source has 4080px. The photograph degrades to a side panel of 270x90 (3.0:1) and the brand field is promoted",
+        "3 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
+        "subhead: the legibility floor cut the size contrast to 2.29:1 against 3.07:1 in the master, so the hierarchy is re-expressed in weight (400 to 300)",
+        "support: the legibility floor cut the size contrast to 2.91:1 against 4.60:1 in the master, so the hierarchy is re-expressed in weight (900 to 300)",
+        "degradation ladder applied: tighten_leading -> weight_for_size -> drop_legal",
+        "text placed at (68,9) by dense search over the cost field: cost 0.007 on a 0-1 scale",
         "headline: tipografia invertida a claro, contraste 15.24:1",
         "subhead: tipografia invertida a claro, contraste 15.24:1",
         "support: tipografia invertida a claro, contraste 15.24:1",
-        "legal retirado por la escalera de degradacion",
-        "lockup escalado a 0.50x en lugar de 0.25x: a la escala anterior el wordmark caia a 3.8px, bajo su piso de 7.5px",
-        "logo en variante clara: sobre este fondo la tinta daba 1.00:1",
-        "lockup a escala uniforme 0.50x, 111px de ancho, clear-space 8px, esquina de menor coste"
+        "legal dropped by the degradation ladder",
+        "lockup scaled to 0.50x instead of 0.25x: at the previous scale the wordmark fell to 3.8px, under its floor of 7.5px",
+        "logo in the light variant: against this background the ink measured 1.00:1",
+        "lockup at a uniform 0.50x scale, 111px wide, clear-space 8px, lowest-cost corner"
       ],
       "dropped": [
         "legal"
@@ -309,16 +309,16 @@
       "effective_ppi": 743.2,
       "field_cost": 0.1351,
       "reasons": [
-        "recorte 3097x2580px de la fuente (76% del ancho); region focal contenida",
-        "3 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
-        "subhead: contraste de tamano comprimido a 2.15:1 frente a 3.07:1 del master",
-        "support: contraste de tamano comprimido a 2.55:1 frente a 4.60:1 del master",
-        "texto emplazado en (149,15) por busqueda densa sobre el campo de costo: coste 0.135 en escala 0-1",
-        "subhead: contraste medido 2.35:1 contra 4.5 exigido, scrim con alpha 0.32",
-        "support: contraste medido 1.45:1 contra 4.5 exigido, scrim con alpha 0.47",
-        "legal: contraste medido 4.28:1 contra 4.5 exigido, scrim con alpha 0.08",
-        "lockup degradado a marca sola: el wordmark habria quedado a 3.8px y no hay ancho para subir la escala. La marca va a 25px",
-        "lockup a escala uniforme 0.74x, 25px de ancho, clear-space 12px, esquina de menor coste"
+        "crop 3097x2580px of the source (76% of the width); focal region contained",
+        "3 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
+        "subhead: size contrast compressed to 2.15:1 against 3.07:1 in the master",
+        "support: size contrast compressed to 2.55:1 against 4.60:1 in the master",
+        "text placed at (149,15) by dense search over the cost field: cost 0.135 on a 0-1 scale",
+        "subhead: contraste medido 2.35:1 contra 4.5 required, scrim at alpha 0.32",
+        "support: contraste medido 1.45:1 contra 4.5 required, scrim at alpha 0.47",
+        "legal: contraste medido 4.28:1 contra 4.5 required, scrim at alpha 0.08",
+        "lockup degraded to mark only: the wordmark would have landed at 3.8px and there is no width to raise the scale. The mark goes to 25px",
+        "lockup at a uniform 0.74x scale, 25px wide, clear-space 12px, lowest-cost corner"
       ],
       "dropped": [],
       "ladder": [],
@@ -417,11 +417,11 @@
       "effective_ppi": 188.4,
       "field_cost": 0.1015,
       "reasons": [
-        "recorte 2826x2826px de la fuente (69% del ancho); region focal contenida",
-        "3 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
-        "texto emplazado en (519,65) por busqueda densa sobre el campo de costo: coste 0.102 en escala 0-1",
-        "legal: contraste medido 4.08:1 contra 4.5 exigido, scrim con alpha 0.11",
-        "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
+        "crop 2826x2826px of the source (69% of the width); focal region contained",
+        "3 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
+        "text placed at (519,65) by dense search over the cost field: cost 0.102 on a 0-1 scale",
+        "legal: contraste medido 4.08:1 contra 4.5 required, scrim at alpha 0.11",
+        "lockup at a uniform 0.78x scale, 173px wide, clear-space 13px, lowest-cost corner"
       ],
       "dropped": [],
       "ladder": [],

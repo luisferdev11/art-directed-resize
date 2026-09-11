@@ -31,3 +31,6 @@ audit-envio.py
 
 # el demo local no se publica: escribe fuera de docs/ y no va a Pages
 out/_demo/
+
+# la presentacion del video: menciona trabajo del empleador y el chat del competidor
+presentacion.html

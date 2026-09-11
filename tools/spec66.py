@@ -27,17 +27,17 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Del informe de su propia herramienta sobre ESTE master. Texto literal.
 THEIRS = [
     ("I can see you have 2 templates, but none are landscape. I would suggest "
-     "designing a landscape version for a smoother rollout.", "antes de ejecutar"),
+     "designing a landscape version for a smoother rollout.", "before it runs"),
     ("49 outputs were matched to your square template - including landscape and "
      "ultra-wide sizes like 1040x480, 1152x324 and 1280x384. These have the biggest "
      "stretch, so headlines, images and logos may sit off-centre or get cropped.",
-     "en el informe final"),
+     "in the final report"),
     ("17 outputs went to your portrait template - sizes like 320x736 and 512x768. "
      "These are closer but still off, so expect minor reflow issues.",
-     "en el informe final"),
+     "in the final report"),
     ("The clean fix is adding a landscape template (and ideally a couple more native "
      "ratios), then re-running. Otherwise you'll want to nudge the layouts on the "
-     "wider sizes by hand.", "la solucion que propone"),
+     "wider sizes by hand.", "the solution it proposes"),
 ]
 
 # Los que su informe nombra por su nombre, mas los dos extremos del set.
@@ -140,80 +140,79 @@ def build(site: str) -> None:
 </style>
 <div class="wrap">
 {nav.render(d, "generic66/spec.html")}
-<h1>Un set de medios entero, sin autorear una sola plantilla</h1>
-<p class="sub">El mismo master, los mismos {len(outs)} tamanos de banner de un set
- generico. Ninguna plantilla escrita a mano, ninguna proporcion declarada de
- antemano, ninguna re-ejecucion.</p>
+<h1>A whole media spec, with no template authored</h1>
+<p class="sub">The same master, the same {len(outs)} banner sizes from a generic spec
+ sheet. No template written by hand, no ratio declared in advance, no second run.</p>
 
 <div class="kpis">
- <div class="kpi"><b>{n_ok} de {len(outs)}</b><span>pasan el validador
-   independiente</span></div>
- <div class="kpi"><b>0 plantillas</b><span>autoreadas para conseguirlo</span></div>
- <div class="kpi"><b>{len(paneles)}</b><span>degradaron la foto a panel por
-   decision medida</span></div>
- <div class="kpi"><b>{aspects[0]['w']/aspects[0]['h']:.1f}:1</b><span>la proporcion mas
-   extrema resuelta</span></div>
+ <div class="kpi"><b>{n_ok} of {len(outs)}</b><span>pass the independent
+   validator</span></div>
+ <div class="kpi"><b>0 templates</b><span>authored to get there</span></div>
+ <div class="kpi"><b>{len(paneles)}</b><span>degraded the photo to a panel by a
+   measured decision</span></div>
+ <div class="kpi"><b>{aspects[0]['w']/aspects[0]['h']:.1f}:1</b><span>the most extreme
+   ratio resolved</span></div>
 </div>
 
-<h2>Lo que reporto el mecanismo por plantillas<span>sobre este mismo master</span></h2>
-<p class="sub">Texto literal de su propia herramienta. No se reproducen sus salidas ni
- capturas de su producto: solo lo que su informe dice de si mismo.</p>
+<h2>What the template mechanism reported<span>on this same master</span></h2>
+<p class="sub">Verbatim text from their own tool. Neither their outputs nor screenshots
+ of their product are reproduced: only what their own report says about itself.</p>
 {quotes}
 
-<div class="box fair"><strong>Y aqui hay que ser justo.</strong> A ese mecanismo se le
- dieron dos plantillas y ninguna landscape, y su herramienta lo aviso antes de
- ejecutar. Presentar el resultado como un fallo del producto seria deshonesto: el
- producto hizo exactamente lo que dice que hace.
- <br><br>El argumento no es ese. El argumento es que <strong>la solucion que propone
- su propia herramienta es autorear mas plantillas</strong>, y ese trabajo escala con
- la diversidad de formatos, no con el numero de campanas. Un set de {len(outs)}
- tamanos tiene proporciones que tres plantillas no cubren, y su informe lo dice:
+<div class="box fair"><strong>And here one has to be fair.</strong> That mechanism was
+ given two templates and not one of them landscape, and their tool warned about it
+ before running. Presenting the result as a failure of the product would be dishonest:
+ the product did exactly what it says it does.
+ <br><br>That is not the argument. The argument is that <strong>the solution their own
+ tool proposes is to author more templates</strong>, and that work scales with the
+ diversity of formats, not with the number of campaigns. A set of {len(outs)} sizes has
+ ratios that three templates do not cover, and their report says so:
  <em>"ideally a couple more native ratios"</em>.</div>
 
-<h2>Los mismos tamanos, resueltos desde el arte<span>los tres que su informe nombra,
- mas los extremos</span></h2>
+<h2>The same sizes, decided from the art<span>the three their report names, plus the
+ extremes</span></h2>
 <div class="grid">{cards}</div>
 
-<h2>El triage<span>{tri["OK"]} no necesitan nada, {tri["REVISAR"]+tri["ATENCION"]} se
- marcan con su razon</span></h2>
-<p>El objetivo declarado es un <strong>primer pase rough</strong>, y el triage es lo que
- convierte eso de disculpa en caracteristica: el disenador sabe cuales abrir en lugar
- de revisar los {len(outs)}.</p>
+<h2>The triage<span>{tri["OK"]} need nothing, {tri["REVISAR"]+tri["ATENCION"]} are
+ flagged with their reason</span></h2>
+<p>The declared goal is a <strong>rough first pass</strong>, and the triage is what turns
+ that from an apology into a feature: the designer knows which ones to open instead of
+ reviewing all {len(outs)}.</p>
 <div class="kpis">
- <div class="kpi"><b>{tri["OK"]}</b><span>sin banderas</span></div>
- <div class="kpi"><b>{tri["REVISAR"]}</b><span>revisar: scrim algo pesado o margen de
-   contraste justo</span></div>
- <div class="kpi"><b>{tri["ATENCION"]}</b><span>atencion: PPI insuficiente o la foto
-   degradada a panel</span></div>
+ <div class="kpi"><b>{tri["OK"]}</b><span>no flags</span></div>
+ <div class="kpi"><b>{tri["REVISAR"]}</b><span>review: a somewhat heavy scrim or tight
+   contrast headroom</span></div>
+ <div class="kpi"><b>{tri["ATENCION"]}</b><span>attention: insufficient PPI or the photo
+   degraded to a panel</span></div>
 </div>
-<p class="sub">Ninguna de esas banderas es un fallo estructural: los {len(outs)} pasan
- el validador. Son juicios declarados sobre cuanto se tapa la fotografia y con cuanto
- margen se cumple el contraste. Los pesos por rol estan en el codigo, a la vista.
- <a href="index.html">Ver la hoja de contactos con las {len(outs)} piezas &rarr;</a></p>
+<p class="sub">None of those flags is a structural failure: all {len(outs)} pass the
+ validator. They are declared judgements about how much of the photograph is covered and
+ how much headroom the contrast has. The per-role weights are in the code, in plain view.
+ <a href="index.html">See the contact sheet with all {len(outs)} pieces &rarr;</a></p>
 
-<h2>Lo que hizo falta decidir<span>y no estaba escrito en ninguna plantilla</span></h2>
+<h2>What had to be decided<span>and was not written in any template</span></h2>
 <ul>
-<li><strong>{len(paneles)} formatos</strong> degradaron la fotografia a panel lateral
- porque ningun recorte a sangre contenia al sujeto por encima de su escala minima.
- Es una decision estructural emergente de una restriccion medida.</li>
-<li><strong>{len(ladders)} formatos</strong> dispararon la escalera de degradacion.
- <strong>{len(dropped)}</strong> retiraron algun elemento, y queda registrado cual y
- por que.</li>
-<li>El contraste se midio <strong>linea a linea</strong> contra la fotografia que a
- cada uno le toco, y el scrim se dimensiono componiendo en sRGB.</li>
+<li><strong>{len(paneles)} formats</strong> degraded the photograph to a panel because
+ no bleed crop contained the subject above its minimum scale. It is a structural
+ decision that emerged from a measured constraint.</li>
+<li><strong>{len(ladders)} formats</strong> fired the degradation ladder.
+ <strong>{len(dropped)}</strong> dropped an element, and which one and why is on the
+ record.</li>
+<li>Contrast was measured <strong>line by line</strong> against the photograph each one
+ ended up with, and the scrim was sized by compositing in sRGB.</li>
 </ul>
 
-<div class="box"><strong>Un limite que este motor si declara.</strong>
- {len(lowppi)} de los {len(outs)} tamanos quedan por debajo de 72 ppi efectivos: el
- master tiene 2160x2700 pixeles y no da para un lienzo de 3840x2160 sin
- sobre-muestrear. <strong>El motor lo mide y lo dice en cada pieza.</strong> No lo
- arregla: pedir una fuente de mayor resolucion es la respuesta correcta, e inventar
- pixeles seria peor que avisar.</div>
+<div class="box"><strong>One limit this engine does declare.</strong>
+ {len(lowppi)} of the {len(outs)} sizes fall below 72 effective ppi: the master has
+ 2160x2700 pixels and that does not stretch to a 3840x2160 canvas without upsampling.
+ <strong>The engine measures it and says so on every piece.</strong> It does not fix it:
+ asking for a higher-resolution source is the right answer, and inventing pixels would
+ be worse than warning.</div>
 
-<h2>Los {len(outs)} tamanos<span>ordenados de mas apaisado a mas vertical</span></h2>
-<table><tr><th>Tamano</th><th>Proporcion</th><th>Scrims</th><th>Decisiones</th></tr>
+<h2>The {len(outs)} sizes<span>ordered from widest to tallest</span></h2>
+<table><tr><th>Size</th><th>Ratio</th><th>Scrims</th><th>Decisions</th></tr>
 {rows}</table>
-<p class="sub">Cada tamano enlaza a su SVG editable. Ninguno se ajusto a mano.</p>
+<p class="sub">Each size links to its editable SVG. Not one was adjusted by hand.</p>
 </div>
 """
     with open(os.path.join(d, "spec.html"), "w") as fh:

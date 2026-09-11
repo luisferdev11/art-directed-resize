@@ -88,13 +88,13 @@ def _fit_stack(scene: Scene, width: float, max_h: float,
             if pol.get("light_secondary") and w_eff >= 400:
                 w_eff = brand.LIGHT_WEIGHT
                 notes.append(
-                    f"{role}: el piso de legibilidad redujo el contraste de tamano a "
-                    f"{got_contrast:.2f}:1 frente a {master_contrast:.2f}:1 del master, "
-                    f"asi que la jerarquia se re-expresa en peso ({blk.weight} a {w_eff})")
+                    f"{role}: the legibility floor cut the size contrast to "
+                    f"{got_contrast:.2f}:1 against {master_contrast:.2f}:1 in the master, "
+                    f"so the hierarchy is re-expressed in weight ({blk.weight} to {w_eff})")
             else:
                 notes.append(
-                    f"{role}: contraste de tamano comprimido a {got_contrast:.2f}:1 "
-                    f"frente a {master_contrast:.2f}:1 del master")
+                    f"{role}: size contrast compressed to {got_contrast:.2f}:1 "
+                    f"against {master_contrast:.2f}:1 in the master")
         f = T.fit_at_size(blk.text, width, want, w_eff, lead_2, max_lines=4,
                           tracking=blk.tracking)
         if f is None:
@@ -242,7 +242,7 @@ def _panel_geometry(fmt: Format, master_cx: float, master_top: float = 0.1,
         else:
             panel = (0.0, 0.0, W, ph)
             field = (0.0, ph, W, H - ph)
-        return panel, field, "banda"
+        return panel, field, "band"
 
     if master_cx <= 0.5:                     # titular a la izquierda -> panel derecha
         panel = (W - pw, 0.0, pw, H)
@@ -250,7 +250,7 @@ def _panel_geometry(fmt: Format, master_cx: float, master_top: float = 0.1,
     else:
         panel = (0.0, 0.0, pw, H)
         field = (pw, 0.0, W - pw, H)
-    return panel, field, "lateral"
+    return panel, field, "side"
 
 
 def _compose_backdrop(fmt: Format, rgb: np.ndarray, crect: Rect,
@@ -305,42 +305,42 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
         if hard:
             need_h = (prep["face"][3] / 0.45) if prep["face"] else 0.0
             reasons.append(
-                f"a {fmt.aspect:.1f}:1 ningun recorte a sangre contiene la region focal "
-                f"por encima de la escala minima de sujeto: haria falta {need_h:.0f}px de "
-                f"alto, o {need_h*fmt.aspect:.0f}px de ancho, y la fuente tiene "
-                f"{prep['px_w']}px. La foto degrada a panel {orient} de "
-                f"{panel[2]:.0f}x{panel[3]:.0f} ({p_aspect:.1f}:1) y se promueve el "
-                f"campo de marca"
+                f"at {fmt.aspect:.1f}:1 no bleed crop contains the focal region above the "
+                f"minimum subject scale: it would need {need_h:.0f}px of height, or "
+                f"{need_h*fmt.aspect:.0f}px of width, and the source has "
+                f"{prep['px_w']}px. The photograph degrades to a {orient} panel of "
+                f"{panel[2]:.0f}x{panel[3]:.0f} ({p_aspect:.1f}:1) and the brand "
+                f"field is promoted"
                 + ("" if not still else
-                   "; el sujeto sigue apretado incluso en el panel"))
+                   "; the subject is still tight even inside the panel"))
         else:
             cov = float(cdiag0.get("soft_cover", 0.0))
             reasons.append(
-                f"a {fmt.aspect:.1f}:1 el mejor recorte a sangre conserva solo el "
-                f"{cov:.0%} de la region del sujeto, bajo el {cropmod.SOFT_MIN_COVER:.0%} "
-                f"exigido: la region es una extension y no una cara, asi que no cabe "
-                f"entera. La foto degrada a panel {orient} de "
-                f"{panel[2]:.0f}x{panel[3]:.0f} ({p_aspect:.1f}:1), la orientacion "
-                f"que conserva mejor el aspecto de la fuente, y se promueve el "
-                f"campo de marca")
+                f"at {fmt.aspect:.1f}:1 the best bleed crop keeps only "
+                f"{cov:.0%} of the subject region, under the {cropmod.SOFT_MIN_COVER:.0%} "
+                f"required: the region is an extent and not a face, so it does not fit "
+                f"whole. The photograph degrades to a {orient} panel of "
+                f"{panel[2]:.0f}x{panel[3]:.0f} ({p_aspect:.1f}:1), the orientation "
+                f"that best preserves the source aspect, and the brand field is "
+                f"promoted")
     else:
-        # "region focal contenida" solo si de verdad lo esta. Con la region blanda el
+        # "focal region contained" solo si de verdad lo esta. Con la region blanda el
         # encuadre puede conservar el 80% de un grupo, y decir "contenida" ahi seria
         # exactamente la clase de afirmacion que este manifest existe para no hacer.
         cov = float(cdiag.get("cover", 1.0))
         if cdiag.get("face_soft") and cov < 0.995:
-            estado = (f"region del sujeto conservada al {cov:.0%} "
-                      f"(es una extension, no una cara: se maximiza, no se exige)")
+            estado = (f"subject region kept at {cov:.0%} "
+                      f"(it is an extent, not a face: maximised, not required)")
         else:
-            estado = "region focal contenida"
-        reasons.append(f"recorte {crect[2]:.0f}x{crect[3]:.0f}px de la fuente "
-                       f"({crect[2]/prep['px_w']:.0%} del ancho); {estado}")
+            estado = "focal region contained"
+        reasons.append(f"crop {crect[2]:.0f}x{crect[3]:.0f}px of the source "
+                       f"({crect[2]/prep['px_w']:.0%} of the width); {estado}")
 
     ppi = vision.effective_ppi(prep["px_w"], crect[2] / prep["px_w"],
                                panel[2] if panel else W)
     if ppi < 72.0:
-        reasons.append(f"PPI efectivo {ppi:.0f} bajo 72 nominal: "
-                       f"suministrar fuente de mayor resolucion")
+        reasons.append(f"effective PPI {ppi:.0f} under a nominal 72: "
+                       f"supply a higher-resolution source")
 
     # --- 2. fondo predicho, campo de costo ----------------------------------
     canvas_px = _compose_backdrop(fmt, prep["rgb"], crect, panel)
@@ -389,12 +389,12 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
                     primera = (pw_, ph_, px_, py_)
         if puestas == 1 and primera:
             reasons.append(
-                f"region de la cara vedada al texto: {primera[0]:.0f}x{primera[1]:.0f}px "
-                f"en ({primera[2]:.0f},{primera[3]:.0f}) del lienzo, con 25% de margen")
+                f"face region barred to text: {primera[0]:.0f}x{primera[1]:.0f}px "
+                f"at ({primera[2]:.0f},{primera[3]:.0f}) on the canvas, with a 25% margin")
         elif puestas > 1:
             reasons.append(
-                f"{puestas} regiones de cara vedadas al texto, con 25% de margen cada "
-                f"una: cuando hay varias cabezas no basta vedar la region focal")
+                f"{puestas} face regions barred to text, each with a 25% margin: "
+                f"with several heads, barring the focal region is not enough")
 
     ii = vision.integral(cf)
     gx, gy = grid[0] / W, grid[1] / H
@@ -479,8 +479,8 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
 
     if best is None:
         return {"format": fmt, "failed": True,
-                "reasons": reasons + ["ninguna politica de la escalera produce un "
-                                      "layout valido en el area segura"]}
+                "reasons": reasons + ["no ladder policy produces a valid "
+                                      "layout inside the safe area"]}
 
     st = best["stack"]
     px, py, bw, bh = best["rect"]
@@ -489,12 +489,12 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
     dropped = [r for r in ALL_ROLES if scene.by_role(r) and r not in placed]
     reasons.extend(stack_notes)
     if fired:
-        reasons.append("escalera de degradacion aplicada: " + " -> ".join(fired))
+        reasons.append("degradation ladder applied: " + " -> ".join(fired))
     for r in dropped:
-        reasons.append(f"{r} retirado: no cabe por encima de su piso de legibilidad "
-                       f"sin comprimir la jerarquia")
-    reasons.append(f"texto emplazado en ({px:.0f},{py:.0f}) por busqueda densa sobre el "
-                   f"campo de costo: coste {best['cost']:.3f} en escala 0-1")
+        reasons.append(f"{r} dropped: it does not fit above its legibility floor "
+                       f"without compressing the hierarchy")
+    reasons.append(f"text placed at ({px:.0f},{py:.0f}) by dense search over the "
+                   f"cost field: cost {best['cost']:.3f} on a 0-1 scale")
 
     # --- 4. color y scrim ----------------------------------------------------
     blocks, scrims = [], []
@@ -525,7 +525,7 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
             got_after = min(vision.worst_contrast(
                 lum_w, r2, vision.hex_luminance(fill)) for r2 in lines_r)
             reasons.append(f"{blk.role}: contraste medido {got:.2f}:1 contra {need:.1f} "
-                           f"exigido, scrim con alpha {alpha:.2f}")
+                           f"required, scrim at alpha {alpha:.2f}")
         elif fill == brand.PALETTE["light"]:
             reasons.append(f"{blk.role}: tipografia invertida a claro, contraste {got:.2f}:1")
         blocks.append({"role": blk.role, "x": px, "size": f.size, "weight": it["weight"],
@@ -540,7 +540,7 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
     # Al reves quedaba un scrim huerfano sobre un legal retirado.
     legal = scene.by_role("legal")
     if legal and not keep_legal:
-        reasons.append("legal retirado por la escalera de degradacion")
+        reasons.append("legal dropped by the degradation ladder")
         dropped.append("legal")
     elif legal:
         want = T.snap_down(st["items"][0]["fit"].size * (legal.size / mh.size)) if mh else None
@@ -549,14 +549,14 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
         why = None
         r = None
         if f is None:
-            why = "no cabe a lo ancho por encima de su piso de legibilidad"
+            why = "does not fit across the width above its legibility floor"
         else:
             r = (sx, sy + sh - f.height, f.width, f.height)
             if f.height > legal_reserve * 1.6:
-                why = (f"necesita {f.height:.0f}px y la banda reservada es "
+                why = (f"needs {f.height:.0f}px and the reserved band is "
                        f"{legal_reserve:.0f}px")
             elif any(_overlap(r, b["rect"]) for b in blocks):
-                why = "colisionaba con la pila de texto"
+                why = "collided with the text stack"
         if why:
             reasons.append(f"legal retirado: {why}")
             dropped.append("legal")
@@ -577,7 +577,7 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
                     vision.luminance(work), r2, vision.hex_luminance(fill))
                     for r2 in lg_lines)
                 reasons.append(f"legal: contraste medido {got:.2f}:1 contra {need:.1f} "
-                               f"exigido, scrim con alpha {alpha:.2f}")
+                               f"required, scrim at alpha {alpha:.2f}")
             bl = [r[1] + T.ascent(legal.weight, f.size) + k * f.leading
                   for k in range(f.n_lines)]
             blocks.append({"role": "legal", "x": sx, "size": f.size,
@@ -603,9 +603,9 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
             k_need = brand.LOGO_WORDMARK_MIN / lk.wordmark_size
             if k_need * lw0 <= avail:
                 reasons.append(
-                    f"lockup escalado a {k_need:.2f}x en lugar de {k:.2f}x: a la escala "
-                    f"anterior el wordmark caia a {lk.wordmark_size*k:.1f}px, bajo su "
-                    f"piso de {brand.LOGO_WORDMARK_MIN:g}px")
+                    f"lockup scaled to {k_need:.2f}x instead of {k:.2f}x: at the "
+                    f"previous scale the wordmark fell to {lk.wordmark_size*k:.1f}px, under its "
+                    f"floor of {brand.LOGO_WORDMARK_MIN:g}px")
                 k = k_need
             elif lk.mark_rect:
                 mark_only = True
@@ -617,9 +617,9 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
                         avail / mw)
                 lx0, ly0, lw0, lh0 = lk.mark_rect
                 reasons.append(
-                    f"lockup degradado a marca sola: el wordmark habria quedado a "
-                    f"{lk.wordmark_size*brand.LOGO_MIN_PX/lk.rect[2]:.1f}px y no hay "
-                    f"ancho para subir la escala. La marca va a {mw*k:.0f}px")
+                    f"lockup degraded to mark only: the wordmark would have landed at "
+                    f"{lk.wordmark_size*brand.LOGO_MIN_PX/lk.rect[2]:.1f}px and there is no "
+                    f"width to raise the scale. The mark goes to {mw*k:.0f}px")
         nw, nh = lw0 * k, lh0 * k
         clear = nh * brand.LOGO_CLEAR
         cands = []
@@ -637,12 +637,12 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
         ink_l = vision.hex_luminance(brand.PALETTE["ink"])
         invert = (vision.worst_contrast(lum, lrect, ink_l) < 2.5)
         if invert:
-            reasons.append("logo en variante clara: sobre este fondo la tinta daba "
+            reasons.append("logo in the light variant: against this background the ink measured "
                            f"{vision.worst_contrast(lum, lrect, ink_l):.2f}:1")
         lock = {"xform": f"translate({cx_-lx0*k:.2f},{cy_-ly0*k:.2f}) scale({k:.4f})",
                 "rect": lrect, "scale": k, "mark_only": mark_only, "invert": invert}
-        reasons.append(f"lockup a escala uniforme {k:.2f}x, {nw:.0f}px de ancho, "
-                       f"clear-space {clear:.0f}px, esquina de menor coste")
+        reasons.append(f"lockup at a uniform {k:.2f}x scale, {nw:.0f}px wide, "
+                       f"clear-space {clear:.0f}px, lowest-cost corner")
 
     return {"format": fmt, "failed": False, "crop_px": crect, "crop_diag": cdiag,
             "ppi": ppi, "blocks": blocks, "scrims": scrims, "lockup": lock,

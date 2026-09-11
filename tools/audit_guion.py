@@ -99,7 +99,7 @@ def v_decisiones_arte():
     if not os.path.exists(p):
         return None
     h = open(p).read()
-    i = h.find("Decisiones de layout que se rehacen")
+    i = h.find("Layout decisions redone")
     if i < 0:
         return None
     tabla = h[i:h.find("</table>", i)]

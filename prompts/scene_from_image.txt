@@ -68,3 +68,8 @@ REGLAS, y la primera es la que importa:
 
 6. No inventes elementos que no esten en la imagen. Si dudas de un bloque, no lo
    incluyas: un bloque de menos es recuperable, uno inventado corrompe la pieza.
+
+
+IDIOMA DE LA RESPUESTA: los campos de texto libre -"que_es", "por_que",
+"description"- se escriben en INGLES, siempre, aunque estas instrucciones esten en
+espanol. Viajan al informe que lee el cliente, y ese informe esta en ingles.

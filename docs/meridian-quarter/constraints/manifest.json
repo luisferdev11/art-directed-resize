@@ -6,11 +6,11 @@
     1350.0
   ],
   "inference": [
-    "foto: raster de mayor area, 2160x2700px sobre 1080x1350 unidades",
+    "photo: largest-area raster, 2160x2700px over 1080x1350 units",
     "lockup: grupo con geometria vectorial, area menor, 222x34 en (794,96); marca 34x34 y wordmark a 15px",
-    "roles por rango de cuerpo: headline=92px, subhead=30px, support=20px, legal=13px",
-    "el bloque menor (13px) mide < 30% del titular (92px) -> legal",
-    "una sola cara, y las dos cascadas coinciden: region focal resuelta sin llamar a ningun modelo"
+    "roles by body-size rank: headline=92px, subhead=30px, support=20px, legal=13px",
+    "the smallest block (13px) measures < 30% of the headline (92px) -> legal",
+    "exactly one face, and the two cascades agree: the focal region is settled without calling any model"
   ],
   "outputs": [
     {
@@ -29,11 +29,11 @@
       "effective_ppi": 144.0,
       "field_cost": 0.1951,
       "reasons": [
-        "template 'portrait' (1080x1350) elegido por proximidad de tamano: distancia 0.00 frente a square 0.22, landscape 0.80. El objetivo coincide con el template: este es su mejor caso.",
-        "foto: recorte al CENTRO de 2160x2700px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "template 'portrait' (1080x1350) chosen by size proximity: tamano: distancia 0.00 frente a square 0.22, landscape 0.80. The target matches the template: this is its best case.",
+        "photo: CENTRE crop of 2160x2700px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
         "lockup por constraint RIGHT+TOP: 222px de ancho en (794,96)",
-        "coste del emplazamiento sobre el MISMO campo de costo: 0.195 en escala 0-1. No se busco: es donde cayo la caja",
-        "heredado del master -> legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 59px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+        "placement cost over the SAME cost field: 0.195 on a 0-1 scale. It was not searched for: it is where the box landed",
+        "inherited from the master -> legal: it invades the safe area by bottom. It sits 50px from the edge and the format declares 59px. It already happened on the template's own template: viene del autorado del master, no del resize"
       ],
       "dropped": [],
       "ladder": [],
@@ -144,7 +144,7 @@
       ],
       "violations": [],
       "inherited": [
-        "legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 59px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+        "legal: it invades the safe area by bottom. It sits 50px from the edge and the format declares 59px. It already happened on the template's own template: viene del autorado del master, no del resize"
       ]
     },
     {
@@ -163,12 +163,12 @@
       "effective_ppi": 101.2,
       "field_cost": 0.1895,
       "reasons": [
-        "template 'portrait' (1080x1350) elegido por proximidad de tamano: distancia 0.35 frente a square 0.58, landscape 1.15.",
-        "foto: recorte al CENTRO de 1519x2700px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "template 'portrait' (1080x1350) chosen by size proximity: tamano: distancia 0.35 frente a square 0.58, landscape 1.15.",
+        "photo: CENTRE crop of 1519x2700px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
         "lockup por constraint RIGHT+TOP: 222px de ancho en (794,96)",
-        "coste del emplazamiento sobre el MISMO campo de costo: 0.189 en escala 0-1. No se busco: es donde cayo la caja",
-        "violacion -> headline: invade el area segura por arriba. Queda a 96px del borde y el formato declara 151px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo",
-        "heredado del master -> legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 216px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+        "placement cost over the SAME cost field: 0.189 on a 0-1 scale. It was not searched for: it is where the box landed",
+        "violacion -> headline: it invades the safe area by top. It sits 96px from the edge and the format declares 151px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
+        "inherited from the master -> legal: it invades the safe area by bottom. It sits 50px from the edge and the format declares 216px. It already happened on the template's own template: viene del autorado del master, no del resize"
       ],
       "dropped": [],
       "ladder": [],
@@ -278,10 +278,10 @@
         ]
       ],
       "violations": [
-        "headline: invade el area segura por arriba. Queda a 96px del borde y el formato declara 151px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo"
+        "headline: it invades the safe area by top. It sits 96px from the edge and the format declares 151px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo"
       ],
       "inherited": [
-        "legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 216px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+        "legal: it invades the safe area by bottom. It sits 50px from the edge and the format declares 216px. It already happened on the template's own template: viene del autorado del master, no del resize"
       ]
     },
     {
@@ -300,14 +300,14 @@
       "effective_ppi": 213.6,
       "field_cost": 0.209,
       "reasons": [
-        "template 'square' (1080x1080) elegido por proximidad de tamano: distancia 2.88 frente a portrait 3.10, landscape 3.45.",
-        "foto: recorte al CENTRO de 2160x267px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "template 'square' (1080x1080) chosen by size proximity: tamano: distancia 2.88 frente a portrait 3.10, landscape 3.45.",
+        "photo: CENTRE crop of 2160x267px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
         "lockup por constraint RIGHT+TOP: 222px de ancho en (442,88)",
-        "coste del emplazamiento sobre el MISMO campo de costo: 0.209 en escala 0-1. No se busco: es donde cayo la caja",
-        "violacion -> headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo",
-        "violacion -> subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo",
-        "violacion -> support: se sale del lienzo. La caja quedo en (64,396) 209x19 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo",
-        "violacion -> lockup: se sale del lienzo a 222px de ancho sobre 728px. RIGHT+TOP no reescala"
+        "placement cost over the SAME cost field: 0.209 on a 0-1 scale. It was not searched for: it is where the box landed",
+        "violacion -> headline: it falls outside the canvas. The box landed at (64,88) 600x186 sobre 728x90. The constraint repositions; it does not refit the body size",
+        "violacion -> subhead: it falls outside the canvas. The box landed at (64,350) 422x28 sobre 728x90. The constraint repositions; it does not refit the body size",
+        "violacion -> support: it falls outside the canvas. The box landed at (64,396) 209x19 sobre 728x90. The constraint repositions; it does not refit the body size",
+        "violacion -> lockup: it falls outside the canvas at 222px wide against 728px. RIGHT+TOP does not rescale"
       ],
       "dropped": [],
       "ladder": [],
@@ -374,7 +374,7 @@
       ],
       "scrims": [
         {
-          "for": "pila",
+          "for": "stack",
           "alpha": 0.42
         },
         {
@@ -410,7 +410,7 @@
           "BOTTOM"
         ],
         [
-          "scrim de pila",
+          "scrim de stack",
           "LEFT",
           "TOP"
         ],
@@ -426,10 +426,10 @@
         ]
       ],
       "violations": [
-        "headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo",
-        "subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo",
-        "support: se sale del lienzo. La caja quedo en (64,396) 209x19 sobre 728x90. El constraint reposiciona; no reajusta el cuerpo",
-        "lockup: se sale del lienzo a 222px de ancho sobre 728px. RIGHT+TOP no reescala"
+        "headline: it falls outside the canvas. The box landed at (64,88) 600x186 sobre 728x90. The constraint repositions; it does not refit the body size",
+        "subhead: it falls outside the canvas. The box landed at (64,350) 422x28 sobre 728x90. The constraint repositions; it does not refit the body size",
+        "support: it falls outside the canvas. The box landed at (64,396) 209x19 sobre 728x90. The constraint repositions; it does not refit the body size",
+        "lockup: it falls outside the canvas at 222px wide against 728px. RIGHT+TOP does not rescale"
       ],
       "inherited": []
     },
@@ -449,14 +449,14 @@
       "effective_ppi": 518.4,
       "field_cost": 0.1888,
       "reasons": [
-        "template 'square' (1080x1080) elegido por proximidad de tamano: distancia 2.74 frente a portrait 2.97, landscape 3.32.",
-        "foto: recorte al CENTRO de 2160x1800px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "template 'square' (1080x1080) chosen by size proximity: tamano: distancia 2.74 frente a portrait 2.97, landscape 3.32.",
+        "photo: CENTRE crop of 2160x1800px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
         "lockup por constraint RIGHT+TOP: 222px de ancho en (14,88)",
-        "coste del emplazamiento sobre el MISMO campo de costo: 0.189 en escala 0-1. No se busco: es donde cayo la caja",
-        "violacion -> headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
-        "violacion -> subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
-        "violacion -> support: se sale del lienzo. La caja quedo en (64,396) 209x19 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
-        "violacion -> legal: se sale del lienzo. La caja quedo en (64,188) 284x12 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
+        "placement cost over the SAME cost field: 0.189 on a 0-1 scale. It was not searched for: it is where the box landed",
+        "violacion -> headline: it falls outside the canvas. The box landed at (64,88) 600x186 sobre 300x250. The constraint repositions; it does not refit the body size",
+        "violacion -> subhead: it falls outside the canvas. The box landed at (64,350) 422x28 sobre 300x250. The constraint repositions; it does not refit the body size",
+        "violacion -> support: it falls outside the canvas. The box landed at (64,396) 209x19 sobre 300x250. The constraint repositions; it does not refit the body size",
+        "violacion -> legal: it falls outside the canvas. The box landed at (64,188) 284x12 sobre 300x250. The constraint repositions; it does not refit the body size",
         "violacion -> headline y legal se solapan"
       ],
       "dropped": [],
@@ -524,7 +524,7 @@
       ],
       "scrims": [
         {
-          "for": "pila",
+          "for": "stack",
           "alpha": 0.42
         },
         {
@@ -560,7 +560,7 @@
           "BOTTOM"
         ],
         [
-          "scrim de pila",
+          "scrim de stack",
           "LEFT",
           "TOP"
         ],
@@ -576,10 +576,10 @@
         ]
       ],
       "violations": [
-        "headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
-        "subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
-        "support: se sale del lienzo. La caja quedo en (64,396) 209x19 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
-        "legal: se sale del lienzo. La caja quedo en (64,188) 284x12 sobre 300x250. El constraint reposiciona; no reajusta el cuerpo",
+        "headline: it falls outside the canvas. The box landed at (64,88) 600x186 sobre 300x250. The constraint repositions; it does not refit the body size",
+        "subhead: it falls outside the canvas. The box landed at (64,350) 422x28 sobre 300x250. The constraint repositions; it does not refit the body size",
+        "support: it falls outside the canvas. The box landed at (64,396) 209x19 sobre 300x250. The constraint repositions; it does not refit the body size",
+        "legal: it falls outside the canvas. The box landed at (64,188) 284x12 sobre 300x250. The constraint repositions; it does not refit the body size",
         "headline y legal se solapan"
       ],
       "inherited": []
@@ -600,11 +600,11 @@
       "effective_ppi": 144.0,
       "field_cost": 0.1641,
       "reasons": [
-        "template 'square' (1080x1080) elegido por proximidad de tamano: distancia 0.00 frente a portrait 0.22, landscape 0.58. El objetivo coincide con el template: este es su mejor caso.",
-        "foto: recorte al CENTRO de 2160x2160px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "template 'square' (1080x1080) chosen by size proximity: tamano: distancia 0.00 frente a portrait 0.22, landscape 0.58. The target matches the template: this is its best case.",
+        "photo: CENTRE crop of 2160x2160px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
         "lockup por constraint RIGHT+TOP: 222px de ancho en (794,88)",
-        "coste del emplazamiento sobre el MISMO campo de costo: 0.164 en escala 0-1. No se busco: es donde cayo la caja",
-        "heredado del master -> legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 65px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+        "placement cost over the SAME cost field: 0.164 on a 0-1 scale. It was not searched for: it is where the box landed",
+        "inherited from the master -> legal: it invades the safe area by bottom. It sits 50px from the edge and the format declares 65px. It already happened on the template's own template: viene del autorado del master, no del resize"
       ],
       "dropped": [],
       "ladder": [],
@@ -671,7 +671,7 @@
       ],
       "scrims": [
         {
-          "for": "pila",
+          "for": "stack",
           "alpha": 0.42
         },
         {
@@ -707,7 +707,7 @@
           "BOTTOM"
         ],
         [
-          "scrim de pila",
+          "scrim de stack",
           "LEFT",
           "TOP"
         ],
@@ -724,7 +724,7 @@
       ],
       "violations": [],
       "inherited": [
-        "legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 65px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+        "legal: it invades the safe area by bottom. It sits 50px from the edge and the format declares 65px. It already happened on the template's own template: viene del autorado del master, no del resize"
       ]
     },
     {
@@ -743,13 +743,13 @@
       "effective_ppi": 324.0,
       "field_cost": 0.1871,
       "reasons": [
-        "template 'square' (1080x1080) elegido por proximidad de tamano: distancia 1.87 frente a portrait 2.09, landscape 2.44.",
-        "foto: recorte al CENTRO de 1350x2700px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "template 'square' (1080x1080) chosen by size proximity: tamano: distancia 1.87 frente a portrait 2.09, landscape 2.44.",
+        "photo: CENTRE crop of 1350x2700px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
         "lockup por constraint RIGHT+TOP: 222px de ancho en (14,88)",
-        "coste del emplazamiento sobre el MISMO campo de costo: 0.187 en escala 0-1. No se busco: es donde cayo la caja",
-        "violacion -> headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo",
-        "violacion -> subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo",
-        "violacion -> legal: se sale del lienzo. La caja quedo en (64,538) 284x12 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo"
+        "placement cost over the SAME cost field: 0.187 on a 0-1 scale. It was not searched for: it is where the box landed",
+        "violacion -> headline: it falls outside the canvas. The box landed at (64,88) 600x186 sobre 300x600. The constraint repositions; it does not refit the body size",
+        "violacion -> subhead: it falls outside the canvas. The box landed at (64,350) 422x28 sobre 300x600. The constraint repositions; it does not refit the body size",
+        "violacion -> legal: it falls outside the canvas. The box landed at (64,538) 284x12 sobre 300x600. The constraint repositions; it does not refit the body size"
       ],
       "dropped": [],
       "ladder": [],
@@ -816,7 +816,7 @@
       ],
       "scrims": [
         {
-          "for": "pila",
+          "for": "stack",
           "alpha": 0.42
         },
         {
@@ -852,7 +852,7 @@
           "BOTTOM"
         ],
         [
-          "scrim de pila",
+          "scrim de stack",
           "LEFT",
           "TOP"
         ],
@@ -868,9 +868,9 @@
         ]
       ],
       "violations": [
-        "headline: se sale del lienzo. La caja quedo en (64,88) 600x186 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo",
-        "subhead: se sale del lienzo. La caja quedo en (64,350) 422x28 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo",
-        "legal: se sale del lienzo. La caja quedo en (64,538) 284x12 sobre 300x600. El constraint reposiciona; no reajusta el cuerpo"
+        "headline: it falls outside the canvas. The box landed at (64,88) 600x186 sobre 300x600. The constraint repositions; it does not refit the body size",
+        "subhead: it falls outside the canvas. The box landed at (64,350) 422x28 sobre 300x600. The constraint repositions; it does not refit the body size",
+        "legal: it falls outside the canvas. The box landed at (64,538) 284x12 sobre 300x600. The constraint repositions; it does not refit the body size"
       ],
       "inherited": []
     },
@@ -890,10 +890,10 @@
       "effective_ppi": 81.0,
       "field_cost": 0.1144,
       "reasons": [
-        "template 'landscape' (1920x1080) elegido por proximidad de tamano: distancia 0.00 frente a square 0.58, portrait 0.80. El objetivo coincide con el template: este es su mejor caso.",
-        "foto: recorte al CENTRO de 2160x1215px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "template 'landscape' (1920x1080) chosen by size proximity: tamano: distancia 0.00 frente a square 0.58, portrait 0.80. The target matches the template: this is its best case.",
+        "photo: CENTRE crop of 2160x1215px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
         "lockup por constraint RIGHT+TOP: 222px de ancho en (1618,96)",
-        "coste del emplazamiento sobre el MISMO campo de costo: 0.114 en escala 0-1. No se busco: es donde cayo la caja"
+        "placement cost over the SAME cost field: 0.114 on a 0-1 scale. It was not searched for: it is where the box landed"
       ],
       "dropped": [],
       "ladder": [],
@@ -960,7 +960,7 @@
       ],
       "scrims": [
         {
-          "for": "pila",
+          "for": "stack",
           "alpha": 0.42
         },
         {
@@ -996,7 +996,7 @@
           "BOTTOM"
         ],
         [
-          "scrim de pila",
+          "scrim de stack",
           "LEFT",
           "TOP"
         ],
@@ -1030,14 +1030,14 @@
       "effective_ppi": 92.7,
       "field_cost": 0.1975,
       "reasons": [
-        "template 'portrait' (1080x1350) elegido por proximidad de tamano: distancia 0.53 frente a square 0.75, landscape 1.33.",
-        "foto: recorte al CENTRO de 1275x2700px para llenar el marco. El constraint no sabe donde esta el sujeto: recorta por geometria",
+        "template 'portrait' (1080x1350) chosen by size proximity: tamano: distancia 0.53 frente a square 0.75, landscape 1.33.",
+        "photo: CENTRE crop of 1275x2700px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
         "lockup por constraint RIGHT+TOP: 222px de ancho en (704,96)",
-        "coste del emplazamiento sobre el MISMO campo de costo: 0.198 en escala 0-1. No se busco: es donde cayo la caja",
-        "violacion -> headline: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo",
-        "violacion -> subhead: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo",
-        "violacion -> support: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo",
-        "heredado del master -> legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 69px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+        "placement cost over the SAME cost field: 0.198 on a 0-1 scale. It was not searched for: it is where the box landed",
+        "violacion -> headline: it invades the safe area by left. It sits 64px from the edge and the format declares 69px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
+        "violacion -> subhead: it invades the safe area by left. It sits 64px from the edge and the format declares 69px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
+        "violacion -> support: it invades the safe area by left. It sits 64px from the edge and the format declares 69px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
+        "inherited from the master -> legal: it invades the safe area by bottom. It sits 50px from the edge and the format declares 69px. It already happened on the template's own template: viene del autorado del master, no del resize"
       ],
       "dropped": [],
       "ladder": [],
@@ -1147,12 +1147,12 @@
         ]
       ],
       "violations": [
-        "headline: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo",
-        "subhead: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo",
-        "support: invade el area segura por izquierda. Queda a 64px del borde y el formato declara 69px. El margen se hereda del template y no se vuelve a comprobar contra los insets del objetivo"
+        "headline: it invades the safe area by left. It sits 64px from the edge and the format declares 69px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
+        "subhead: it invades the safe area by left. It sits 64px from the edge and the format declares 69px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
+        "support: it invades the safe area by left. It sits 64px from the edge and the format declares 69px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo"
       ],
       "inherited": [
-        "legal: invade el area segura por abajo. Queda a 50px del borde y el formato declara 69px. Ya ocurria en el lienzo del propio template: viene del autorado del master, no del resize"
+        "legal: it invades the safe area by bottom. It sits 50px from the edge and the format declares 69px. It already happened on the template's own template: viene del autorado del master, no del resize"
       ]
     }
   ]

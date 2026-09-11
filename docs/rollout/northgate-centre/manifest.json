@@ -6,11 +6,11 @@
     1350.0
   ],
   "inference": [
-    "foto: raster de mayor area, 2160x2700px sobre 1080x1350 unidades",
+    "photo: largest-area raster, 2160x2700px over 1080x1350 units",
     "lockup: grupo con geometria vectorial, area menor, 222x34 en (794,96); marca 34x34 y wordmark a 15px",
-    "roles por rango de cuerpo: headline=92px, subhead=30px, support=20px, legal=13px",
-    "el bloque menor (13px) mide < 30% del titular (92px) -> legal",
-    "una sola cara, y las dos cascadas coinciden: region focal resuelta sin llamar a ningun modelo"
+    "roles by body-size rank: headline=92px, subhead=30px, support=20px, legal=13px",
+    "the smallest block (13px) measures < 30% of the headline (92px) -> legal",
+    "exactly one face, and the two cascades agree: the focal region is settled without calling any model"
   ],
   "outputs": [
     {
@@ -29,15 +29,15 @@
       "effective_ppi": 145.9,
       "field_cost": 0.2279,
       "reasons": [
-        "recorte 2189x2736px de la fuente (60% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
-        "texto emplazado en (59,59) por busqueda densa sobre el campo de costo: coste 0.228 en escala 0-1",
-        "headline: contraste medido 1.08:1 contra 3.0 exigido, scrim con alpha 0.35",
-        "subhead: contraste medido 2.27:1 contra 3.0 exigido, scrim con alpha 0.17",
+        "crop 2189x2736px of the source (60% of the width); focal region contained",
+        "2 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
+        "text placed at (59,59) by dense search over the cost field: cost 0.228 on a 0-1 scale",
+        "headline: contraste medido 1.08:1 contra 3.0 required, scrim at alpha 0.35",
+        "subhead: contraste medido 2.27:1 contra 3.0 required, scrim at alpha 0.17",
         "support: tipografia invertida a claro, contraste 6.14:1",
-        "legal: contraste medido 1.80:1 contra 4.5 exigido, scrim con alpha 0.41",
-        "logo en variante clara: sobre este fondo la tinta daba 1.89:1",
-        "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
+        "legal: contraste medido 1.80:1 contra 4.5 required, scrim at alpha 0.41",
+        "logo in the light variant: against this background the ink measured 1.89:1",
+        "lockup at a uniform 0.78x scale, 173px wide, clear-space 13px, lowest-cost corner"
       ],
       "dropped": [],
       "ladder": [],
@@ -135,14 +135,14 @@
       "effective_ppi": 102.6,
       "field_cost": 0.2013,
       "reasons": [
-        "recorte 1539x2736px de la fuente (42% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
-        "texto emplazado en (65,151) por busqueda densa sobre el campo de costo: coste 0.201 en escala 0-1",
-        "headline: contraste medido 2.51:1 contra 3.0 exigido, scrim con alpha 0.12",
-        "subhead: contraste medido 2.09:1 contra 3.0 exigido, scrim con alpha 0.18",
-        "legal: contraste medido 3.94:1 contra 4.5 exigido, scrim con alpha 0.11",
-        "logo en variante clara: sobre este fondo la tinta daba 1.10:1",
-        "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
+        "crop 1539x2736px of the source (42% of the width); focal region contained",
+        "2 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
+        "text placed at (65,151) by dense search over the cost field: cost 0.201 on a 0-1 scale",
+        "headline: contraste medido 2.51:1 contra 3.0 required, scrim at alpha 0.12",
+        "subhead: contraste medido 2.09:1 contra 3.0 required, scrim at alpha 0.18",
+        "legal: contraste medido 3.94:1 contra 4.5 required, scrim at alpha 0.11",
+        "logo in the light variant: against this background the ink measured 1.10:1",
+        "lockup at a uniform 0.78x scale, 173px wide, clear-space 13px, lowest-cost corner"
       ],
       "dropped": [],
       "ladder": [],
@@ -240,19 +240,19 @@
       "effective_ppi": 972.8,
       "field_cost": 0.0075,
       "reasons": [
-        "a 8.1:1 ningun recorte a sangre contiene la region focal por encima de la escala minima de sujeto: haria falta 2322px de alto, o 18784px de ancho, y la fuente tiene 3648px. La foto degrada a panel lateral de 270x90 (3.0:1) y se promueve el campo de marca; el sujeto sigue apretado incluso en el panel",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
-        "subhead: el piso de legibilidad redujo el contraste de tamano a 2.29:1 frente a 3.07:1 del master, asi que la jerarquia se re-expresa en peso (400 a 300)",
-        "support: el piso de legibilidad redujo el contraste de tamano a 2.91:1 frente a 4.60:1 del master, asi que la jerarquia se re-expresa en peso (900 a 300)",
-        "escalera de degradacion aplicada: tighten_leading -> weight_for_size -> drop_legal",
-        "texto emplazado en (68,9) por busqueda densa sobre el campo de costo: coste 0.007 en escala 0-1",
+        "at 8.1:1 no bleed crop contains the focal region above the minimum subject scale: it would need 2322px of height, or 18784px of width, and the source has 3648px. The photograph degrades to a side panel of 270x90 (3.0:1) and the brand field is promoted; the subject is still tight even inside the panel",
+        "2 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
+        "subhead: the legibility floor cut the size contrast to 2.29:1 against 3.07:1 in the master, so the hierarchy is re-expressed in weight (400 to 300)",
+        "support: the legibility floor cut the size contrast to 2.91:1 against 4.60:1 in the master, so the hierarchy is re-expressed in weight (900 to 300)",
+        "degradation ladder applied: tighten_leading -> weight_for_size -> drop_legal",
+        "text placed at (68,9) by dense search over the cost field: cost 0.007 on a 0-1 scale",
         "headline: tipografia invertida a claro, contraste 15.24:1",
         "subhead: tipografia invertida a claro, contraste 15.24:1",
         "support: tipografia invertida a claro, contraste 15.24:1",
-        "legal retirado por la escalera de degradacion",
-        "lockup escalado a 0.50x en lugar de 0.25x: a la escala anterior el wordmark caia a 3.8px, bajo su piso de 7.5px",
-        "logo en variante clara: sobre este fondo la tinta daba 1.00:1",
-        "lockup a escala uniforme 0.50x, 111px de ancho, clear-space 8px, esquina de menor coste"
+        "legal dropped by the degradation ladder",
+        "lockup scaled to 0.50x instead of 0.25x: at the previous scale the wordmark fell to 3.8px, under its floor of 7.5px",
+        "logo in the light variant: against this background the ink measured 1.00:1",
+        "lockup at a uniform 0.50x scale, 111px wide, clear-space 8px, lowest-cost corner"
       ],
       "dropped": [
         "legal"
@@ -332,18 +332,18 @@
       "effective_ppi": 788.0,
       "field_cost": 0.4037,
       "reasons": [
-        "recorte 3283x2736px de la fuente (90% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
-        "subhead: contraste de tamano comprimido a 2.15:1 frente a 3.07:1 del master",
-        "support: contraste de tamano comprimido a 2.55:1 frente a 4.60:1 del master",
-        "texto emplazado en (182,36) por busqueda densa sobre el campo de costo: coste 0.404 en escala 0-1",
-        "headline: contraste medido 1.73:1 contra 3.0 exigido, scrim con alpha 0.27",
+        "crop 3283x2736px of the source (90% of the width); focal region contained",
+        "2 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
+        "subhead: size contrast compressed to 2.15:1 against 3.07:1 in the master",
+        "support: size contrast compressed to 2.55:1 against 4.60:1 in the master",
+        "text placed at (182,36) by dense search over the cost field: cost 0.404 on a 0-1 scale",
+        "headline: contraste medido 1.73:1 contra 3.0 required, scrim at alpha 0.27",
         "subhead: tipografia invertida a claro, contraste 6.82:1",
-        "support: contraste medido 2.53:1 contra 4.5 exigido, scrim con alpha 0.30",
-        "legal: contraste medido 2.09:1 contra 4.5 exigido, scrim con alpha 0.37",
-        "lockup degradado a marca sola: el wordmark habria quedado a 3.8px y no hay ancho para subir la escala. La marca va a 25px",
-        "logo en variante clara: sobre este fondo la tinta daba 1.25:1",
-        "lockup a escala uniforme 0.74x, 25px de ancho, clear-space 12px, esquina de menor coste"
+        "support: contraste medido 2.53:1 contra 4.5 required, scrim at alpha 0.30",
+        "legal: contraste medido 2.09:1 contra 4.5 required, scrim at alpha 0.37",
+        "lockup degraded to mark only: the wordmark would have landed at 3.8px and there is no width to raise the scale. The mark goes to 25px",
+        "logo in the light variant: against this background the ink measured 1.25:1",
+        "lockup at a uniform 0.74x scale, 25px wide, clear-space 12px, lowest-cost corner"
       ],
       "dropped": [],
       "ladder": [],
@@ -442,15 +442,15 @@
       "effective_ppi": 182.4,
       "field_cost": 0.3083,
       "reasons": [
-        "recorte 2736x2736px de la fuente (75% del ancho); region focal contenida",
-        "2 regiones de cara vedadas al texto, con 25% de margen cada una: cuando hay varias cabezas no basta vedar la region focal",
-        "texto emplazado en (633,65) por busqueda densa sobre el campo de costo: coste 0.308 en escala 0-1",
-        "headline: contraste medido 1.57:1 contra 3.0 exigido, scrim con alpha 0.31",
-        "subhead: contraste medido 2.14:1 contra 3.0 exigido, scrim con alpha 0.19",
-        "support: contraste medido 1.87:1 contra 3.0 exigido, scrim con alpha 0.24",
-        "legal: contraste medido 2.12:1 contra 4.5 exigido, scrim con alpha 0.36",
-        "logo en variante clara: sobre este fondo la tinta daba 1.07:1",
-        "lockup a escala uniforme 0.78x, 173px de ancho, clear-space 13px, esquina de menor coste"
+        "crop 2736x2736px of the source (75% of the width); focal region contained",
+        "2 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
+        "text placed at (633,65) by dense search over the cost field: cost 0.308 on a 0-1 scale",
+        "headline: contraste medido 1.57:1 contra 3.0 required, scrim at alpha 0.31",
+        "subhead: contraste medido 2.14:1 contra 3.0 required, scrim at alpha 0.19",
+        "support: contraste medido 1.87:1 contra 3.0 required, scrim at alpha 0.24",
+        "legal: contraste medido 2.12:1 contra 4.5 required, scrim at alpha 0.36",
+        "logo in the light variant: against this background the ink measured 1.07:1",
+        "lockup at a uniform 0.78x scale, 173px wide, clear-space 13px, lowest-cost corner"
       ],
       "dropped": [],
       "ladder": [],

@@ -52,3 +52,8 @@ REGLAS:
 6. `lleva_copy` decide por donde entra la pieza al sistema, asi que importa. Un
    cartel de una tienda que aparece DENTRO de la fotografia no es copy de campana:
    copy de campana es texto sobrepuesto sobre la imagen, no texto fotografiado.
+
+
+IDIOMA DE LA RESPUESTA: los campos de texto libre -"que_es", "por_que",
+"description"- se escriben en INGLES, siempre, aunque estas instrucciones esten en
+espanol. Viajan al informe que lee el cliente, y ese informe esta en ingles.

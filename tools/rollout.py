@@ -154,51 +154,52 @@ def page(made):
 </style>
 <div class="wrap">
 {nav.render(DEST, "rollout/index.html")}
-<h1>Un archivo por centre</h1>
-<p class="sub">Una campana de retail property sale a varios centros, y cada centro
- necesita su paquete. Si el rollout entrega un unico documento con todo dentro,
- alguien tiene que extraer a mano lo de cada centro antes de poder mandarlo.</p>
-<p class="sub">Lo verificado del mecanismo por templates: 1340 assets aterrizan en una
- sola pagina de Figma, agrupados por vendor dentro de ese unico documento
- <em style="opacity:.55;font-size:12px">[captura del producto en funcionamiento]</em>.
- Agrupar no es separar. Aqui cada centre es una carpeta autocontenida: se abre, se
- comprime y se manda sola.</p>
+<h1>One folder per centre</h1>
+<p class="sub">A retail property campaign goes out to several centres, and each centre
+ needs its own package. If the rollout delivers one single document with everything
+ inside it, somebody has to pull each centre's share out by hand before it can be
+ sent.</p>
+<p class="sub">What was verified of the template mechanism: 1,340 assets land on a
+ single Figma page, grouped by vendor inside that one document
+ <em style="opacity:.55;font-size:12px">[screenshot of the product running]</em>.
+ Grouping is not separating. Here each centre is a self-contained folder: it opens, it
+ zips and it ships on its own.</p>
 
-<h2>Las tres piezas, mismo formato</h2>
-<p class="sub">{BY_HERO} &mdash; una por centre, cada una en su carpeta. Misma
- estructura de master, misma copy, su propia fotografia y su propio layout resuelto.</p>
+<h2>The three pieces, same format</h2>
+<p class="sub">{BY_HERO} &mdash; one per centre, each in its own folder. Same master
+ structure, same copy, its own photograph and its own resolved layout.</p>
 <div class="strip">{strip}</div>
 
-<h2>Las carpetas</h2>
-<table><tr><th>Centre</th><th>Archivos</th><th>Total</th><th>El mayor</th>
-<th>Validador</th></tr>{rows}</table>
+<h2>The folders</h2>
+<table><tr><th>Centre</th><th>Files</th><th>Total</th><th>Largest</th>
+<th>Validator</th></tr>{rows}</table>
 
-<h2>El arbol de salida</h2>
+<h2>The output tree</h2>
 <pre>{tree}</pre>
 
 <div class="crit">
- <strong>Criterios de aceptacion.</strong>
- {len(made)} centres &rarr; {len(made)} carpetas: <strong>{'cumple' if ok_sep else 'no cumple'}</strong>.
- <code>check.py</code> verde en todas: <strong>{'cumple' if ok_verde else 'no cumple'}</strong>.
- Ningun archivo por encima de {MAX_MB:.0f} MB: <strong>{'cumple' if ok_size else 'no cumple'}</strong>.
+ <strong>Acceptance criteria.</strong>
+ {len(made)} centres &rarr; {len(made)} folders: <strong>{'met' if ok_sep else 'not met'}</strong>.
+ <code>check.py</code> green on all of them: <strong>{'met' if ok_verde else 'not met'}</strong>.
+ No file above {MAX_MB:.0f} MB: <strong>{'met' if ok_size else 'not met'}</strong>.
 </div>
 
-<div class="gap"><strong>Lo que esto NO hace.</strong> El copy no varia por centre:
- los tres llevan el mismo titular, la misma oferta y las mismas fechas. Esa es la
- Fase 7b del plan y no esta construida. Lo que cambia por centre es la fotografia,
- que es lo realista, y basta para lo que se afirma aqui, que es la separacion de
- archivos. Se nombra como hueco, no como ventaja.</div>
+<div class="gap"><strong>What this does NOT do.</strong> Copy does not vary per centre:
+ all three carry the same headline, the same offer and the same dates. That is Phase 7b
+ of the plan and it is not built. What changes per centre is the photograph, which is
+ the realistic part, and it is enough for what is claimed here, which is the separation
+ of files. It is named as a gap, not as an advantage.</div>
 </div>
 """
     os.makedirs(DEST, exist_ok=True)
     with open(os.path.join(DEST, "index.html"), "w") as fh:
         fh.write(doc)
     print("\n  CRITERIO 1 · un directorio por centre : "
-          + ("CUMPLE" if ok_sep else "NO CUMPLE"))
+          + ("CUMPLE" if ok_sep else "NOT MET"))
     print("  CRITERIO 2 · check.py verde en todos  : "
-          + ("CUMPLE" if ok_verde else "NO CUMPLE"))
+          + ("CUMPLE" if ok_verde else "NOT MET"))
     print(f"  CRITERIO 3 · ningun archivo > {MAX_MB:.0f}MB     : "
-          + ("CUMPLE" if ok_size else "NO CUMPLE"))
+          + ("CUMPLE" if ok_size else "NOT MET"))
     print("\n-> " + os.path.join(DEST, "index.html"))
     return 0 if (ok_sep and ok_verde and ok_size) else 1
 

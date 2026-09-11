@@ -27,8 +27,8 @@ REGLAS DURAS. Se validan y si no se cumplen la respuesta se descarta:
      support   2 a 8 palabras
    Sin saltos de linea. El motor decide donde se parten.
 
-2. En ESPANOL o en INGLES, el mismo idioma en los tres, y el que le quede a la
-   fotografia. Si dudas, ingles.
+2. En INGLES, siempre. El centro es australiano y el informe que lee el cliente
+   esta en ingles. El campo "por_que" tambien.
 
 3. La copy tiene que TENER QUE VER con la fotografia. Es el punto del ejercicio: si
    la foto es una plaza al atardecer, un plato de comida o una camioneta antigua, la

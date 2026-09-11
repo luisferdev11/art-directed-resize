@@ -76,7 +76,7 @@ def variants():
     pb = os.path.join(WORK, "master-b.svg")
     open(pb, "wb").write(etree.tostring(root, xml_declaration=True, encoding="UTF-8"))
     made.append(("B · legal en cuerpo grande", pb,
-                 "legal a 34px y support a 12px: el orden por tamano queda invertido"))
+                 "legal at 34px and support at 12px: the size ranking comes out inverted"))
 
     # C: el mismo contenido con el lockup al otro lado. No rompe el orden por
     # tamano; comprueba que leer la pieza no depende de donde esten las cosas.
@@ -86,8 +86,8 @@ def variants():
             g.set("transform", "translate(-729,1140)")
     pc = os.path.join(WORK, "master-c.svg")
     open(pc, "wb").write(etree.tostring(root, xml_declaration=True, encoding="UTF-8"))
-    made.append(("C · lockup abajo a la izquierda", pc,
-                 "mismo tipo, el lockup cambia de esquina"))
+    made.append(("C · lockup bottom left", pc,
+                 "same type, the lockup changes corner"))
     return made
 
 

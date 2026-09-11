@@ -96,7 +96,7 @@ def validate(d: Any, W: float, H: float) -> Tuple[Optional[Dict[str, Any]], List
     """
     errs: List[str] = []
     if not isinstance(d, dict):
-        return None, ["la respuesta no es un objeto JSON"]
+        return None, ["the response is not a JSON object"]
     texts = d.get("texts")
     if not isinstance(texts, list) or not texts:
         return None, ["'texts' ausente o vacio"]
@@ -235,7 +235,7 @@ def _solve_type(body: str, tight, n_lines: int, weight: int) -> Tuple[float, str
     if not widths or max(widths) <= 0:
         return (float(tight[3]) / max((L - 1) * LEADING + cap, 1e-6),
                 f"altura de {tight[3]}px, interlineado supuesto")
-    return T.REF * float(tight[2]) / max(widths), f"ancho de tinta de {tight[2]}px"
+    return T.REF * float(tight[2]) / max(widths), f"ink width of {tight[2]}px"
 
 
 def _logo_nodes(rgb: np.ndarray, rect, mask: np.ndarray, recolor: str = ""):
@@ -291,8 +291,8 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
     im = Image.open(path).convert("RGB")
     W, H = float(im.size[0]), float(im.size[1])
     rgb = np.asarray(im)
-    notes: List[str] = [f"entrada RASTER {int(W)}x{int(H)}px: sin capas, sin nodos de "
-                        f"texto, sin metadatos. El parser de SVG extrae 0 elementos"]
+    notes: List[str] = [f"RASTER input {int(W)}x{int(H)}px: no layers, no text "
+                        f"nodes, no metadata. The SVG parser extracts 0 elements"]
 
     prompt = open(PROMPT).read().replace("{W}", str(int(W))).replace("{H}", str(int(H)))
     # Una traza por MASTER, no por formato: la llamada al modelo ocurre una sola vez
@@ -305,7 +305,7 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
                                 "lienzo": f"{int(W)}x{int(H)}"})
         data, provider, log = providers.complete_vision(
             prompt, path, accept=lambda raw: validate(_parse_json(raw), W, H))
-        notes.extend("proveedor · " + l for l in log)
+        notes.extend("provider · " + l for l in log)
         sp.update(output={"proveedor": provider,
                           "roles": [t["role"] for t in (data or {}).get("texts", [])]},
                   metadata={"intentos": len([l for l in log if ":" in l]),
@@ -314,17 +314,17 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
         # senal de calidad mas barata que existe y no necesita ninguna etiqueta.
         if data:
             sp.score("roles_recuperados", len(data["texts"]) / 4.0,
-                     "1.0 = los cuatro roles del master")
+                     "1.0 = the master's four roles")
     if data is None:
         # Aqui no hay camino determinista al que caer: sobre un raster el parser de
         # SVG extrae cero elementos, que es justamente el punto de partida. Se falla
         # ruidosamente en lugar de entregar una escena vacia que el solver rellenaria
         # con lo que pillase.
-        raise ValueError("la cadena de proveedores se agoto sin una escena valida; "
-                         "ver la bitacora de proveedores")
+        raise ValueError("the provider chain was exhausted without a valid scene; "
+                         "see the provider log")
 
-    notes.append(f"observabilidad · {TR.estado()}")
-    notes.append(f"escena semantica leida por {provider}: "
+    notes.append(f"observability · {TR.estado()}")
+    notes.append(f"semantic scene read by {provider}: "
                  + ", ".join(f"{t['role']}={t['size']:.0f}px" for t in data["texts"]))
 
     # GUARDA: EL TEXTO PINTADO DENTRO DE LA FOTO NO ES COPY DE CAMPANA.
@@ -362,26 +362,26 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
             dentro = (ix * iy) / max(hw * hh, 1e-9)
             if dentro >= 0.60:
                 raise ValueError(
-                    f"el titular cae {dentro:.0%} DENTRO de la region del sujeto "
-                    f"({fw:.0f}x{fh:.0f}px): es texto fotografiado, no copy "
-                    f"sobrepuesto. Borrarlo por inpainting destruiria el sujeto, asi "
-                    f"que la pieza entra como FOTOGRAFIA y no como composicion")
+                    f"the headline falls {dentro:.0%} INSIDE the subject region "
+                    f"({fw:.0f}x{fh:.0f}px): it is photographed text, not overlaid "
+                    f"copy. Erasing it by inpainting would destroy the subject, so "
+                    f"the piece enters as a PHOTOGRAPH and not as a composition")
 
     mask = np.zeros(rgb.shape[:2], np.uint8)
     blocks: List[TextBlock] = []
     for t in data["texts"]:
         m, tight = _ink_mask(rgb, t["rect"], t["fill"])
         if tight is None:
-            notes.append(f"{t['role']}: la mascara de tinta no encontro glifos en la "
-                         f"caja propuesta; se usan las cifras del modelo")
+            notes.append(f"{t['role']}: the ink mask found no glyphs in the "
+                         f"proposed box; the model's figures are used")
             size, weight, rect = t["size"], t["weight"], t["rect"]
         else:
             mask |= m
             weight = t["weight"]
             size, how = _solve_type(t["text"], tight, t["lines"], weight)
             rect = (float(tight[0]), float(tight[1]), float(tight[2]), float(tight[3]))
-            notes.append(f"{t['role']}: el modelo estimo {t['size']:.0f}px; medido "
-                         f"sobre pixeles da {size:.0f}px a peso {weight} ({how})")
+            notes.append(f"{t['role']}: the model estimated {t['size']:.0f}px; measured "
+                         f"on the pixels it is {size:.0f}px at weight {weight} ({how})")
         blocks.append(TextBlock(role=t["role"], words=t["text"].split(),
                                 size=round(size, 1), weight=weight, fill=t["fill"],
                                 tracking=0.0, rect=rect,
@@ -404,15 +404,15 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
                         light_mark_nodes=_logo_nodes(rgb, mrect, lm, light),
                         mark_rect=mrect,
                         wordmark_size=data["logo"]["wordmark_size"] or 0.0)
-        notes.append(f"lockup recuperado como raster con alpha, {lr[2]:.0f}x{lr[3]:.0f}px, "
-                     "en variante oscura y clara. El emisor recolorea vectores, y estos "
-                     "son pixeles, asi que el adaptador entrega las dos hechas")
+        notes.append(f"lockup recovered as a raster with alpha, {lr[2]:.0f}x{lr[3]:.0f}px, "
+                     "in a dark and a light variant. The emitter recolours vectors, and "
+                     "are pixels, so the adapter hands over both, already made")
 
     plate = _plate(rgb, mask, out_dir)
-    notes.append("fotografia reconstruida por inpainting bajo el texto y el lockup "
-                 f"-> {plate}. Es una aproximacion, no la placa original")
+    notes.append("photograph reconstructed by inpainting under the text and the lockup "
+                 f"-> {plate}. It is an approximation, not the original plate")
     if data.get("description"):
-        notes.append("foto segun el modelo: " + data["description"])
+        notes.append("photograph according to the model: " + data["description"])
 
     pim = Image.open(plate)
     return Scene(width=W, height=H,
@@ -488,7 +488,7 @@ def _valida_focal(d, W: float, H: float):
     # Una caja que cubre casi todo no restringe nada, y como restriccion dura del
     # recorte es peor que no tener ninguna: obligaria a no recortar.
     if (w * h) / (W * H) > 0.80:
-        return None, [f"focal cubre el {(w*h)/(W*H):.0%} de la imagen: no restringe"]
+        return None, [f"focal covers {(w*h)/(W*H):.0%} of the image: it constrains nothing"]
     return {"rect": (x0, y0, w, h), "sujeto": suj, "confianza": conf,
             "lleva_copy": bool(d.get("lleva_copy", False)),
             "que_es": str(d.get("que_es", ""))[:70],
@@ -580,7 +580,7 @@ COPY_ROLES = tuple(COPY_LIMITES)
 def _valida_copy(d, W: float = 0.0, H: float = 0.0):
     """Valida la copy generada. Devuelve (dict por rol, errores)."""
     if not isinstance(d, dict):
-        return None, ["la respuesta no es un objeto"]
+        return None, ["the response is not an object"]
     out, errs = {}, []
     for rol in COPY_ROLES:
         v = d.get(rol)

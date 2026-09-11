@@ -36,16 +36,16 @@ PAGE = os.path.join(ROOT, "out", "spring-campaign", "swap")
 
 HOME = os.path.expanduser("~")
 PHOTOS = [
-    ("A", "la del master", os.path.join(ROOT, "out", "_work", "photo.jpg")),
-    ("B", "otro sujeto, apaisada",
+    ("A", "the master's own", os.path.join(ROOT, "out", "_work", "photo.jpg")),
+    ("B", "another subject, landscape",
      os.path.join(HOME, "Downloads", "PXL_20260411_004955053.jpg")),
-    ("C", "sujeto muy cercano, cara de 1045px",
+    ("C", "very close subject, 1045px face",
      os.path.join(HOME, "Downloads", "PXL_20260617_044354953 (1).jpg")),
 ]
 
 
-DECISIONS = ("recorte", "hipotesis", "colores", "cuerpos", "scrims",
-             "retirados", "logo")
+DECISIONS = ("crop", "hypothesis", "colours", "body sizes", "scrims",
+             "dropped", "logo")
 
 
 def decisions(d, key):
@@ -54,11 +54,11 @@ def decisions(d, key):
     o = next((x for x in man["outputs"] if x["key"] == key), None)
     if o is None:
         return None
-    return {"recorte": tuple(o["crop_px"]), "hipotesis": o["hypothesis"],
-            "colores": tuple(b["fill"] for b in o["blocks"]),
-            "cuerpos": tuple(b["size"] for b in o["blocks"]),
+    return {"crop": tuple(o["crop_px"]), "hypothesis": o["hypothesis"],
+            "colours": tuple(b["fill"] for b in o["blocks"]),
+            "body sizes": tuple(b["size"] for b in o["blocks"]),
             "scrims": tuple((x["for"], round(x["alpha"], 2)) for x in o["scrims"]),
-            "retirados": tuple(o["dropped"]),
+            "dropped": tuple(o["dropped"]),
             "logo": (o.get("logo") or {}).get("mark_only")}
 
 
@@ -184,52 +184,54 @@ def page(rows, tally, con_max, varied=None, n=5):
 </style>
 <div class="wrap">
 {nav.render(PAGE, "swap/index.html")}
-<h1>La prueba de las fotos</h1>
-<p class="sub">Mismo master, mismos formatos, mismos constraints. Lo unico que cambia
- es el pixel. Si el layout se decide mirando la fotografia, tiene que moverse; si sale
- de una regla geometrica sobre una caja, no puede.</p>
+<h1>The photograph swap</h1>
+<p class="sub">Same master, same formats, same constraints. The only thing that changes
+ is the pixel. If the layout is decided by looking at the photograph, it has to move; if
+ it comes out of a geometric rule on a box, it cannot.</p>
 
-<div class="box">Las tres fotografias son propias. La <strong>A</strong> es la del
- master. La <strong>B</strong> es otro sujeto en formato apaisado. La <strong>C</strong>
- lleva el sujeto muy cerca, con una cara de 1045px, para forzar al recorte.
- <br><br>Con solo la foto B el criterio no se habria cumplido: un unico formato pasaba
- del umbral. Hizo falta la tercera, y se dice, porque el numero que importa es el que
- se midio, no el que convenia.</div>
+<div class="box">All three photographs are my own. <strong>A</strong> is the master's.
+ <strong>B</strong> is a different subject in landscape. <strong>C</strong> puts the
+ subject very close, with a 1045px face, to push the crop.
+ <br><br>With photograph B alone the criterion would not have been met: a single format
+ crossed the threshold. A third was needed, and that is stated, because the number that
+ counts is the one that was measured, not the one that suited.</div>
 
 <h2>{fmt.label} &middot; {fmt.w}&times;{fmt.h}</h2>
 <table class="grid"><tr>{cols}</tr>
-{strip("constraints", "Template + constraints", "el texto no se mueve")}
-{strip("art", "Decision desde el arte", "el texto sigue a la fotografia")}
+{strip("constraints", "Template + constraints", "the text does not move")}
+{strip("art", "Art-directed decision", "the text follows the photograph")}
 </table>
 
-<h2>Desplazamiento medido, los {len(rows)} formatos del video</h2>
-<p class="sub">Distancia que recorre la esquina del bloque de texto respecto de la foto
- A, en pixeles de lienzo, tomada del SVG entregado. Se muestra el mayor de los dos
- cambios de foto. Umbral declarado de movimiento visible: {MOVE_MIN:.0f}px.</p>
-<table class="num"><tr><th>Formato</th><th>Lienzo</th><th>Desde el arte</th>
+<h2>Measured displacement, the {len(rows)} formats in the video</h2>
+<p class="sub">How far the corner of the text block travels relative to photograph A, in
+ canvas pixels, taken from the delivered SVG. The larger of the two photograph changes is
+ shown. Declared threshold for visible movement: {MOVE_MIN:.0f}px.</p>
+<table class="num"><tr><th>Format</th><th>Canvas</th><th>Art-directed</th>
 <th>Constraints</th></tr>{trs}</table>
 
-<div class="verdict"><strong>{tally['art']} de {len(rows)}</strong> formatos mueven el
- bloque de texto mas de {MOVE_MIN:.0f}px por la via del arte.
- <strong>{tally['constraints']} de {len(rows)}</strong> por la via de constraints, con
- un desplazamiento maximo medido de <strong>{con_max:.0f} px</strong>.</div>
+<div class="verdict"><strong>{tally['art']} of {len(rows)}</strong> formats move the text
+ block more than {MOVE_MIN:.0f}px by the art route.
+ <strong>{tally['constraints']} of {len(rows)}</strong> by the constraints route, with a
+ maximum measured displacement of <strong>{con_max:.0f} px</strong>.</div>
 
-<div class="box" style="margin-top:22px"><strong>El desplazamiento resulto mal
- instrumento, y se deja a la vista en lugar de cambiarlo por el que salio bien.</strong>
- Se fijo el umbral en {MOVE_MIN:.0f}px antes de medir, y por la via del arte solo
- {tally['art']} de {len(rows)} formatos lo superan. La razon es de diseno: el motor
- tira de la composicion del master a proposito, asi que cuando la fotografia no
- obliga a mover el texto, no lo mueve. Moverlo porque si seria peor.
- <br><br>Lo que si separa a los dos mecanismos es <strong>cuantas decisiones se
- rehacen</strong>.</div>
+<div class="box" style="margin-top:22px"><strong>Displacement turned out to be a poor
+ instrument, and it is left in view rather than swapped for the one that came out
+ well.</strong> The threshold was fixed at {MOVE_MIN:.0f}px before measuring, and by the
+ art route only {tally['art']} of {len(rows)} formats cross it. The reason is by design:
+ the engine pulls towards the master's composition on purpose, so when the photograph
+ does not force the text to move, it does not move it. Moving it for the sake of moving
+ would be worse.
+ <br><br>What does separate the two mechanisms is <strong>how many decisions are
+ redone</strong>.</div>
 
-<h2>Decisiones de layout que se rehacen al cambiar la fotografia</h2>
-<table class="num"><tr><th>Decision</th><th>Desde el arte</th><th>Constraints</th></tr>
+<h2>Layout decisions redone when the photograph changes</h2>
+<table class="num"><tr><th>Decision</th><th>Art-directed</th><th>Constraints</th></tr>
 {dec_rows}</table>
-<div class="verdict" style="margin-top:14px">Por la via de constraints, lo unico que
- cambia al cambiar la fotografia es <strong>que pixeles se recortan</strong>. Cuerpos,
- colores, scrims, elementos retirados y variante del logo son identicos en los
- {len(rows)} formatos. Un constraint no mira la fotografia: no tiene con que.</div>
+<div class="verdict" style="margin-top:14px">By the constraints route, the only thing
+ that changes when the photograph changes is <strong>which pixels get cropped</strong>.
+ Body sizes, colours, scrims, dropped elements and logo variant are identical across all
+ {len(rows)} formats. A constraint does not look at the photograph: it has nothing to
+ look with.</div>
 </div>
 """
     os.makedirs(PAGE, exist_ok=True)
@@ -253,8 +255,8 @@ def main():
                     pos[(backend, fk, key)] = origin(p)
 
     print(f"\nDesplazamiento del bloque de texto respecto de la foto A, en px de lienzo."
-          f"\nUmbral declarado de movimiento visible: {MOVE_MIN:.0f}px.\n")
-    print(f"  {'formato':15} {'lienzo':11} {'arte B':>9} {'arte C':>9} "
+          f"\nDeclared threshold for visible movement: {MOVE_MIN:.0f}px.\n")
+    print(f"  {'format':15} {'canvas':11} {'art B':>9} {'art C':>9} "
           f"{'constr B':>9} {'constr C':>9}")
     tally = {"art": 0, "constraints": 0}
     rows = []
@@ -277,9 +279,9 @@ def main():
               f"{cells[2]:>9} {cells[3]:>9}")
 
     n = len(VIDEO_ORDER)
-    print(f"\n  formatos que se mueven mas de {MOVE_MIN:.0f}px al cambiar la foto:")
-    print(f"    decision desde el arte  : {tally['art']} de {n}")
-    print(f"    template + constraints  : {tally['constraints']} de {n}")
+    print(f"\n  formats moving more than {MOVE_MIN:.0f}px when the photograph changes:")
+    print(f"    art-directed decision : {tally['art']} of {n}")
+    print(f"    template + constraints : {tally['constraints']} of {n}")
 
     # Segunda medida, y la que resulto decisiva: NO cuanto se mueve el texto, sino
     # CUANTAS DECISIONES se rehacen. El desplazamiento resulto mal instrumento, y se
@@ -295,28 +297,28 @@ def main():
             for campo in DECISIONS:
                 if len({repr(x[campo]) for x in ds}) > 1:
                     varied[backend][campo] = varied[backend].get(campo, 0) + 1
-    print("\n  decisiones de layout que se REHACEN al cambiar la fotografia:")
+    print("\n  layout decisions REDONE when the photograph changes:")
     for campo in DECISIONS:
         a = varied["art"].get(campo, 0); c = varied["constraints"].get(campo, 0)
         if a or c:
-            print(f"    {campo:12} arte {a} de {n} formatos "
-                  f"| constraints {c} de {n}")
+            print(f"    {campo:12} art {a} of {n} formats "
+                  f"| constraints {c} of {n}")
     tot_a = sum(varied["art"].values()); tot_c = sum(varied["constraints"].values())
-    print(f"    {'TOTAL':12} arte {tot_a} | constraints {tot_c}")
+    print(f"    {'TOTAL':12} art {tot_a} | constraints {tot_c}")
 
     ok_art = tally["art"] >= 3
     ok_con = tally["constraints"] == 0
     zero = all(max(m.values() if (m := r[1]) else [0]) == 0
                for r in rows if "constraints" in r[1]) if rows else False
     con_max = max((r[1].get("constraints", 0.0) for r in rows), default=0.0)
-    print(f"\n  CRITERIO 1 · el arte mueve el layout en 3 o mas formatos: "
-          f"{'CUMPLE' if ok_art else 'NO CUMPLE'}")
-    print(f"  CRITERIO 2 · constraints no lo mueve en ninguno: "
-          f"{'CUMPLE' if ok_con else 'NO CUMPLE'} "
-          f"(desplazamiento maximo medido: {con_max:.0f}px)")
-    ok_dec = tot_a > tot_c and set(varied["constraints"]) <= {"recorte"}
-    print("  CRITERIO 3 · solo el arte rehace decisiones mas alla del recorte: "
-          + ("CUMPLE" if ok_dec else "NO CUMPLE"))
+    print(f"\n  CRITERION 1 · art moves the layout in 3 or more formats: "
+          f"{'MET' if ok_art else 'NOT MET'}")
+    print(f"  CRITERION 2 · constraints move it in none: "
+          f"{'MET' if ok_con else 'NOT MET'} "
+          f"(maximum measured displacement: {con_max:.0f}px)")
+    ok_dec = tot_a > tot_c and set(varied["constraints"]) <= {"crop"}
+    print("  CRITERION 3 · only art redoes decisions beyond the crop: "
+          + ("MET" if ok_dec else "NOT MET"))
     shots()
     page(rows, tally, con_max, varied, n)
     return 0 if (ok_con and ok_dec) else 1
