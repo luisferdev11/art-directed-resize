@@ -51,7 +51,7 @@ FORMATS: List[Format] = [
     # Fuera del video: filas de configuracion, prueba de "lienzo arbitrario".
     Format("half_300x600", "Half page 300x600",   300,  600, (.060, .060, .060, .060),
            in_video=False, note="vertical angosto"),
-    Format("screen_hd",  "Pantalla de centro",   1920, 1080, (.050, .050, .050, .050),
+    Format("screen_hd",  "In-centre screen",   1920, 1080, (.050, .050, .050, .050),
            in_video=False, note="the white is recomputed, not stretched"),
     Format("print_dl",   "Print DL vertical",     991, 2098, (.070, .070, .070, .070),
            in_video=False, note="lienzo arbitrario; fuera del video"),

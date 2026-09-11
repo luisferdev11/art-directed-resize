@@ -23,7 +23,7 @@ No es reparto por prudencia: es que cada mitad es mejor en su mitad. El resultad
 entra por el mismo `Scene` que el camino SVG, asi que el solver, el emisor y el
 validador no se enteran de por donde entro la pieza.
 
-DEGRADACION. Si la cadena de proveedores se agota, o si la respuesta no valida
+DEGRADACION. Si la cadena de provideres se agota, o si la respuesta no valida
 contra el esquema, se cae al camino determinista Y SE REGISTRA en `scene.notes`,
 que sale impreso en la hoja de contactos. Un fallback invisible es una mentira
 diferida.
@@ -297,23 +297,23 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
     prompt = open(PROMPT).read().replace("{W}", str(int(W))).replace("{H}", str(int(H)))
     # Una traza por MASTER, no por formato: la llamada al modelo ocurre una sola vez
     # y de ella salen todos los tamanos. Es la unidad que hay que poder medir.
-    with TR.Span("escena desde raster", input={"master": os.path.basename(path),
-                                               "lienzo": f"{int(W)}x{int(H)}"}) as sp:
+    with TR.Span("scene-from-raster", input={"master": os.path.basename(path),
+                                             "canvas": f"{int(W)}x{int(H)}"}) as sp:
         TR.trace_meta(name="scene-from-raster",
                       tags=["scene", "raster"],
                       metadata={"master": os.path.basename(path),
-                                "lienzo": f"{int(W)}x{int(H)}"})
+                                "canvas": f"{int(W)}x{int(H)}"})
         data, provider, log = providers.complete_vision(
             prompt, path, accept=lambda raw: validate(_parse_json(raw), W, H))
         notes.extend("provider · " + l for l in log)
-        sp.update(output={"proveedor": provider,
+        sp.update(output={"provider": provider,
                           "roles": [t["role"] for t in (data or {}).get("texts", [])]},
                   metadata={"intentos": len([l for l in log if ":" in l]),
                             "fallback": provider != providers.CHAIN[0]["name"]})
         # Un score por corrida: cuantos de los cuatro roles se recuperaron. Es la
         # senal de calidad mas barata que existe y no necesita ninguna etiqueta.
         if data:
-            sp.score("roles_recuperados", len(data["texts"]) / 4.0,
+            sp.score("roles_recovered", len(data["texts"]) / 4.0,
                      "1.0 = the master's four roles")
     if data is None:
         # Aqui no hay camino determinista al que caer: sobre un raster el parser de
@@ -422,13 +422,13 @@ def parse_raster(path: str, out_dir: str = "out/_work") -> Scene:
 
 
 # ------------------------------------------------------- la region que no se corta
-# "grupo" entro despues, y lo pidio el propio modelo. Sobre una foto de once
-# personas respondio sujeto="grupo", el esquema lo rechazo por desconocido y la
-# cadena cayo al siguiente proveedor gastando catorce segundos. La respuesta era
+# "group" entro despues, y lo pidio el propio modelo. Sobre una foto de once
+# personas respondio sujeto="group", el esquema lo rechazo por desconocido y la
+# cadena cayo al siguiente provider gastando catorce segundos. La respuesta era
 # correcta y la lista estaba corta: un esquema demasiado estrecho no protege, filtra
 # lo que no supo prever quien lo escribio.
-SUJETOS = ("persona", "grupo", "producto", "comida", "edificio", "ilustracion",
-           "tipografia", "animal", "paisaje", "ninguno")
+SUJETOS = ("person", "group", "product", "food", "building", "illustration",
+           "typography", "animal", "landscape", "none")
 
 # QUE SUJETOS DAN UNA CAJA COMPACTA, Y CUALES UNA EXTENSION.
 #
@@ -454,7 +454,7 @@ SUJETOS = ("persona", "grupo", "producto", "comida", "edificio", "ilustracion",
 #
 # La leccion, que es la del proyecto entero: la lista se deriva del mecanismo, no de
 # los casos que uno vio.
-SUJETOS_COMPACTOS = frozenset({"persona"})
+SUJETOS_COMPACTOS = frozenset({"person"})
 
 
 def es_extenso(sujeto: str) -> bool:
@@ -470,11 +470,11 @@ def _valida_focal(d, W: float, H: float):
     if not (isinstance(v, (list, tuple)) and len(v) == 4
             and all(isinstance(x, (int, float)) for x in v)):
         return None, ["focal mal formada"]
-    suj = str(d.get("sujeto", "")).strip().lower()
+    suj = str(d.get("subject", "")).strip().lower()
     if suj not in SUJETOS:
         return None, [f"sujeto desconocido {suj!r}"]
     try:
-        conf = float(d.get("confianza", 0.0))
+        conf = float(d.get("confidence", 0.0))
     except (TypeError, ValueError):
         return None, ["confianza no numerica"]
     x0, y0, x1, y1 = (float(x) for x in v)
@@ -489,10 +489,10 @@ def _valida_focal(d, W: float, H: float):
     # recorte es peor que no tener ninguna: obligaria a no recortar.
     if (w * h) / (W * H) > 0.80:
         return None, [f"focal covers {(w*h)/(W*H):.0%} of the image: it constrains nothing"]
-    return {"rect": (x0, y0, w, h), "sujeto": suj, "confianza": conf,
-            "lleva_copy": bool(d.get("lleva_copy", False)),
-            "que_es": str(d.get("que_es", ""))[:70],
-            "por_que": str(d.get("por_que", ""))[:160]}, []
+    return {"rect": (x0, y0, w, h), "subject": suj, "confidence": conf,
+            "has_overlaid_copy": bool(d.get("has_overlaid_copy", False)),
+            "what_it_is": str(d.get("what_it_is", ""))[:70],
+            "why": str(d.get("why", ""))[:160]}, []
 
 
 def focal_from_model(path: str, min_conf: float = 0.45):
@@ -516,24 +516,24 @@ def focal_from_model(path: str, min_conf: float = 0.45):
     W, H = float(im.size[0]), float(im.size[1])
     prompt = (open(PROMPT_FOCAL).read()
               .replace("{W}", str(int(W))).replace("{H}", str(int(H))))
-    with TR.Span("region focal", input={"imagen": os.path.basename(path),
-                                        "lienzo": f"{int(W)}x{int(H)}"}) as sp:
+    with TR.Span("focal-region", input={"image": os.path.basename(path),
+                                        "canvas": f"{int(W)}x{int(H)}"}) as sp:
         TR.trace_meta(name="focal-region", tags=["focal", "crop"],
-                      metadata={"imagen": os.path.basename(path)})
+                      metadata={"image": os.path.basename(path)})
         data, provider, log = providers.complete_vision(
             prompt, path, accept=lambda raw: _valida_focal(_parse_json(raw), W, H))
         if data is None:
-            sp.update(level="WARNING", status_message="sin region focal utilizable")
+            sp.update(level="WARNING", status_message="no usable focal region")
             return None, log
-        if data["confianza"] < min_conf:
+        if data["confidence"] < min_conf:
             sp.update(output=data, level="WARNING",
-                      status_message=f"confianza {data['confianza']:.2f} bajo el minimo")
-            log.append(f"el modelo declara confianza {data['confianza']:.2f}, bajo el "
+                      status_message=f"confidence {data['confidence']:.2f} under the minimum")
+            log.append(f"el modelo declara confianza {data['confidence']:.2f}, bajo el "
                        f"minimo de {min_conf:.2f}: manda la saliencia")
             return None, log
-        data["proveedor"] = provider
+        data["provider"] = provider
         sp.update(output=data)
-        sp.score("focal_confianza", data["confianza"], data["que_es"])
+        sp.score("focal_confidence", data["confidence"], data["what_it_is"])
         return data, log
 
 
@@ -557,10 +557,10 @@ def focal_proxy(rect, sujeto: str, W: float, H: float):
     """
     x, y, w, h = rect
     tope = 0.40 * H
-    if sujeto == "persona":
+    if sujeto == "person":
         lado = min(w, h * 0.32, tope)
         return (x + w / 2.0 - lado / 2.0, y + h * 0.02, lado, lado)
-    if sujeto == "grupo":
+    if sujeto == "group":
         nh = min(h * 0.55, tope)
         return (x, y + h * 0.02, w, nh)
     if h <= tope:
@@ -604,7 +604,7 @@ def _valida_copy(d, W: float = 0.0, H: float = 0.0):
         out[rol] = t
     if errs:
         return None, errs
-    return {"copy": out, "por_que": str(d.get("por_que", ""))}, []
+    return {"copy": out, "why": str(d.get("why", ""))}, []
 
 
 def copy_from_model(path: str):
@@ -623,15 +623,16 @@ def copy_from_model(path: str):
     from PIL import Image
     W, H = Image.open(path).size
     prompt = open(PROMPT_COPY).read()
-    with TR.Span("copy desde la foto",
-                 input={"imagen": os.path.basename(path), "lienzo": [W, H]}) as sp:
+    with TR.Span("copy-from-image",
+                 input={"image": os.path.basename(path),
+                        "canvas": f"{int(W)}x{int(H)}"}) as sp:
         TR.trace_meta(name="copy-from-image", tags=["copy", "raster"],
-                      metadata={"imagen": os.path.basename(path)})
+                      metadata={"image": os.path.basename(path)})
         data, provider, log = providers.complete_vision(
             prompt, path, accept=lambda raw: _valida_copy(_parse_json(raw), W, H))
         if not data:
-            sp.update(level="WARNING", status_message="sin copy utilizable")
+            sp.update(level="WARNING", status_message="no usable copy")
             return None, log
-        sp.update(output={"copy": data["copy"], "por_que": data["por_que"]},
+        sp.update(output={"copy": data["copy"], "why": data["why"]},
                   metadata={"provider": provider})
         return data, log

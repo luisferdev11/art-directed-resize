@@ -7,16 +7,16 @@
   ],
   "inference": [
     "RASTER input 1080x1350px: no layers, no text nodes, no metadata. The SVG parser extracts 0 elements",
-    "provider · deepinfra (Qwen/Qwen3-VL-235B-A22B-Instruct): ok en 22.2s, clave de DEEPINFRA_API_KEY (clave configurada)",
+    "provider · deepinfra (Qwen/Qwen3-VL-235B-A22B-Instruct): ok en 48.2s, clave de DEEPINFRA_API_KEY (clave configurada)",
     "observability · trazando a http://localhost:3020",
-    "semantic scene read by deepinfra: headline=85px, subhead=32px, support=24px, legal=14px",
-    "headline: the model estimated 85px; measured on the pixels it is 92px at weight 700 (ink width of 622px)",
-    "subhead: the model estimated 32px; measured on the pixels it is 30px at weight 400 (ink width of 418px)",
-    "support: the model estimated 24px; measured on the pixels it is 21px at weight 700 (cap-height de 15px)",
+    "semantic scene read by deepinfra: headline=84px, subhead=28px, support=22px, legal=14px",
+    "headline: the model estimated 84px; measured on the pixels it is 94px at weight 700 (ink width of 630px)",
+    "subhead: the model estimated 28px; measured on the pixels it is 30px at weight 400 (ink width of 419px)",
+    "support: the model estimated 22px; measured on the pixels it is 22px at weight 400 (cap-height de 16px)",
     "legal: the model estimated 14px; measured on the pixels it is 13px at weight 400 (ink width of 288px)",
     "lockup recovered as a raster with alpha, 223x36px, in a dark and a light variant. The emitter recolours vectors, and are pixels, so the adapter hands over both, already made",
     "photograph reconstructed by inpainting under the text and the lockup -> out/_work/plate.jpg. It is an approximation, not the original plate",
-    "photograph according to the model: man in casual outfit standing in front of a modern geometric building",
+    "photograph according to the model: A man in a yellow soccer jersey and sunglasses stands with arms crossed in front of a modern geometric building with trees and a fountain nearby.",
     "exactly one face, and the two cascades agree: the focal region is settled without calling any model"
   ],
   "outputs": [
@@ -34,12 +34,12 @@
         1350.0
       ],
       "effective_ppi": 72.0,
-      "field_cost": 0.1445,
+      "field_cost": 0.1436,
       "reasons": [
         "crop 1080x1350px of the source (100% of the width); focal region contained",
         "2 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
         "text placed at (59,59) by dense search over the cost field: cost 0.144 on a 0-1 scale",
-        "legal: contraste medido 3.34:1 contra 4.5 required, scrim at alpha 0.19",
+        "legal: measured contrast 3.34:1 against 4.5 required, scrim at alpha 0.19",
         "logo in the light variant: against this background the ink measured 1.21:1",
         "lockup at a uniform 0.77x scale, 173px wide, clear-space 14px, lowest-cost corner"
       ],
@@ -74,21 +74,21 @@
             "Up to 50% off across 120 stores"
           ],
           "fill": "#0E2A26",
-          "contrast": 4.37,
-          "achieved": 4.37,
+          "contrast": 4.38,
+          "achieved": 4.38,
           "scrimmed": false,
           "required": 3.0
         },
         {
           "role": "support",
           "size": 28.0,
-          "weight": 700,
+          "weight": 400,
           "lines": [
             "12 - 28 SEPTEMBER"
           ],
           "fill": "#0E2A26",
-          "contrast": 3.68,
-          "achieved": 3.68,
+          "contrast": 3.67,
+          "achieved": 3.67,
           "scrimmed": false,
           "required": 3.0
         },
@@ -127,12 +127,12 @@
         1350.0
       ],
       "effective_ppi": 50.6,
-      "field_cost": 0.1538,
+      "field_cost": 0.1523,
       "reasons": [
         "crop 759x1350px of the source (70% of the width); focal region contained",
         "effective PPI 51 under a nominal 72: supply a higher-resolution source",
         "2 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
-        "text placed at (65,151) by dense search over the cost field: cost 0.154 on a 0-1 scale",
+        "text placed at (65,151) by dense search over the cost field: cost 0.152 on a 0-1 scale",
         "logo in the light variant: against this background the ink measured 1.31:1",
         "lockup at a uniform 0.77x scale, 173px wide, clear-space 14px, lowest-cost corner"
       ],
@@ -175,7 +175,7 @@
         {
           "role": "support",
           "size": 28.0,
-          "weight": 700,
+          "weight": 400,
           "lines": [
             "12 - 28 SEPTEMBER"
           ],
@@ -219,17 +219,17 @@
       "reasons": [
         "at 8.1:1 no bleed crop contains the focal region above the minimum subject scale: it would need 229px of height, or 1851px of width, and the source has 1080px. The photograph degrades to a side panel of 270x90 (3.0:1) and the brand field is promoted",
         "2 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
-        "subhead: the legibility floor cut the size contrast to 2.29:1 against 3.11:1 in the master, so the hierarchy is re-expressed in weight (400 to 300)",
-        "support: the legibility floor cut the size contrast to 2.91:1 against 4.44:1 in the master, so the hierarchy is re-expressed in weight (700 to 300)",
+        "subhead: the legibility floor cut the size contrast to 2.29:1 against 3.14:1 in the master, so the hierarchy is re-expressed in weight (400 to 300)",
+        "support: the legibility floor cut the size contrast to 2.91:1 against 4.21:1 in the master, so the hierarchy is re-expressed in weight (400 to 300)",
         "degradation ladder applied: tighten_leading -> weight_for_size -> drop_legal",
         "text placed at (70,9) by dense search over the cost field: cost 0.004 on a 0-1 scale",
         "headline: tipografia invertida a claro, contraste 15.24:1",
         "subhead: tipografia invertida a claro, contraste 15.24:1",
         "support: tipografia invertida a claro, contraste 15.24:1",
         "legal dropped by the degradation ladder",
-        "lockup scaled to 0.34x instead of 0.25x: at the previous scale the wordmark fell to 5.5px, under its floor of 7.5px",
+        "lockup scaled to 0.31x instead of 0.25x: at the previous scale the wordmark fell to 6.0px, under its floor of 7.5px",
         "logo in the light variant: against this background the ink measured 1.00:1",
-        "lockup at a uniform 0.34x scale, 76px wide, clear-space 6px, lowest-cost corner"
+        "lockup at a uniform 0.31x scale, 70px wide, clear-space 6px, lowest-cost corner"
       ],
       "dropped": [
         "legal"
@@ -246,8 +246,8 @@
         90.0
       ],
       "logo": {
-        "width": 76.0,
-        "scale": 0.341,
+        "width": 69.7,
+        "scale": 0.312,
         "mark_only": false
       },
       "blocks": [
@@ -311,22 +311,23 @@
       "reasons": [
         "crop 1080x900px of the source (100% of the width); focal region contained",
         "2 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
-        "subhead: size contrast compressed to 2.15:1 against 3.11:1 in the master",
-        "support: size contrast compressed to 2.55:1 against 4.44:1 in the master",
+        "subhead: size contrast compressed to 2.15:1 against 3.14:1 in the master",
+        "support: size contrast compressed to 2.55:1 against 4.21:1 in the master",
         "text placed at (15,48) by dense search over the cost field: cost 0.140 on a 0-1 scale",
-        "headline: contraste medido 2.61:1 contra 3.0 required, scrim at alpha 0.10",
+        "headline: measured contrast 2.61:1 against 3.0 required, scrim at alpha 0.10",
         "subhead: tipografia invertida a claro, contraste 5.22:1",
-        "support: tipografia invertida a claro, contraste 4.84:1",
-        "legal: contraste medido 3.38:1 contra 4.5 required, scrim at alpha 0.18",
-        "lockup scaled to 0.34x instead of 0.25x: at the previous scale the wordmark fell to 5.5px, under its floor of 7.5px",
-        "lockup at a uniform 0.34x scale, 76px wide, clear-space 6px, lowest-cost corner"
+        "support: tipografia invertida a claro, contraste 4.85:1",
+        "legal: measured contrast 3.38:1 against 4.5 required, scrim at alpha 0.18",
+        "lockup scaled to 0.31x instead of 0.25x: at the previous scale the wordmark fell to 6.0px, under its floor of 7.5px",
+        "logo in the light variant: against this background the ink measured 1.23:1",
+        "lockup at a uniform 0.31x scale, 70px wide, clear-space 6px, lowest-cost corner"
       ],
       "dropped": [],
       "ladder": [],
       "panel": null,
       "logo": {
-        "width": 76.0,
-        "scale": 0.341,
+        "width": 69.7,
+        "scale": 0.312,
         "mark_only": false
       },
       "blocks": [
@@ -362,13 +363,13 @@
         {
           "role": "support",
           "size": 11.0,
-          "weight": 700,
+          "weight": 400,
           "lines": [
             "12 - 28 SEPTEMBER"
           ],
           "fill": "#FFFFFF",
-          "contrast": 4.84,
-          "achieved": 4.84,
+          "contrast": 4.85,
+          "achieved": 4.85,
           "scrimmed": false,
           "required": 4.5
         },
@@ -415,11 +416,11 @@
       "reasons": [
         "crop 1080x1080px of the source (100% of the width); focal region contained",
         "2 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
-        "text placed at (122,368) by dense search over the cost field: cost 0.153 on a 0-1 scale",
-        "headline: contraste medido 2.89:1 contra 3.0 required, scrim at alpha 0.06",
-        "subhead: tipografia invertida a claro, contraste 5.46:1",
-        "support: tipografia invertida a claro, contraste 4.66:1",
-        "legal: contraste medido 3.64:1 contra 4.5 required, scrim at alpha 0.15",
+        "text placed at (122,364) by dense search over the cost field: cost 0.153 on a 0-1 scale",
+        "headline: measured contrast 2.89:1 against 3.0 required, scrim at alpha 0.05",
+        "subhead: tipografia invertida a claro, contraste 5.36:1",
+        "support: tipografia invertida a claro, contraste 4.41:1",
+        "legal: measured contrast 3.64:1 against 4.5 required, scrim at alpha 0.15",
         "lockup at a uniform 0.77x scale, 173px wide, clear-space 14px, lowest-cost corner"
       ],
       "dropped": [],
@@ -455,21 +456,21 @@
             "across 120 stores"
           ],
           "fill": "#FFFFFF",
-          "contrast": 5.46,
-          "achieved": 5.46,
+          "contrast": 5.36,
+          "achieved": 5.36,
           "scrimmed": false,
           "required": 3.0
         },
         {
           "role": "support",
-          "size": 20.0,
-          "weight": 700,
+          "size": 24.0,
+          "weight": 400,
           "lines": [
             "12 - 28 SEPTEMBER"
           ],
           "fill": "#FFFFFF",
-          "contrast": 4.66,
-          "achieved": 4.66,
+          "contrast": 4.41,
+          "achieved": 4.41,
           "scrimmed": false,
           "required": 3.0
         },
@@ -490,7 +491,7 @@
       "scrims": [
         {
           "for": "headline",
-          "alpha": 0.056
+          "alpha": 0.055
         },
         {
           "for": "legal",

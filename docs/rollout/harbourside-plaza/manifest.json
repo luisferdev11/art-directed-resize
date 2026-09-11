@@ -11,8 +11,8 @@
     "roles by body-size rank: headline=92px, subhead=30px, support=20px, legal=13px",
     "the smallest block (13px) measures < 30% of the headline (92px) -> legal",
     "focal region: 2 agreed faces: which one carries the composition, or whether the subject is the group itself, geometry cannot say. The model is asked",
-    "region focal · deepinfra (Qwen/Qwen3-VL-235B-A22B-Instruct): ok en 7.4s, clave de DEEPINFRA_API_KEY (clave configurada)",
-    "the two cascades did not agree: the region that must not be cropped was decided by a model. persona — man in cowboy hat, confidence 0.95. the man is centered and clearly the main subject, with Taj Mahal as background context"
+    "region focal · deepinfra (Qwen/Qwen3-VL-235B-A22B-Instruct): ok en 17.3s, clave de DEEPINFRA_API_KEY (clave configurada)",
+    "the two cascades did not agree: the region that must not be cropped was decided by a model. person — Man in black hat, confidence 0.95. The man in the foreground is the clear subject, centered and looking at the camera, while the Taj Mahal and other people are background context."
   ],
   "outputs": [
     {
@@ -34,7 +34,7 @@
         "crop 2261x2826px of the source (55% of the width); focal region contained",
         "3 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
         "text placed at (59,59) by dense search over the cost field: cost 0.037 on a 0-1 scale",
-        "legal: contraste medido 4.16:1 contra 4.5 required, scrim at alpha 0.10",
+        "legal: measured contrast 4.16:1 against 4.5 required, scrim at alpha 0.10",
         "lockup at a uniform 0.78x scale, 173px wide, clear-space 13px, lowest-cost corner"
       ],
       "dropped": [],
@@ -126,7 +126,7 @@
         "crop 1175x2089px of the source (29% of the width); focal region contained",
         "2 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
         "text placed at (178,151) by dense search over the cost field: cost 0.013 on a 0-1 scale",
-        "legal: contraste medido 3.29:1 contra 4.5 required, scrim at alpha 0.20",
+        "legal: measured contrast 3.29:1 against 4.5 required, scrim at alpha 0.20",
         "lockup at a uniform 0.78x scale, 173px wide, clear-space 13px, lowest-cost corner"
       ],
       "dropped": [],
@@ -217,7 +217,7 @@
       "effective_ppi": 1088.0,
       "field_cost": 0.0067,
       "reasons": [
-        "at 8.1:1 no bleed crop contains the focal region above the minimum subject scale: it would need 1169px of height, or 9454px of width, and the source has 4080px. The photograph degrades to a side panel of 270x90 (3.0:1) and the brand field is promoted",
+        "at 8.1:1 no bleed crop contains the focal region above the minimum subject scale: it would need 1177px of height, or 9524px of width, and the source has 4080px. The photograph degrades to a side panel of 270x90 (3.0:1) and the brand field is promoted",
         "3 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
         "subhead: the legibility floor cut the size contrast to 2.29:1 against 3.07:1 in the master, so the hierarchy is re-expressed in weight (400 to 300)",
         "support: the legibility floor cut the size contrast to 2.91:1 against 4.60:1 in the master, so the hierarchy is re-expressed in weight (900 to 300)",
@@ -314,9 +314,9 @@
         "subhead: size contrast compressed to 2.15:1 against 3.07:1 in the master",
         "support: size contrast compressed to 2.55:1 against 4.60:1 in the master",
         "text placed at (149,15) by dense search over the cost field: cost 0.135 on a 0-1 scale",
-        "subhead: contraste medido 2.35:1 contra 4.5 required, scrim at alpha 0.32",
-        "support: contraste medido 1.45:1 contra 4.5 required, scrim at alpha 0.47",
-        "legal: contraste medido 4.28:1 contra 4.5 required, scrim at alpha 0.08",
+        "subhead: measured contrast 2.35:1 against 4.5 required, scrim at alpha 0.32",
+        "support: measured contrast 1.45:1 against 4.5 required, scrim at alpha 0.47",
+        "legal: measured contrast 4.28:1 against 4.5 required, scrim at alpha 0.08",
         "lockup degraded to mark only: the wordmark would have landed at 3.8px and there is no width to raise the scale. The mark goes to 25px",
         "lockup at a uniform 0.74x scale, 25px wide, clear-space 12px, lowest-cost corner"
       ],
@@ -420,7 +420,7 @@
         "crop 2826x2826px of the source (69% of the width); focal region contained",
         "3 face regions barred to text, each with a 25% margin: with several heads, barring the focal region is not enough",
         "text placed at (519,65) by dense search over the cost field: cost 0.102 on a 0-1 scale",
-        "legal: contraste medido 4.08:1 contra 4.5 required, scrim at alpha 0.11",
+        "legal: measured contrast 4.08:1 against 4.5 required, scrim at alpha 0.11",
         "lockup at a uniform 0.78x scale, 173px wide, clear-space 13px, lowest-cost corner"
       ],
       "dropped": [],

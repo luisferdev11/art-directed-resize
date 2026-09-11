@@ -25,6 +25,7 @@ import constraints as constraintsmod
 import crop as cropmod
 import emit
 import solve as solvemod
+import trace as TR
 from formats import BY_KEY, FORMATS, VIDEO_ORDER, from_sizes
 from parse_svg import parse
 
@@ -51,6 +52,58 @@ def _lockup_nodes(scene, r):
     return lk.mark_nodes if mark else lk.nodes
 
 
+def _trace_decision(sp, key, fmt, r, src_w):
+    """Vuelca la decision del solver al span, en la forma en que se audita.
+
+    No es el manifest volcado tal cual: se ordena por PREGUNTA. Que region de la
+    fotografia sobrevive, cuanto se amplio, donde aterrizo el texto y por que, que
+    se retiro. Quien abre esto quiere responder "por que salio asi", no leer un
+    volcado de estructuras.
+    """
+    if r.get("failed"):
+        sp.update(level="WARNING", status_message="no valid layout",
+                  output={"failed": True, "reasons": r.get("reasons") or []})
+        return
+
+    cx, cy, cw, ch = r["crop_px"]
+    zoom = (fmt.w / cw) if cw else 0.0
+    out = {
+        "hypothesis": r["hypothesis"],
+        "crop": {"rect_px": [round(v) for v in r["crop_px"]],
+                 "share_of_source_width": round(cw / max(src_w, 1), 3),
+                 "scale_to_canvas": round(zoom, 3),
+                 "effective_ppi": round(r["ppi"], 1)},
+        "text": {"placement_cost_0_1": round(r["cost"], 4),
+                 "blocks": [{"role": b["role"], "size_px": b["size"],
+                             "weight": b["weight"], "lines": b["lines"],
+                             "fill": b["fill"],
+                             "contrast": round(b["achieved"], 2),
+                             "required": b["required"],
+                             "scrimmed": b["scrimmed"]} for b in r["blocks"]],
+                 "scrims": [{"behind": s["for"], "alpha": round(s["alpha"], 3)}
+                            for s in r["scrims"]]},
+        "degradation": {"ladder": r.get("ladder") or [],
+                        "dropped": r.get("dropped") or []},
+        "panel": [round(v) for v in r["panel"]] if r.get("panel") else None,
+        "logo": ({"width_px": round(r["lockup"]["rect"][2], 1),
+                  "scale": round(r["lockup"]["scale"], 3),
+                  "mark_only": r["lockup"]["mark_only"]} if r.get("lockup") else None),
+        "why": r["reasons"],
+    }
+    if r.get("violations") is not None:
+        out["violations"] = r["violations"]
+        out["template"] = r.get("template")
+    sp.update(output=out, metadata={
+        "hypothesis": r["hypothesis"],
+        "degraded": bool(r.get("ladder")),
+        "dropped_any": bool(r.get("dropped")),
+        "under_72_ppi": r["ppi"] < 72.0,
+        "n_reasons": len(r["reasons"])})
+    # El coste del emplazamiento es la unica cifra del solver que se puede seguir en
+    # el tiempo: dice cuanto tuvo que pelear el texto para encontrar sitio.
+    sp.score("placement_cost", round(r["cost"], 4), r["hypothesis"])
+
+
 def run_backend(name, scene, keys, prep, out_dir, master):
     """Resuelve y emite un lote completo con un backend. Devuelve el manifest."""
     solver = BACKENDS[name]
@@ -61,7 +114,33 @@ def run_backend(name, scene, keys, prep, out_dir, master):
     results = []
     for key in keys:
         fmt = BY_KEY[key]
-        r = solver(scene, fmt, prep)
+
+        # UN SPAN POR FORMATO, CON LA DECISION ENTERA.
+        #
+        # Hasta aqui la observabilidad cubria las llamadas al modelo y nada mas, que
+        # es justo la parte mas barata de explicar: el modelo contesta que no se puede
+        # recortar, y TODO lo demas -que region se recorta, cuanto zoom, donde cae el
+        # texto, que se retira- lo decide codigo determinista. Esas decisiones viajaban
+        # solo en el manifest.
+        #
+        # El argumento del sistema es que cada decision lleva su razon medida. Si esas
+        # razones no estan en la herramienta donde se audita, el argumento existe pero
+        # no se puede comprobar. Asi que el span lleva el recorte, la hipotesis, el
+        # coste, el emplazamiento, los scrims, la escalera y las razones en prosa.
+        with TR.Span(f"layout:{key}", input={
+                "format": {"key": key, "label": fmt.label,
+                           "canvas": f"{fmt.w}x{fmt.h}",
+                           "aspect": round(fmt.aspect, 3)},
+                "source": {"pixels": f"{prep['px_w']}x{prep['px_h']}",
+                           "aspect": round(prep["px_w"] / max(prep["px_h"], 1), 3)},
+                "focal_region": ({"rect": [round(v) for v in prep["face"]],
+                                  "resolved_by": prep.get("focal_via", "cascades"),
+                                  "hard_constraint": bool(prep.get("face_hard", True))}
+                                 if prep.get("face") else None),
+                "backend": name}) as _sp:
+            r = solver(scene, fmt, prep)
+            _trace_decision(_sp, key, fmt, r, prep["px_w"])
+
         if r.get("failed"):
             print(f"  {key:15} FALLO")
             for x in r["reasons"]:
@@ -228,8 +307,8 @@ def main() -> int:
                     scene.notes.append(
                         "copy written by the model from the photograph: "
                         + "; ".join(cambiados))
-                    if cd.get("por_que"):
-                        scene.notes.append("why that line: " + cd["por_que"])
+                    if cd.get("why"):
+                        scene.notes.append("why that line: " + cd["why"])
                     scene.notes.append(
                         "the legal line is not generated: it is fixed brand text. The "
                         "roles, the body sizes and the geometry are the master's")
@@ -245,6 +324,23 @@ def main() -> int:
                     f"master's copy is kept")
 
     prep = cropmod.prepare(scene.photo.src_path)
+
+    # LA TRAZA DE LA CAMPANA, ETIQUETADA ARRIBA DEL TODO.
+    #
+    # Las llamadas al modelo cuelgan de aqui, y tambien las decisiones de layout de
+    # cada formato. Sin esto la traza se llama como la ultima cosa que se instrumento
+    # y no se sabe de que corrida viene.
+    try:
+        TR.trace_meta(
+            name=f"campaign:{os.path.splitext(os.path.basename(a.master))[0]}",
+            tags=["campaign", a.backend],
+            input={"master": os.path.basename(a.master),
+                   "photo": os.path.basename(scene.photo.src_path),
+                   "source_pixels": f"{prep['px_w']}x{prep['px_h']}",
+                   "formats": keys,
+                   "text_blocks": [b.role for b in scene.texts]})
+    except Exception:
+        pass
 
     # LA VIA BARATA PRIMERO, EL MODELO CUANDO NO SABE.
     #
@@ -278,19 +374,19 @@ def main() -> int:
     if prep.get("face") is None and hint_pre:
         import semantic
         prep["face"] = semantic.focal_proxy(
-            hint_pre["rect"], hint_pre["sujeto"], float(prep["px_w"]),
+            hint_pre["rect"], hint_pre["subject"], float(prep["px_w"]),
             float(prep["px_h"]))
-        prep["focal_via"] = "modelo"
-        prep["face_hard"] = not semantic.es_extenso(hint_pre["sujeto"])
+        prep["focal_via"] = "model"
+        prep["face_hard"] = not semantic.es_extenso(hint_pre["subject"])
         scene.notes.append(
             f"region focal reutilizada de la llamada que decidio la ruta: "
-            f"{hint_pre['sujeto']} — {hint_pre.get('que_es','')}, confianza "
-            f"{float(hint_pre.get('confianza',0)):.2f}. No se vuelve a preguntar")
+            f"{hint_pre['subject']} — {hint_pre.get('what_it_is','')}, confianza "
+            f"{float(hint_pre.get('confidence',0)):.2f}. No se vuelve a preguntar")
         if not prep["face_hard"]:
             scene.notes.append(
-                f"the subject is a wide EXTENT ({hint_pre['sujeto']}), not a face: "
+                f"the subject is a wide EXTENT ({hint_pre['subject']}), not a face: "
                 f"the region is maximised instead of required")
-        print(f"  · region focal reutilizada: {hint_pre['sujeto']} (sin 2a llamada)")
+        print(f"  · region focal reutilizada: {hint_pre['subject']} (sin 2a llamada)")
     elif prep.get("face") is None and not a.no_model_focal:
         try:
             import semantic
@@ -304,9 +400,9 @@ def main() -> int:
                 scene.notes.append("region focal · " + l)
             if hint:
                 prep["face"] = semantic.focal_proxy(
-                    hint["rect"], hint["sujeto"], float(prep["px_w"]),
+                    hint["rect"], hint["subject"], float(prep["px_w"]),
                     float(prep["px_h"]))
-                prep["focal_via"] = "modelo"
+                prep["focal_via"] = "model"
                 # DURA O BLANDA, y lo decide QUE es el sujeto.
                 #
                 # Las guardas de `crop.choose` acotan el ALTO de la region y estan
@@ -321,20 +417,20 @@ def main() -> int:
                 # cobertura pasa del filtro al score. El panel sigue apareciendo
                 # cuando ni el mejor encuadre conserva lo suficiente, que a 8:1 es
                 # justo lo que debe pasar.
-                prep["face_hard"] = not semantic.es_extenso(hint["sujeto"])
+                prep["face_hard"] = not semantic.es_extenso(hint["subject"])
                 scene.notes.append(
                     f"the two cascades did not agree: the region that must not be "
-                    f"cropped was decided by a model. {hint['sujeto']} — "
-                    f"{hint['que_es']}, confidence {hint['confianza']:.2f}. "
-                    f"{hint['por_que']}")
+                    f"cropped was decided by a model. {hint['subject']} — "
+                    f"{hint['what_it_is']}, confidence {hint['confidence']:.2f}. "
+                    f"{hint['why']}")
                 if not prep["face_hard"]:
                     scene.notes.append(
-                        f"the subject is a wide EXTENT ({hint['sujeto']}), not a face: "
+                        f"the subject is a wide EXTENT ({hint['subject']}), not a face: "
                         f"the region is maximised instead of required, and the "
                         f"photograph only degrades to a panel if the best crop keeps "
                         f"less than {cropmod.SOFT_MIN_COVER:.0%} of it")
-                print(f"  · region focal por modelo: {hint['sujeto']} "
-                      f"({hint['confianza']:.2f})"
+                print(f"  · region focal por modelo: {hint['subject']} "
+                      f"({hint['confidence']:.2f})"
                       f"{'' if prep['face_hard'] else ' [region blanda]'}")
             elif caras:
                 # DEGRADACION, no rendicion. Si el modelo no esta disponible, el
@@ -346,7 +442,7 @@ def main() -> int:
                 x1 = max(f[0] + f[2] for f in caras)
                 y1 = max(f[1] + f[3] for f in caras)
                 prep["face"] = (x0, y0, x1 - x0, y1 - y0)
-                prep["focal_via"] = "envolvente"
+                prep["focal_via"] = "envelope-of-agreed-faces"
                 # La envolvente de varias caras es, por construccion, una extension
                 # ancha. Exigirla entera manda a panel por la misma razon geometrica
                 # que el grupo del modelo, y aqui sabemos aun menos, asi que exigir
@@ -359,14 +455,14 @@ def main() -> int:
                     + ("" if prep["face_hard"] else
                        "; it enters as a soft region, not as a hard constraint"))
             else:
-                prep["focal_via"] = "saliencia"
+                prep["focal_via"] = "saliency"
                 scene.notes.append("neither the cascades nor the model produced a "
                                    "usable focal region: saliency decides")
         except Exception as e:
-            prep["focal_via"] = "saliencia"
+            prep["focal_via"] = "saliency"
             scene.notes.append(f"focal region by saliency: {type(e).__name__}")
     else:
-        prep["focal_via"] = "cascadas" if prep.get("face") else "saliencia"
+        prep["focal_via"] = "agreed-cascades" if prep.get("face") else "saliency"
         if prep.get("face"):
             scene.notes.append("exactly one face, and the two cascades agree: the "
                                "focal region is settled without calling any model")

@@ -524,7 +524,7 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
             # contraste exigido sin haberlo comprobado nunca.
             got_after = min(vision.worst_contrast(
                 lum_w, r2, vision.hex_luminance(fill)) for r2 in lines_r)
-            reasons.append(f"{blk.role}: contraste medido {got:.2f}:1 contra {need:.1f} "
+            reasons.append(f"{blk.role}: measured contrast {got:.2f}:1 against {need:.1f} "
                            f"required, scrim at alpha {alpha:.2f}")
         elif fill == brand.PALETTE["light"]:
             reasons.append(f"{blk.role}: tipografia invertida a claro, contraste {got:.2f}:1")
@@ -576,7 +576,7 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
                 got_after = min(vision.worst_contrast(
                     vision.luminance(work), r2, vision.hex_luminance(fill))
                     for r2 in lg_lines)
-                reasons.append(f"legal: contraste medido {got:.2f}:1 contra {need:.1f} "
+                reasons.append(f"legal: measured contrast {got:.2f}:1 against {need:.1f} "
                                f"required, scrim at alpha {alpha:.2f}")
             bl = [r[1] + T.ascent(legal.weight, f.size) + k * f.leading
                   for k in range(f.n_lines)]

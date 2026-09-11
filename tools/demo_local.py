@@ -92,7 +92,7 @@ def procesar(jid: str, ruta: str, nombre: str) -> None:
         else:
             paso("mirando que tipo de imagen es")
             pista, _log = semantic.focal_from_model(ruta)
-            pieza = bool(pista and pista.get("lleva_copy"))
+            pieza = bool(pista and pista.get("has_overlaid_copy"))
             if pista and pista.get("rect"):
                 fj = os.path.join(d, "_focal.json")
                 with open(fj, "w") as fh:
@@ -105,7 +105,7 @@ def procesar(jid: str, ruta: str, nombre: str) -> None:
                                    timeout=900)
                 via = "lleva copy sobrepuesto: la escena se leyo de la propia imagen"
             else:
-                que = (f"{pista['sujeto']} — {pista['que_es']}" if pista
+                que = (f"{pista['subject']} — {pista['what_it_is']}" if pista
                        else "sin foco claro")
                 paso(f"es una fotografia ({que}): escribiendo la campana")
                 # Una foto suelta no trae copy de nadie, asi que pegarle la del

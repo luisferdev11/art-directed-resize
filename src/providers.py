@@ -147,15 +147,15 @@ def complete_vision(prompt: str, image_path: str,
                     model=p["model"],
                     input=_mensajes(prompt, mime, b64),
                     metadata={"provider": p["name"], "url": p["url"],
-                              "intento": intento,
-                              "imagen": os.path.basename(image_path),
+                              "attempt": intento,
+                              "image": os.path.basename(image_path),
                               "prompt_chars": len(prompt),
-                              "imagen_kb": round(len(b64) * 3 / 4 / 1024)}) as sp:
+                              "image_kb": round(len(b64) * 3 / 4 / 1024)}) as sp:
             try:
                 fn = _call_openai if p["kind"] == "openai" else _call_gemini
                 out = fn(p, key, prompt, mime, b64)
                 if not (out or "").strip():
-                    raise ValueError("respuesta vacia")
+                    raise ValueError("empty response")
                 if accept is not None:
                     value, errs = accept(out)
                     if value is None:
@@ -163,11 +163,11 @@ def complete_vision(prompt: str, image_path: str,
                                    f"{time.time()-t0:.1f}s pero el esquema NO VALIDA, se "
                                    f"pasa al siguiente. " + "; ".join(errs[:3]))
                         sp.update(level="WARNING",
-                                  status_message="esquema no valida",
-                                  metadata={"provider": p["name"], "intento": intento,
-                                            "resultado": "esquema_invalido",
-                                            "errores": errs[:3],
-                                            "latencia_s": round(time.time() - t0, 2)})
+                                  status_message="schema did not validate",
+                                  metadata={"provider": p["name"], "attempt": intento,
+                                            "result": "invalid_schema",
+                                            "errors": errs[:3],
+                                            "latency_s": round(time.time() - t0, 2)})
                         continue
                 else:
                     value = out
@@ -181,15 +181,15 @@ def complete_vision(prompt: str, image_path: str,
                 # traza inservible para lo unico que se necesita en Langfuse: ver que
                 # devolvio el modelo cuando el esquema valido pero la escena salio mal.
                 # Se acota por si un proveedor devuelve algo enorme.
-                sp.update(output={"respuesta": out[:TRACE_OUTPUT_MAX],
-                                  "truncada": len(out) > TRACE_OUTPUT_MAX,
+                sp.update(output={"response": out[:TRACE_OUTPUT_MAX],
+                                  "truncated": len(out) > TRACE_OUTPUT_MAX,
                                   "chars": len(out)},
-                          metadata={"provider": p["name"], "intento": intento,
-                                    "resultado": "ok",
-                                    "latencia_s": round(time.time() - t0, 2)})
-                T.trace_meta(metadata={"proveedor_final": p["name"],
-                                       "modelo_final": p["model"],
-                                       "intentos": intento})
+                          metadata={"provider": p["name"], "attempt": intento,
+                                    "result": "ok",
+                                    "latency_s": round(time.time() - t0, 2)})
+                T.trace_meta(metadata={"final_provider": p["name"],
+                                       "final_model": p["model"],
+                                       "attempts": intento})
                 return value, p["name"], log
             except Exception as e:
                 detail = str(e)
@@ -198,8 +198,8 @@ def complete_vision(prompt: str, image_path: str,
                 log.append(f"{p['name']} ({p['model']}): FALLO en {time.time()-t0:.1f}s, "
                            f"{type(e).__name__}. {detail[:220]}")
                 sp.update(level="ERROR", status_message=f"{type(e).__name__}",
-                          metadata={"provider": p["name"], "intento": intento,
+                          metadata={"provider": p["name"], "attempt": intento,
                                     "resultado": "fallo", "detalle": detail[:220],
-                                    "latencia_s": round(time.time() - t0, 2)})
+                                    "latency_s": round(time.time() - t0, 2)})
     log.append("la cadena de proveedores se agoto sin una respuesta utilizable")
     return None, "", log

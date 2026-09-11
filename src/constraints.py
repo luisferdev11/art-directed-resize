@@ -381,8 +381,8 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
         k = lr[2] / lw0
         lock = {"xform": f"translate({lr[0]-lx0*k:.2f},{lr[1]-ly0*k:.2f}) scale({k:.4f})",
                 "rect": lr, "scale": k, "mark_only": False, "invert": False}
-        reasons.append(f"lockup por constraint {lg['h']}+{lg['v']}: {lr[2]:.0f}px de "
-                       f"ancho en ({lr[0]:.0f},{lr[1]:.0f})")
+        reasons.append(f"lockup by constraint {lg['h']}+{lg['v']}: {lr[2]:.0f}px "
+                       f"wide at ({lr[0]:.0f},{lr[1]:.0f})")
         if lr[0] < -0.5 or lr[0] + lr[2] > W + 0.5 or lr[1] + lr[3] > H + 0.5:
             violations.append(f"lockup: it falls outside the canvas at {lr[2]:.0f}px wide "
                               f"against {W:.0f}px. RIGHT+TOP does not rescale")
@@ -403,7 +403,7 @@ def solve(scene: Scene, fmt: Format, prep: Dict[str, Any]) -> Dict[str, Any]:
     reasons.append(f"placement cost over the SAME cost field: "
                    f"{cost:.3f} on a 0-1 scale. It was not searched for: it is where the box landed")
     for v in violations:
-        reasons.append("violacion -> " + v)
+        reasons.append("violation -> " + v)
     for v in inherited:
         reasons.append("inherited from the master -> " + v)
 

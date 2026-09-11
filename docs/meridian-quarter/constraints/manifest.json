@@ -31,7 +31,7 @@
       "reasons": [
         "template 'portrait' (1080x1350) chosen by size proximity: tamano: distancia 0.00 frente a square 0.22, landscape 0.80. The target matches the template: this is its best case.",
         "photo: CENTRE crop of 2160x2700px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
-        "lockup por constraint RIGHT+TOP: 222px de ancho en (794,96)",
+        "lockup by constraint RIGHT+TOP: 222px wide at (794,96)",
         "placement cost over the SAME cost field: 0.195 on a 0-1 scale. It was not searched for: it is where the box landed",
         "inherited from the master -> legal: it invades the safe area by bottom. It sits 50px from the edge and the format declares 59px. It already happened on the template's own template: viene del autorado del master, no del resize"
       ],
@@ -165,9 +165,9 @@
       "reasons": [
         "template 'portrait' (1080x1350) chosen by size proximity: tamano: distancia 0.35 frente a square 0.58, landscape 1.15.",
         "photo: CENTRE crop of 1519x2700px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
-        "lockup por constraint RIGHT+TOP: 222px de ancho en (794,96)",
+        "lockup by constraint RIGHT+TOP: 222px wide at (794,96)",
         "placement cost over the SAME cost field: 0.189 on a 0-1 scale. It was not searched for: it is where the box landed",
-        "violacion -> headline: it invades the safe area by top. It sits 96px from the edge and the format declares 151px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
+        "violation -> headline: it invades the safe area by top. It sits 96px from the edge and the format declares 151px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
         "inherited from the master -> legal: it invades the safe area by bottom. It sits 50px from the edge and the format declares 216px. It already happened on the template's own template: viene del autorado del master, no del resize"
       ],
       "dropped": [],
@@ -302,12 +302,12 @@
       "reasons": [
         "template 'square' (1080x1080) chosen by size proximity: tamano: distancia 2.88 frente a portrait 3.10, landscape 3.45.",
         "photo: CENTRE crop of 2160x267px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
-        "lockup por constraint RIGHT+TOP: 222px de ancho en (442,88)",
+        "lockup by constraint RIGHT+TOP: 222px wide at (442,88)",
         "placement cost over the SAME cost field: 0.209 on a 0-1 scale. It was not searched for: it is where the box landed",
-        "violacion -> headline: it falls outside the canvas. The box landed at (64,88) 600x186 sobre 728x90. The constraint repositions; it does not refit the body size",
-        "violacion -> subhead: it falls outside the canvas. The box landed at (64,350) 422x28 sobre 728x90. The constraint repositions; it does not refit the body size",
-        "violacion -> support: it falls outside the canvas. The box landed at (64,396) 209x19 sobre 728x90. The constraint repositions; it does not refit the body size",
-        "violacion -> lockup: it falls outside the canvas at 222px wide against 728px. RIGHT+TOP does not rescale"
+        "violation -> headline: it falls outside the canvas. The box landed at (64,88) 600x186 sobre 728x90. The constraint repositions; it does not refit the body size",
+        "violation -> subhead: it falls outside the canvas. The box landed at (64,350) 422x28 sobre 728x90. The constraint repositions; it does not refit the body size",
+        "violation -> support: it falls outside the canvas. The box landed at (64,396) 209x19 sobre 728x90. The constraint repositions; it does not refit the body size",
+        "violation -> lockup: it falls outside the canvas at 222px wide against 728px. RIGHT+TOP does not rescale"
       ],
       "dropped": [],
       "ladder": [],
@@ -451,13 +451,13 @@
       "reasons": [
         "template 'square' (1080x1080) chosen by size proximity: tamano: distancia 2.74 frente a portrait 2.97, landscape 3.32.",
         "photo: CENTRE crop of 2160x1800px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
-        "lockup por constraint RIGHT+TOP: 222px de ancho en (14,88)",
+        "lockup by constraint RIGHT+TOP: 222px wide at (14,88)",
         "placement cost over the SAME cost field: 0.189 on a 0-1 scale. It was not searched for: it is where the box landed",
-        "violacion -> headline: it falls outside the canvas. The box landed at (64,88) 600x186 sobre 300x250. The constraint repositions; it does not refit the body size",
-        "violacion -> subhead: it falls outside the canvas. The box landed at (64,350) 422x28 sobre 300x250. The constraint repositions; it does not refit the body size",
-        "violacion -> support: it falls outside the canvas. The box landed at (64,396) 209x19 sobre 300x250. The constraint repositions; it does not refit the body size",
-        "violacion -> legal: it falls outside the canvas. The box landed at (64,188) 284x12 sobre 300x250. The constraint repositions; it does not refit the body size",
-        "violacion -> headline y legal se solapan"
+        "violation -> headline: it falls outside the canvas. The box landed at (64,88) 600x186 sobre 300x250. The constraint repositions; it does not refit the body size",
+        "violation -> subhead: it falls outside the canvas. The box landed at (64,350) 422x28 sobre 300x250. The constraint repositions; it does not refit the body size",
+        "violation -> support: it falls outside the canvas. The box landed at (64,396) 209x19 sobre 300x250. The constraint repositions; it does not refit the body size",
+        "violation -> legal: it falls outside the canvas. The box landed at (64,188) 284x12 sobre 300x250. The constraint repositions; it does not refit the body size",
+        "violation -> headline y legal se solapan"
       ],
       "dropped": [],
       "ladder": [],
@@ -602,7 +602,7 @@
       "reasons": [
         "template 'square' (1080x1080) chosen by size proximity: tamano: distancia 0.00 frente a portrait 0.22, landscape 0.58. The target matches the template: this is its best case.",
         "photo: CENTRE crop of 2160x2160px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
-        "lockup por constraint RIGHT+TOP: 222px de ancho en (794,88)",
+        "lockup by constraint RIGHT+TOP: 222px wide at (794,88)",
         "placement cost over the SAME cost field: 0.164 on a 0-1 scale. It was not searched for: it is where the box landed",
         "inherited from the master -> legal: it invades the safe area by bottom. It sits 50px from the edge and the format declares 65px. It already happened on the template's own template: viene del autorado del master, no del resize"
       ],
@@ -745,11 +745,11 @@
       "reasons": [
         "template 'square' (1080x1080) chosen by size proximity: tamano: distancia 1.87 frente a portrait 2.09, landscape 2.44.",
         "photo: CENTRE crop of 1350x2700px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
-        "lockup por constraint RIGHT+TOP: 222px de ancho en (14,88)",
+        "lockup by constraint RIGHT+TOP: 222px wide at (14,88)",
         "placement cost over the SAME cost field: 0.187 on a 0-1 scale. It was not searched for: it is where the box landed",
-        "violacion -> headline: it falls outside the canvas. The box landed at (64,88) 600x186 sobre 300x600. The constraint repositions; it does not refit the body size",
-        "violacion -> subhead: it falls outside the canvas. The box landed at (64,350) 422x28 sobre 300x600. The constraint repositions; it does not refit the body size",
-        "violacion -> legal: it falls outside the canvas. The box landed at (64,538) 284x12 sobre 300x600. The constraint repositions; it does not refit the body size"
+        "violation -> headline: it falls outside the canvas. The box landed at (64,88) 600x186 sobre 300x600. The constraint repositions; it does not refit the body size",
+        "violation -> subhead: it falls outside the canvas. The box landed at (64,350) 422x28 sobre 300x600. The constraint repositions; it does not refit the body size",
+        "violation -> legal: it falls outside the canvas. The box landed at (64,538) 284x12 sobre 300x600. The constraint repositions; it does not refit the body size"
       ],
       "dropped": [],
       "ladder": [],
@@ -876,7 +876,7 @@
     },
     {
       "key": "screen_hd",
-      "label": "Pantalla de centro",
+      "label": "In-centre screen",
       "w": 1920,
       "h": 1080,
       "file": "screen_hd.svg",
@@ -892,7 +892,7 @@
       "reasons": [
         "template 'landscape' (1920x1080) chosen by size proximity: tamano: distancia 0.00 frente a square 0.58, portrait 0.80. The target matches the template: this is its best case.",
         "photo: CENTRE crop of 2160x1215px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
-        "lockup por constraint RIGHT+TOP: 222px de ancho en (1618,96)",
+        "lockup by constraint RIGHT+TOP: 222px wide at (1618,96)",
         "placement cost over the SAME cost field: 0.114 on a 0-1 scale. It was not searched for: it is where the box landed"
       ],
       "dropped": [],
@@ -1032,11 +1032,11 @@
       "reasons": [
         "template 'portrait' (1080x1350) chosen by size proximity: tamano: distancia 0.53 frente a square 0.75, landscape 1.33.",
         "photo: CENTRE crop of 1275x2700px to fill the frame. The constraint does not know where the subject is: it crops by geometry",
-        "lockup por constraint RIGHT+TOP: 222px de ancho en (704,96)",
+        "lockup by constraint RIGHT+TOP: 222px wide at (704,96)",
         "placement cost over the SAME cost field: 0.198 on a 0-1 scale. It was not searched for: it is where the box landed",
-        "violacion -> headline: it invades the safe area by left. It sits 64px from the edge and the format declares 69px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
-        "violacion -> subhead: it invades the safe area by left. It sits 64px from the edge and the format declares 69px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
-        "violacion -> support: it invades the safe area by left. It sits 64px from the edge and the format declares 69px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
+        "violation -> headline: it invades the safe area by left. It sits 64px from the edge and the format declares 69px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
+        "violation -> subhead: it invades the safe area by left. It sits 64px from the edge and the format declares 69px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
+        "violation -> support: it invades the safe area by left. It sits 64px from the edge and the format declares 69px. The margin is inherited from the template and is not vuelve a comprobar contra los insets del objetivo",
         "inherited from the master -> legal: it invades the safe area by bottom. It sits 50px from the edge and the format declares 69px. It already happened on the template's own template: viene del autorado del master, no del resize"
       ],
       "dropped": [],

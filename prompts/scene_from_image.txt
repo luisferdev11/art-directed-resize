@@ -1,75 +1,73 @@
-Eres un director de arte leyendo una pieza publicitaria ya terminada. La imagen es un
-render plano: no hay capas, no hay nodos de texto, no hay metadatos. Solo pixeles.
+You are an art director reading a finished advertising piece. The image is a flat
+render: no layers, no text nodes, no metadata. Only pixels.
 
-Tu trabajo es devolver la ESCENA SEMANTICA de la pieza, para que un motor de layout
-pueda re-componerla en otros tamanos.
+Your job is to return the SEMANTIC SCENE of the piece, so that a layout engine can
+re-compose it at other sizes.
 
-El lienzo mide {W} x {H} pixeles.
+The canvas is {W} x {H} pixels.
 
-COORDENADAS: todas las cajas se dan como [x0, y0, x1, y1] -esquina superior izquierda
-y esquina inferior derecha- NORMALIZADAS a una rejilla de 0 a 1000 sobre el lienzo
-completo, con el origen arriba a la izquierda. Un bloque que empieza en el 5% del
-ancho y llega al 60% se escribe con x0=50 y x1=600. Nunca uses pixeles.
+COORDINATES: every box is given as [x0, y0, x1, y1] — top-left corner and bottom-right
+corner — NORMALISED to a 0 to 1000 grid over the whole canvas, with the origin at the
+top left. A block that starts at 5% of the width and reaches 60% is written x0=50 and
+x1=600. Never use pixels.
 
-Devuelve UNICAMENTE un objeto JSON, sin texto alrededor y sin bloque de codigo, con
-esta forma exacta:
+Return ONLY a JSON object, with no text around it and no code block, in exactly this
+shape:
 
 {
   "texts": [
     {
-      "text": "la transcripcion literal, en una sola linea, con los saltos de linea
-               sustituidos por un espacio",
+      "text": "the literal transcription, on a single line, with line breaks
+               replaced by a space",
       "role": "headline | subhead | support | legal",
       "bbox": [x0, y0, x1, y1],
-      "size_px": altura del cuerpo tipografico en pixeles,
+      "size_px": height of the type body in pixels,
       "weight": 100 | 300 | 400 | 700 | 900,
       "color_hex": "#RRGGBB",
-      "lines": cuantas lineas ocupa en la pieza
+      "lines": how many lines it occupies in the piece
     }
   ],
   "logo": {
     "bbox": [x0, y0, x1, y1],
     "mark_bbox": [x0, y0, x1, y1],
-    "wordmark_size_px": altura del cuerpo del nombre de marca dentro del lockup
+    "wordmark_size_px": height of the brand name's type body inside the lockup
   },
   "photo": {
     "focal": [x0, y0, x1, y1],
-    "description": "que se ve, en una frase"
+    "description": "what is in it, in one sentence"
   }
 }
 
-REGLAS, y la primera es la que importa:
+RULES, and the first one is the one that matters:
 
-1. El ROL se asigna por FUNCION COMUNICATIVA, no por tamano. Ordenar por tamano de
-   fuente es justo lo que se quiere superar.
-   · headline  el gancho de la campana, la promesa principal
-   · subhead   la oferta o el desarrollo de esa promesa
-   · support   el dato operativo: fechas, horarios, ubicacion, llamada a la accion
-   · legal     terminos, condiciones, exclusiones, avisos obligatorios
-   Un aviso legal fijado en cuerpo grande sigue siendo legal. Una fecha compuesta
-   mas pequena que el aviso legal sigue siendo support. Si tamano y funcion se
-   contradicen, gana la funcion.
-   Los cuatro roles suelen estar los cuatro presentes. Si solo encuentras tres,
-   vuelve a mirar: lo mas facil de perder es el support pegado al subhead.
+1. The ROLE is assigned by COMMUNICATIVE FUNCTION, not by size. Ranking by font size
+   is exactly what this is meant to improve on.
+   · headline  the campaign hook, the main promise
+   · subhead   the offer, or the development of that promise
+   · support   the operational detail: dates, opening hours, location, call to action
+   · legal     terms, conditions, exclusions, mandatory notices
+   A legal notice set in large type is still legal. A date set smaller than the legal
+   notice is still support. Where size and function contradict each other, function
+   wins.
+   All four roles are usually present. If you only find three, look again: the easiest
+   one to miss is the support sitting right under the subhead.
 
-2. UN BLOQUE POR ROL, y roles distintos NUNCA se fusionan aunque esten pegados. Si
-   dos lineas contiguas tienen cuerpos o pesos distintos, son bloques distintos.
-   "Up to 50% off across 120 stores" es la oferta y va en subhead; "12 - 28
-   SEPTEMBER" es un dato operativo y va en support, aunque esten a tres pixeles.
-   Solo se concatenan lineas del MISMO rol y el MISMO estilo.
+2. ONE BLOCK PER ROLE, and different roles are NEVER merged even when they touch. If
+   two adjacent lines have different body sizes or weights, they are different blocks.
+   "Up to 50% off across 120 stores" is the offer and goes in subhead; "12 - 28
+   SEPTEMBER" is an operational detail and goes in support, even if they sit three
+   pixels apart. Only lines of the SAME role and the SAME style are concatenated.
 
-3. `logo` es null si no hay marca grafica. `mark_bbox` es solo el simbolo, sin el
-   nombre escrito. Si el lockup es unicamente texto, repite el bbox completo.
+3. `logo` is null if there is no graphic mark. `mark_bbox` is the symbol only, without
+   the written name. If the lockup is text only, repeat the full bbox.
 
-4. `focal` es la region que no se puede recortar: la cara, el producto, el sujeto.
-   Si no hay sujeto claro, usa la region de mayor interes visual.
+4. `focal` is the region that cannot be cropped: the face, the product, the subject.
+   If there is no clear subject, use the region of greatest visual interest.
 
-5. `color_hex` es el color de la TIPOGRAFIA, no el del fondo.
+5. `color_hex` is the colour of the TYPE, not of the background.
 
-6. No inventes elementos que no esten en la imagen. Si dudas de un bloque, no lo
-   incluyas: un bloque de menos es recuperable, uno inventado corrompe la pieza.
+6. Do not invent elements that are not in the image. If you are unsure about a block,
+   leave it out: a missing block is recoverable, an invented one corrupts the piece.
 
-
-IDIOMA DE LA RESPUESTA: los campos de texto libre -"que_es", "por_que",
-"description"- se escriben en INGLES, siempre, aunque estas instrucciones esten en
-espanol. Viajan al informe que lee el cliente, y ese informe esta en ingles.
+LANGUAGE OF THE RESPONSE: the free-text field "description" is written in ENGLISH.
+It travels to the report the client reads.
