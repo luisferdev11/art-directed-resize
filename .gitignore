@@ -34,3 +34,6 @@ out/_demo/
 
 # la presentacion del video: menciona trabajo del empleador y el chat del competidor
 presentacion.html
+
+# el guion de la presentacion: nombra al empleador y al competidor
+guion-presentacion.md
